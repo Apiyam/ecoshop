@@ -1,0 +1,503 @@
+[
+  {
+    "parent": [
+      17219,
+      17217,
+      17211,
+      17201
+    ],
+    "name": "Productos de bebé",
+    "slug": "productos-de-bebe",
+    "show": true,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/bebes.png",
+    "children": [
+      {
+        "id": 5743,
+        "name": "Pañal Premium Liso",
+        "slug": "panal-premium-liso",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/liso.png",
+        "filters": {
+          "name": "Tipo de pañal",
+          "options": ["Broche", "Velcro"]
+        }
+      },
+      {
+        "id": 6031,
+        "name": "Pañal Premium Estampado",
+        "slug": "panal-premium-estampado",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/estampado.png",
+        "filters": {
+          "name": "Tipo de pañal",
+          "options": ["Broche", "Velcro"]
+        }
+      },
+      {
+        "id": 23279,
+        "name": "Pañal Premium Liso Sin absorbente",
+        "slug": "panal-premium-liso-sin-absorbente",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/liso.png",
+        "filters": {
+          "name": "Tipo de pañal",
+          "options": ["Broche", "Velcro"]
+        }
+      },
+      {
+        "id": 23333,
+        "name": "Pañal Premium Estampado Sin absorbente",
+        "slug": "panal-premium-estampado-sin-absorbente",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/estampado.png",
+        "filters": {
+          "name": "Tipo de pañal",
+          "options": ["Broche", "Velcro"]
+        }
+      },
+      {
+        "id": 3456,
+        "name": "Pañal Retro Predoblado",
+        "slug": "panal-retro-predoblado",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/retro-300x300.png"
+      },
+      {
+        "id": 3431,
+        "name": "Pañal Ecobebé",
+        "slug": "panal-ecobebe",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/ecobebe-300x300.png"
+      },
+      {
+        "id": 3378,
+        "name": "Cubierta Unitalla Estampada",
+        "slug": "cubierta-unitalla-estampada",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/cubi_est.png"
+      },
+      {
+        "id": 3344,
+        "name": "Cubierta Unitalla Lisa",
+        "slug": "cubierta-unitalla-lisa",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/cubi_lisa.png"
+      },
+      {
+        "id": 3324,
+        "name": "Pañal de natación Bebés",
+        "slug": "panal-de-natacion-bebes",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_PanalNatacion_Sandias-300x300.jpg"
+      },
+      {
+        "id": 3297,
+        "name": "Pañal Nocturno",
+        "slug": "panal-nocturno",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/pan_noc-300x300.png"
+      }
+
+    ]
+  },
+  {
+    "parent": [
+      11330
+    ],
+    "name": "Kids",
+    "slug": "kids",
+    "show": false,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Kids.png",
+    "children": [
+      {
+        "id": 0,
+        "name": "Pañal Kids",
+        "slug": "panal-kids",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/kids.png",
+        "filters": {
+          "name": "Edad",
+          "options": ["4 a 6 Años", "6 a 8 Años"]
+        }
+      },
+      {
+        "id": 8464,
+        "name": "Calzón Entrenador",
+        "slug": "calzon-entrenador",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/calzon-300x300.png",
+        "filters": {
+          "name": "Talla",
+          "options": ["Chico", "Mediano", "Grande"]
+        }
+      },
+      {
+        "id": 0,
+        "name": "Pañal de Natación kids",
+        "slug": "panal-de-natacion-kids",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_NatacionKids_Paletitas-300x300.jpeg"
+      },
+      {
+        "id": 20046,
+        "name": "Delantal Kids",
+        "slug": "delantal-kids",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Denantal_marca_Lubella_Kids_Capibaras.png"
+      },
+      {
+        "id": 7110,
+        "name": "Leggings",
+        "slug": "leggings",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/leggings_10.png"
+      }
+      
+
+      
+    ]
+  },
+  {
+    "parent": [
+      20046
+    ],
+    "name": "Outfit",
+    "slug": "outfit",
+    "show": false,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Outfit.png",
+    "children": [
+      {
+        "id": 3568,
+        "name": "Babero",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_Baberoanv_Astronauta.jpeg"
+      },
+      {
+        "id": 4526,
+        "name": "Leggings",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/leggings_6-300x300.png"
+      },
+      {
+        "id": 4606,
+        "name": "Playera Natación",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/play_nat.png",
+        "filters": {
+          "name": "Talla",
+          "options": ["6 a 12 Meses", "2 a 3 Años", "3 a 4 Años", "4 a 6 Años", "6 a 8 Años"]
+        }
+      },
+      {
+        "id": 4586,
+        "name": "Batita",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/batita.png",
+        "filters": {
+          "name": "Talla",
+          "options": ["6 a 24 Meses", "2 a 4 Años",  "4 a 6 Años", "6 a 8 Años"]
+        }
+      },
+      {
+        "id": 3810,
+        "name": "Mochila",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/mochila.png"
+      },
+      {
+        "id": 3829,
+        "name": "Lonchera",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/lonchera.png"
+      },
+      {
+        "id": 9936,
+        "name": "Sudaderas",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/sudadera.png"
+      },
+      {
+        "id": 18331,
+        "name": "Pijamas Kids",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/11/Pijama-copia.png"
+      },
+      {
+        "id": 20061,
+        "name": "Pijamas Fresh",
+        "slug": "babero",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/pijama_marca_ecopipo_estrellitas.png"
+      }
+    ]
+  },
+
+  
+  {
+    "parent": [
+      4318
+    ],
+    "name": "Cuidado",
+    "slug": "cuidado",
+    "show": false,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2023/02/Ecopipo_Cat_Cuidadoc.png",
+    "children": [
+      {
+        "id": 3856,
+        "noParent": true,
+        "name": "Bálsamo",
+        "slug": "balsamo",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/33f1676a-c841-479c-b044-ce3d88394a5f.jpg"
+      },
+      {
+        "id": 12688,
+        "name": "Bálsamo de bolsillo",
+        "slug": "balsamo-de-bolsillo",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/04/Balsamo-bolsillo-50-gr.png"
+      },
+      {
+        "id": 4727,
+        "name": "Bolsa impermeable lisa",
+        "slug": "bolsa-impermeable-lisa",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/salida_lisa.png"
+      },
+      {
+        "id": 3882,
+        "name": "Bolsa impermeable estampada",
+        "slug": "bolsa-impermeable-estampada",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/salida_est.png"
+      },
+      {
+        "id": 5390,
+        "name": "Bolsa de lavandería",
+        "slug": "bolsa-de-lavandería",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/bolsa.png"
+      },
+      {
+        "id": 3846,
+        "noParent": true,
+        "name": "Detergente",
+        "slug": "detergente",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2023/05/detergente-1-300x300.jpg"
+      },
+      {
+        "id": 4722,
+        "name": "Filtros de Bambú",
+        "slug": "filtros-de-bambu",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_FiltroBambu_Chicos-300x300.jpeg"
+      },
+      {
+        "id": 23457,
+        "noParent": true,
+        "name": "Caja de filtros de Bambú",
+        "slug": "caja-de-filtros-de-bambu",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_FiltroBambu_Chicos-300x300.jpeg"
+      },
+      {
+        "id": 3855,
+        "noParent": true,
+        "name": "Loción para pompis",
+        "slug": "locion-para-pompis",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_Locion.jpeg"
+      },
+      
+      {
+        "id": 3857,
+        "name": "Toallitas lavables",
+        "slug": "toallitas-lavables",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_ToallitasNino_02.jpeg"
+      }
+    ]
+  },
+  {
+    "parent": [
+      4277
+    ],
+    "name": "Adultos",
+    "slug": "adultos",
+    "show": false,
+    "discount": 70,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Adulto.png",
+    "children": [
+      {
+        "id": 4904,
+        "name": "Pañal Adulto",
+        "slug": "panal-adulto",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/adulto.png"
+      },
+      {
+        "id": 9955,
+        "name": "Sudadera",
+        "slug": "sudadera",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/sudadera.png"
+      },
+      {
+        "id": 18357,
+        "name": "Pijama adulto",
+        "slug": "pijama-adulto",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/11/Pijama-copia.png"
+      },
+      {
+        "id": 21208,
+        "name": "Pijama fresh adulto",
+        "slug": "pijama-fresh-adulto",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/pijama_marca_ecopipo_estrellitas.png"
+      },
+      {
+        "id": 21221,
+        "name": "Pijama super soft adulto",
+        "slug": "pijama-super-soft-adulto",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/03/Pijama_adulto_super_soft_ecopipo_capibara.png"
+      }
+    ]
+  },
+  {
+    "parent": [
+      4236
+    ],
+    "name": "Absorbentes",
+    "slug": "absorbentes",
+    "show": false,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2023/02/Ecopipo_Cat_absorbentes.png",
+    "children": [
+      {
+        "id": 4004,
+        "noParent": true,
+        "name": "Absorbente Mixto Premium",
+        "slug": "absorbente",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/woocommerce-placeholder-300x300.png"
+      },
+      {
+        "id": 4015,
+        "noParent": true,
+        "name": "Refuerzo de Bambú Premium / Ecobebé",
+        "slug": "refuerzo-de-bambu-premium-ecobebe",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/woocommerce-placeholder-300x300.png"
+      },
+      {
+        "id": 4016,
+        "noParent": true,
+        "name": "Absorbente de Microfibra Premium",
+        "slug": "absorbente",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/woocommerce-placeholder-300x300.png"
+      },
+      {
+        "id": 4017,
+        "name": "Absorbente Extra Ecobebé",
+        "slug": "absorbente-extra-ecobebe",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_AbsorbenteEcobebe_01.jpeg"
+      },
+      {
+        "id": 4018,
+        "noParent": true,
+        "name": "Juego de Absorbentes Prematuro",
+        "slug": "juego-de-absorbentes-prematuro",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_AbsorbenteEcobebe_01.jpeg"
+      },
+      {
+        "id": 4021,
+        "name": "Refuerzo de Bambú",
+        "slug": "refuerzo-de-bambu",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_RefuerzoKids.jpeg"
+      },
+      {
+        "id": 4022,
+        "noParent": true,
+        "name": "Absorbente Diurno Adulto",
+        "slug": "absorbente",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_AbsorbenteAdulto_01.jpeg"
+      }
+    ]
+  },
+  {
+    "parent": [
+      4176
+    ],
+    "name": "Mujer",
+    "slug": "mujer",
+    "show": false,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Mujer.png",
+    "children": [
+      {
+        "id": 4024,
+        "name": "Pantiprotector Tanga",
+        "slug": "pantiprotector-tanga",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/tanga.png"
+      },
+      {
+        "id": 4057,
+        "name": "Pantiprotector",
+        "slug": "pantiprotector",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/panti.png"
+      },
+      
+      {
+        "id": 4115,
+        "name": "Toalla Femenina Teen",
+        "slug": "toalla-femenina-teen",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/teen.png"
+      },
+      
+      {
+        "id": 4176,
+        "name": "Toalla Femenina Regular",
+        "slug": "toalla-femenina-regular",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/regular.png"
+      },
+      {
+        "id": 4236,
+        "name": "Toalla Femenina Nocturna",
+        "slug": "toalla-femenina-nocturna",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/nocturna.png"
+      },
+      {
+        "id": 0,
+        "noParent": true,
+        "name": "Calzón Menstrual",
+        "slug": "calzon-menstrual",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/09/Calzon_menstrual_lubella_frente_adelante-300x300.png",
+        "filters": {
+          "name": "Talla",
+          "options": ["- S", "- M", "- L", "- XL"]
+        }
+      },
+      {
+        "id": 4275,
+        "noParent": true,
+        "name": "Detergente para toallas femeninas",
+        "slug": "detergente-para-toallas-femeninas",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2022/11/Ecopipo_DetergenteToallas-300x300.jpeg"
+      },
+      {
+        "id": 4318,
+        "name": "Sobre",
+        "slug": "sobre",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/sobre.png"
+      },
+      {
+        "id": 1131,
+        "name": "Blusa de Lactancia",
+        "slug": "blusa-de-lactancia",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/woocommerce-placeholder-300x300.png"
+      },
+      {
+        "id": 20046,
+        "name": "Delantal Kids",
+        "slug": "delantal-kids",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Denantal_marca_Lubella_estrellitas.png"
+      }
+    ]
+  },
+  {
+    "parent": [
+      4115
+    ],
+    "name": "Outlet",
+    "slug": "outlet",
+    "show": false,
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Outlet.png",
+    "children": []
+  },
+  {
+    "parent": [
+      4057
+    ],
+    "name": "Promocionales",
+    "slug": "promocionales",
+    "show": false,  
+    "discount": 0,
+    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Promocionales.png",
+    "children": []
+  }
+]
