@@ -12,7 +12,7 @@ const Footer = () => {
           <Link href="#" sx={{ color: 'text.primary' }} >Términos & Condiciones</Link>
           <Link href="#" sx={{ color: 'text.primary' }} >Política de Privacidad</Link>
         </Stack>
-        <Typography level="body2" sx={{ color: 'text.secondary' }}>
+        <Typography level="body-sm" sx={{ color: 'text.secondary' }}>
           &copy; {new Date().getFullYear()} Ecopipo. Todos los derechos reservados.
         </Typography>
       </Stack>

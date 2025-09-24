@@ -33,7 +33,10 @@ export default function EcopipoStory() {
             boxShadow: "lg",
           }}
         >
-          <iframe height="450" src="https://www.youtube.com/embed/esyQXuOc81M" title="Creó un Negocio Millonario vendiendo pañales reutilizables | Ecopipo 👶" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe 
+          height="450" src="https://www.youtube.com/embed/esyQXuOc81M" 
+          title="Creó un Negocio Millonario vendiendo pañales reutilizables | Ecopipo 👶" 
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </Card>
       </motion.div>
 
@@ -49,7 +52,7 @@ export default function EcopipoStory() {
             borderRadius: "2xl",
             backgroundColor: "white",
             p: 3,
-            boxShadow: "md",
+            boxShadow: "0",
           }}
         >
           <CardContent>
