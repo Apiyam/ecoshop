@@ -4,34 +4,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Button, Container } from '@mui/material';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import slide1 from '../../../public/imgs/slide1.jpg';
-import slide2 from '../../../public/imgs/slide2.jpg';
-import slide3 from '../../../public/imgs/slide3.jpg';
-import slide4 from '../../../public/imgs/slide4.jpg';
-import slide5 from '../../../public/imgs/slide5.jpg';
-import slide6 from '../../../public/imgs/slide6.jpg';
 import { Link, Modal, Sheet } from '@mui/joy';
-import Masonry from 'react-masonry-css'
-const images = [slide1, slide5, slide4]
+import Masonry from 'react-masonry-css';
+
+import slide1 from '../../../public/imgs/ecopipo1.png';
+import slide2 from '../../../public/imgs/ecopipo2.png';
+import slide3 from '../../../public/imgs/ecopipo3.jpg';
+import slide4 from '../../../public/imgs/ecopipo3.jpg';
+
+const images = [slide1, slide2, slide3, slide4];
 
 const breakpointColumnsObj = {
   default: 3,
   1100: 2,
   700: 1,
-}
+};
+
 function AnimatedDotsCanvas({ scrollYValue }: { scrollYValue: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const dots = useRef<
-    {
-      x: number;
-      y: number;
-      baseY: number; // posición base para scroll
-      radius: number;
-      speedX: number;
-      speedY: number;
-      alpha: number;
-    }[]
-  >([]);
+  const dots = useRef<any[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,44 +31,38 @@ function AnimatedDotsCanvas({ scrollYValue }: { scrollYValue: number }) {
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
-    let width = canvas.width = canvas.clientWidth * dpr;
-    let height = canvas.height = canvas.clientHeight * dpr;
+    let width = (canvas.width = canvas.clientWidth * dpr);
+    let height = (canvas.height = canvas.clientHeight * dpr);
     ctx.scale(dpr, dpr);
 
     const numDots = 60;
-
-    // Crear puntos con posición base Y para scroll parallax
     dots.current = Array.from({ length: numDots }, () => {
       const y = Math.random() * (height / dpr);
       return {
         x: Math.random() * (width / dpr),
         y,
         baseY: y,
-        radius: Math.random() * 1.5 + 4, // 1.5 - 3 px
+        radius: Math.random() * 1.5 + 4,
         speedX: (Math.random() - 0.5) * 0.15,
         speedY: (Math.random() - 0.5) * 0.15,
-        alpha: Math.random() * 0.4 + 0.5, // 0.5 - 0.9 opacidad
+        alpha: Math.random() * 0.4 + 0.5,
       };
     });
 
     let animationFrameId: number;
-
     function animate() {
       if (!ctx || !canvas) return;
 
       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-      dots.current.forEach(dot => {
+      dots.current.forEach((dot) => {
         dot.x += dot.speedX;
         dot.y += dot.speedY;
 
-        // Rebotar en bordes horizontales
         if (dot.x < 0 || dot.x > canvas.clientWidth) dot.speedX *= -1;
-        // Para vertical, solo rebotar dentro del canvas + un margen para scroll
         if (dot.y < 0 || dot.y > canvas.clientHeight) dot.speedY *= -1;
 
-        // Ajustar posición Y según scroll, con una fuerza pequeña
-        const scrollOffset = scrollYValue * 0.1; // controla cuánto mueve el scroll
+        const scrollOffset = scrollYValue * 0.1;
         const yWithScroll = dot.baseY + scrollOffset;
 
         ctx.beginPath();
@@ -90,17 +75,15 @@ function AnimatedDotsCanvas({ scrollYValue }: { scrollYValue: number }) {
     }
     animate();
 
-    // Redimensionar canvas
-    function onResize() {
+    const onResize = () => {
       if (!canvas) return;
       width = canvas.width = canvas.clientWidth * dpr;
       height = canvas.height = canvas.clientHeight * dpr;
       if (ctx) ctx.scale(dpr, dpr);
-      // Ajustar baseY para nuevos height?
-      dots.current.forEach(dot => {
+      dots.current.forEach((dot) => {
         dot.baseY = Math.min(dot.baseY, height / dpr);
       });
-    }
+    };
     window.addEventListener('resize', onResize);
 
     return () => {
@@ -125,24 +108,19 @@ function AnimatedDotsCanvas({ scrollYValue }: { scrollYValue: number }) {
 }
 
 export default function HeroMain() {
-
   const [showGuide, setShowGuide] = useState(false);
   const { scrollY } = useScroll();
-
-  // Parallax background y movimiento
   const y1 = useTransform(scrollY, [0, 300], [0, -30]);
-  const y2 = useTransform(scrollY, [0, 300], [0, -60]);
 
-  // Valor scroll actual para pasarlo al canvas
   const [scrollYValue, setScrollYValue] = React.useState(0);
-
   useEffect(() => {
     return scrollY.onChange((v) => setScrollYValue(v));
   }, [scrollY]);
 
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden', pb: 20 }}>
-      {/* Fondo con parallax */}
+      <img src="/imgs/ecopipo1.png" alt="Ecopipo" width={"100%"} />
+      {/* Fondo */}
       <motion.div
         style={{
           y: y1,
@@ -152,11 +130,9 @@ export default function HeroMain() {
           width: '100%',
           height: '100%',
           zIndex: -1,
-          background: 'linear-gradient(135deg, #fce4ec, #f8bbd0)',
-          overflow: 'hidden',
+          background: 'linear-gradient(135deg, #A5D6A7, #66BB6A)',
         }}
       >
-        {/* Puntos animados con movimiento scroll */}
         <AnimatedDotsCanvas scrollYValue={scrollYValue} />
       </motion.div>
 
@@ -176,111 +152,95 @@ export default function HeroMain() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <img src="/imgs/logo.png" alt="Lubella" width={320} />
-          <Typography variant="h2" fontWeight="bold" gutterBottom color="#d81b60">
-            Conoce Lubella
+          <Typography
+            variant="h2"
+            fontWeight="bold"
+            gutterBottom
+            color="#000"
+          >
+            Sustentabilidad en tu hogar
           </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
-          Revoluciona tu bienestar íntimo con toallas femeninas reutilizables y calzones menstruales, opciones ecológicas, cómodas y orgullosamente mexicanas.
-          Cuida tu cuerpo, honra tu ciclo y protege el planeta con productos que te acompañan en cada etapa.
+          <Typography
+            variant="h6"
+            color="text.secondary"
+            sx={{ mb: 4, maxWidth: 720, mx: 'auto' }}
+          >
+            Pañales ecológicos, accesorios de lavado, productos femeninos y más.
+            Cuida de tu familia y del planeta con soluciones reutilizables,
+            cómodas y mexicanas.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-          <Link href="/tienda" underline="none">
-            <Button
+            <Link href="/tienda" underline="none">
+              <Button
                 variant="contained"
                 size="large"
                 sx={{
-                backgroundColor: '#d81b60',
-                '&:hover': { backgroundColor: '#ad1457' },
-                fontSize: '1.2rem',
+                  backgroundColor: '#388e3c',
+                  '&:hover': { backgroundColor: '#2e7d32' },
+                  fontSize: '1.1rem',
                 }}
+              >
+                Ir a la tienda
+              </Button>
+            </Link>
+            <Button
+              onClick={() => {}}
+              variant="contained"
+              size="large"
+              sx={{
+                backgroundColor: '#8bc34a',
+                '&:hover': { backgroundColor: '#689f38' },
+                fontSize: '1.1rem',
+              }}
             >
-                Comprar mi calzón menstrual
+              Contacto
             </Button>
-          </Link>
-          <Button 
-            onClick={() => setShowGuide(true)}
-            variant="contained"
-            size="large"
-            sx={{
-            backgroundColor: '#7CBB48',
-            '&:hover': { backgroundColor: '#66993d' },
-            fontSize: '1.2rem',
-          }}
-          >
-            Consulta guía de tallas
-          </Button>
           </Box>
-          <div style={{ height: '30px' }}></div>
         </motion.div>
 
+        {/* Modal guía */}
         {showGuide && (
           <Modal open={showGuide} onClose={() => setShowGuide(false)}>
-          <Sheet
+            <Sheet
               sx={{
-                  width: { xs: '100%', sm: 600 },
-                  mx: 'auto',
-                  mt: '3vh',
-                  borderRadius: 'md',
-                  p: 4,
-                  boxShadow: 'lg',
-                  bgcolor: 'background.body',
-                  outline: 'none',
-                  textAlign: 'center',
+                width: { xs: '100%', sm: 600 },
+                mx: 'auto',
+                mt: '3vh',
+                borderRadius: 'md',
+                p: 4,
+                boxShadow: 'lg',
+                bgcolor: 'background.body',
+                outline: 'none',
+                textAlign: 'center',
               }}
-          >
+            >
               <img
-                  src="/imgs/guia.jpg"
-                  alt="Tabla de tallas"
-                  loading="lazy"
-                  style={{
-                      width: '100%',
-                      height: 'auto',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                  }}
+                src="/imgs/guia-ecopipo.jpg"
+                alt="Guía Ecopipo"
+                loading="lazy"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                }}
               />
               <Button
-                  variant="outlined"
-                  color="info"
-                  onClick={() => setShowGuide(false)}
-                  sx={{ mt: 3 }}
+                variant="outlined"
+                color="success"
+                onClick={() => setShowGuide(false)}
+                sx={{ mt: 3 }}
               >
-                  Cerrar
+                Cerrar
               </Button>
-          </Sheet>
-      </Modal>
+            </Sheet>
+          </Modal>
         )}
 
-        {/* Imagen con parallax */}
-        <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
-      >
-        {images.map((img, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: '1rem', borderRadius: 12, overflow: 'hidden' }}
-          >
-            <Image
-              src={img}
-              alt={`Lubella slide ${i}`}
-              layout="responsive"
-              loading="lazy"
-              placeholder="blur"
-            />
-          </motion.div>
-        ))}
-      </Masonry>
       </Container>
 
-      {/* Curva inferior SVG */}
+      {/* Curva inferior */}
       <Box
         sx={{
           position: 'absolute',
@@ -298,7 +258,7 @@ export default function HeroMain() {
         >
           <path
             fill="#ffffff"
-            d="M0,96L60,117.3C120,139,240,181,360,197.3C480,213,600,203,720,181.3C840,160,960,128,1080,133.3C1200,139,1320,181,1380,202.7L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+            d="M0,96L60,117.3C120,139,240,181,360,197.3C480,213,600,203,720,181.3C840,160,960,128,1080,133.3C1200,139,1320,181,1380,202.7L1440,224L1440,320L0,320Z"
           />
         </svg>
       </Box>

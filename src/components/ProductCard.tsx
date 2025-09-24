@@ -54,14 +54,14 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
       ratio="1"
       sx={{ width: { xs: '100%', sm: 120 }, flexShrink: 0, borderRadius: 'md' }}
     >
-      <img src={images} alt={name} loading="lazy" />
+      <img src={images} alt={name} loading="lazy" width={120} height={120} />
     </AspectRatio>
 
     <Box sx={{ flexGrow: 1 }}>
       <Typography level="title-md">{name.replaceAll("6 Meses - 6 Años", '')}</Typography>
       {!simple && (
         <Typography level="body-sm" sx={{ my: 1 }}>
-          {description}
+          {description.slice(0, 250)}...
         </Typography>
       )}
       <Chip
@@ -138,8 +138,8 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
     </Chip>
   </div>
 
-  <AspectRatio minHeight="120px" maxHeight="200px">
-    <img src={images} loading="lazy" alt={name} />
+  <AspectRatio ratio="1" maxHeight="200px">
+    <img src={images} loading="lazy" alt={name} width={120} height={120} />
   </AspectRatio>
 
   <div>

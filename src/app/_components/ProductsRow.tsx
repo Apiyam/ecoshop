@@ -1,133 +1,118 @@
-import { Box, Typography, Button, Link } from '@mui/joy';
+'use client';
+
+import { ShoppingCart, StarBorderPurple500Outlined } from '@mui/icons-material';
+import { Box, Typography, Button, Link, Card, CardCover, CardContent, Sheet } from '@mui/joy';
+import { motion } from 'framer-motion';
 
 const products = [
   {
     title: 'Calzón menstrual',
-    description: `Siéntete como en cualquier otro día pero con un calzón menstrual reutilizable y cómodo, en un diseño anatómico y con excelente y súper absorción, no altera tus ciclos menstruales y no tendrás fugas. Ir al gym, salir a correr, ir de paseo serán actividades que harás sin temor a tener accidentes.`,
-    cta: 'Quiero mi Calzón menstrual',
+    description: 'Reutilizable, cómodo y anatómico. Perfecto para tu día a día sin preocupaciones.',
+    cta: 'Quiero mi Calzón',
     img: '/imgs/calzon.png',
+    icon: <StarBorderPurple500Outlined/>,
     slug: 'calzon-menstrual',
-  }
-  ,
-  
+  },
   {
     title: 'Toalla Femenina Regular',
-    description: `La tela exterior de nuestras toallas se llama PUL, es ideal ya que es impermeable pero a la vez transpirable, por lo que te mantiene fresca y sin accidentes. En su interior cuentan con capas absorbentes de microfibra, el cual tiene la propiedad de ser sumamente absorbente, antibacterial y no guarda olores. La tela que va en contacto con la piel se mantiene seca y fresca, además de ser sumamente fácil de desmanchar sin necesidad de usar cloro. Cuentan con una forma anatómica que se adapta a tu cuerpo, y traen alas para abrocharlas en tu pantaleta con un botón de poliresina.\n\nPuedes ver que contamos con muchos diseños diferentes, para que elijas la que más te guste:`,
+    description: 'Impermeable, transpirable y con capas absorbentes de microfibra. Diseño anatómico.',
     cta: 'Quiero mi Toalla Regular',
     img: '/imgs/regular.png',
+    icon: <StarBorderPurple500Outlined/>,
     slug: 'toalla-femenina-regular',
   },
   {
-    title: 'Toallas femenina Nocturna',
-    description: `La tela exterior de nuestras toallas se llama PUL, es ideal ya que es impermeable pero a la vez transpirable, por lo que te mantiene fresca y sin accidentes. En su interior cuentan con capas absorbentes de microfibra, el cual tiene la propiedad de ser sumamente absorbente, antibacterial y no guarda olores. La tela que va en contacto con la piel se mantiene seca y fresca, además de ser sumamente fácil de desmanchar sin necesidad de usar cloro. Cuentan con una forma anatómica que se adapta a tu cuerpo, y traen alas para abrocharlas en tu pantaleta con un botón de poliresina.\n\n¡Tenemos muchísimos diseños diferentes, puedes elegir el que mas te guste!`,
-    cta: 'Quiero mi Toalla Nocturna',
-    img: '/imgs/nocturna.png',
-    slug: 'toalla-femenina-nocturna',
-  },
-  {
-    title: 'Toalla femenina Teen',
-    description: `Nuestras toallas femeninas de tela Regular Teen, son ideales para las niñas que van comenzando con su periodo menstrual, ya que es muy anatómica y muy absorbente, por lo que te mantienen fresca y sin accidentes.\n\nLa tela exterior de nuestras toallas se llama PUL, es ideal ya que es impermeable pero a la vez transpirable. En su interior cuentan con 3 capas absorbentes de microfibra, el cual tiene la propiedad de ser sumamente absorbente, antibacterial y no guarda olores.`,
-    cta: 'Quiero mi Toalla Teen',
-    img: '/imgs/teen.jpg',
-    slug: 'toalla-femenina-teen',
-  },
-  {
     title: 'Pantiprotector',
-    description: `Ideal para los días con poco flujo menstrual, ya sea al principio o final tu ciclo. No pierdas comodidad, y protección con nuestros pantiprotectores. Cuida tu salud, tu bolsillo y el planeta.\n\nPuedes ver que contamos con muchos diseños diferentes, para que elijas la que más te guste.`,
+    description: 'Protección ligera para los días con poco flujo. Cuida tu salud y el planeta.',
     cta: 'Quiero mi Pantiprotector',
     img: '/imgs/pantiprotector.png',
+    icon: <StarBorderPurple500Outlined/>,
     slug: 'pantiprotector',
-  },
-  {
-    title: 'Panti Tanga',
-    description: `Nuestros Pantis Tanga, son ideales para poco flujo, tus primeros o últimos días de tu periodo o simplemente para uso diario. Cuentan con una forma anatómica que se adapta a tu cuerpo y a tu prenda interior.`,
-    cta: 'Quiero mi Panti Tanga',
-    img: '/imgs/tanga.png',
-    slug: 'pantiprotector-tanga',
-  },
-  {
-    title: 'Wet Bag Sobre',
-    description: `Esta bolsita es ideal para llevar tus toallas sanitarias limpias y almacenar las sucias ya que cuentan con un doble cierre. La tela es impermeable así que no saldrá ningún olor ni humedad.\n\nTiene una medida aproximada de 15 × 24 cm. y le caben entre 7 y 9 toallas.`,
-    cta: 'Quiero mi Wet Bag',
-    img: '/imgs/sobre.png',
-    slug: 'sobre',
   },
 ];
 
-export default function ProductsRow() {
-    return (
-        <Box sx={{ maxWidth: 1200, mx: 'auto', py: 6, px: 2 }}>
-          <Typography level="h3" textAlign="center" sx={{ color: '#d81b60', mb: 6, fontWeight: 'xl' }}>
-            ¡Conoce nuestros productos!
-          </Typography>
-    
-          {products.map((product, index) => {
-            const isEven = index % 2 === 0;
-            return (
-              <Box
-                key={index}
+export default function ProductsRowPro() {
+  return (
+    <Box sx={{ mx: 'auto', py: 10, mt: 10, px: 2, 
+    background: 'url(https://png.pngtree.com/thumb_back/fw800/background/20220630/pngtree-baby-cute-background-with-white-clouds-on-green-background-and-hanging-image_1416215.jpg)'
+    ,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    backgroundBlendMode: 'multiply',
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    }}>
+      <Typography level="h2" sx={{ mb: 4, textAlign: 'center'}}>
+        ¡Nuestros productos destacados!
+      </Typography>
+
+      <Box sx={{ maxWidth: 1400, mx: 'auto', display: 'grid', gap: 6, gridTemplateColumns: { xs: '1fr', md: 'repeat(3,1fr)' } }}>
+        {products.map((product, i) => (
+          <motion.div
+            key={i}
+            whileHover={{ scale: 1.03 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.2 }}
+          >
+            <Card
+              variant="outlined"
+              sx={{
+                borderRadius: '2xl',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              
+               
+
+              <CardContent
                 sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-                  gridTemplateRows: { xs: '1fr 1fr', md: '1fr' },
-                  gap: 4,
-                  alignItems: 'center',
-                  bgcolor: isEven ? 'rgba(252, 228, 236, 0.3)' : 'rgba(248, 187, 208, 0.3)',
-                  borderRadius: 'md',
-                  py: { xs: 2, md: 6 },
-                  px: { xs: 0, md: 4 },
-                  mb: { xs: 2, md: 4 },
-                  direction: isEven ? 'ltr' : 'rtl', // para alternar imagen/texto
-                  '& > *': { direction: 'ltr' }, // para que el texto no se invierta
+                  p: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2,
+                  flexGrow: 1,
+                  bgcolor: '#fff',
                 }}
               >
-                <Box
-                  sx={{
-                    borderRadius: 'md',
-                    height: 320,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontWeight: 'xl',
-                    fontSize: 24,
-                    color: '#999',
-                  }}
-                >
-                  <img 
-                  src={product.img} 
-                  alt={product.title} 
-                  width={320} 
+                 <img
+                  src={product.img}
+                  alt={product.title}
+                  style={{ width: '100%', maxHeight: '220px', objectFit: 'cover' }}
                   loading="lazy"
-                  style={{ maxHeight: '320px', objectFit: 'contain' }} />
-                </Box>
-    
-                <Box p={2}>
-                  <Typography level="h4" sx={{ color: '#d81b60', fontWeight: 'xl', mb: 2 }}>
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {product.icon}
+                    <Typography level="h3" sx={{ fontWeight: 'xl' }}>
                     {product.title}
                   </Typography>
-                  <Typography
-                    sx={{ whiteSpace: 'pre-line', mb: 3, color: 'text.tertiary' }}
-                    textColor="neutral.700"
-                  >
-                    {product.description}
-                  </Typography>
-                  <Link href={`/tienda/${product.slug}`} underline="none">
-                    <Button
-                      variant="solid"
-                      color="primary"
-                      sx={{
-                        bgcolor: '#d81b60',
-                        '&:hover': { bgcolor: '#ad1457' },
-                        fontWeight: 'xl',
-                      }}
-                    >
-                      {product.cta}
-                    </Button>
-                  </Link>
                 </Box>
-              </Box>
-            );
-          })}
-        </Box>
+                <Typography level="body-md" sx={{ color: 'text.secondary', mb: 2 }}>{product.description}</Typography>
+                <Link href={`/tienda/${product.slug}`} underline="none" sx={{ mt: 'auto' }}>
+                  <Button
+                    variant="solid"
+                    color="primary"
+                    sx={{
+                      bgcolor: '#d81b60',
+                      '&:hover': { bgcolor: '#ad1457' },
+                      fontWeight: 'xl',
+                      width: '100%',
+                    }}
+                  >
+                    {product.cta}
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </Box>
+    </Box>
   );
 }

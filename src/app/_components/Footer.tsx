@@ -1,28 +1,23 @@
-import { Box,  Typography } from "@mui/joy";
+import React from 'react';
+import { Box, Typography, Link, Stack, Divider } from '@mui/joy';
 
-
-export default function Footer() {
-    return (
-        <Box sx={{ bgcolor: '#e8416c', width: '100%', display: 'flex', justifyContent: 'center', mt: 4, flexDirection: 'column', gap: 2, py: 4 }}>
-    <img style={{ margin: '0 auto' }} src="/imgs/logo.png" alt="Lubella" width={320} />
-    <Typography
-      textAlign="center"
-      sx={{ mt: 6, mb: 2, color: 'white' }}
-    >
-      Lubella es parte de la Gran Familia Ecopipo
-    </Typography>
-    <Typography
-      textAlign="center"
-      sx={{ color: 'white', fontWeight: 'lg' }}
-    >
-      Ama tu cuerpo, cuida el planeta.
-    </Typography>
-    <Typography
-      textAlign="center"
-      sx={{ mt: 4, color: 'white' }}
-    >
-      Lubella ® – Todos los Derechos Reservados {new Date().getFullYear()}
-    </Typography>
+const Footer = () => {
+  return (
+    <Box component="footer" sx={{ py: 6, px: 2, backgroundColor: '#8ab32b' }}>
+      <Stack spacing={2} alignItems="center">
+        <img src="/imgs/Ecopipo-llsm.png" alt="Ecopipo" width={120} />
+        <Stack direction="row" spacing={2} >
+          <Link href="#" sx={{ color: 'text.primary' }} >Nosotros</Link>
+          <Link href="#" sx={{ color: 'text.primary' }} >Contacto</Link>
+          <Link href="#" sx={{ color: 'text.primary' }} >Términos & Condiciones</Link>
+          <Link href="#" sx={{ color: 'text.primary' }} >Política de Privacidad</Link>
+        </Stack>
+        <Typography level="body2" sx={{ color: 'text.secondary' }}>
+          &copy; {new Date().getFullYear()} Ecopipo. Todos los derechos reservados.
+        </Typography>
+      </Stack>
     </Box>
-    )
-}
+  );
+};
+
+export default Footer;

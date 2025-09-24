@@ -5,7 +5,7 @@ import {
   IconButton, Button, Alert
 } from '@mui/joy'
 import { useEffect, useState } from 'react'
-import { DeleteForever } from '@mui/icons-material'
+import { ArrowBack, DeleteForever } from '@mui/icons-material'
 import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
 import { CategoryItem, getCategories, ProductItem } from '../lib/wooApi'
@@ -124,7 +124,11 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                 <Button fullWidth variant="outlined" onClick={() => setClearCartModal(true)}>
                   Limpiar carrito
                 </Button>
+                
               </Box>
+              <Button startDecorator={<ArrowBack />} sx={{ mt: 2 }} color="danger" fullWidth variant="outlined" onClick={() => onClose()}>
+                  Continuar comprando
+                </Button>
               <Typography sx={{ fontSize: '12px' }}>*Precios de envío y descuentos adicionales se calculan en el siguiente paso.</Typography>
               </div>
             )}

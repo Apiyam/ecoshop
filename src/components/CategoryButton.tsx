@@ -13,43 +13,28 @@ export default function CategoryButton({ category, onClick }: CategoryButtonProp
       variant="outlined"
       orientation="horizontal"
       sx={{
-        width: 320,
         '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
+        
       }}
     >
-      <AspectRatio ratio="1" sx={{ width: 90 }}>
-        <img
+      
+      <CardContent sx={{textAlign: 'center'}}>
+      <img
           src={image}
           loading="lazy"
           alt=""
+          width={"100%"}
         />
-      </AspectRatio>
-      <CardContent>
-        <Typography level="title-lg" id="card-description">
-          {name}
-        </Typography>
-        <Typography
-          level="body-sm"
-          aria-describedby="card-description"
-          sx={{ mb: 1 }}
-        >
           <Link
             overlay
             underline="none"
-            href="#interactive-card"
-            sx={{ color: 'text.tertiary' }}
+            href={`/tienda/${category.slug}`}
+            sx={{color: 'text.tertiary' }}
+            
           >
-                {name}
+                
           </Link>
-        </Typography>
-        <Chip
-          variant="outlined"
-          color="primary"
-          size="sm"
-          sx={{ pointerEvents: 'none' }}
-        >
-          Cool weather all day long
-        </Chip>
+         
       </CardContent>
     </Card>
   )

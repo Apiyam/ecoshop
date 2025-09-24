@@ -37,6 +37,8 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { useProducts } from '@/context/ProductContext'
 import { SearchOutlined, TableChartOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useRouter } from "next/navigation";
+
 
 interface MainViewProps {
     selectedProduct?: string
@@ -58,6 +60,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     const [searchValue, setSearchValue] = useState('')
     const debouncedSearchValue = useDebounce(searchValue, 500)
     const [searchResults, setSearchResults] = useState<ProductItem[]>([])
+    const router = useRouter();
 
     useEffect(() => {
         getCategories().then((categories) => setCategories(categories))
@@ -99,9 +102,9 @@ export default function MainView({ selectedProduct }: MainViewProps) {
             setIsLoading(true)
             let filtered: ProductItem[] = []
             const name = selectedChildren?.name
-            console.log(name)
+            console.log(name+111)
             if (selectedChildren?.id !== 0) {
-                console.log(name)
+                console.log(name+"aaa")
                 if (selectedChildren.noParent) {
                     filtered = products?.filter((product: ProductItem) =>
                         product.name.toLowerCase().includes(name?.toLowerCase() || '')
@@ -122,7 +125,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                         && (isInStock ? product.stock > 0 : product.stock === 0)) || []
                 }
 
-                console.log(filtered)
+                console.log(filtered+"aaa")
             }
             if (selectedFilters !== '-') {
                 filtered = filtered?.filter((product) => product.name.toLowerCase().includes(selectedFilters.toLowerCase()))
@@ -298,6 +301,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                                                 setSelectedChildren(child);
                                                 setSelectedFilters('-')
                                                 setIsLoading(true);
+                                                router.push("?category=" + child.slug, undefined);
                                             }}
                                             sx={{
                                                 height: '100%', // tarjeta ocupa todo el alto del grid item
