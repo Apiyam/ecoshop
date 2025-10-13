@@ -88,7 +88,7 @@ const DulcesDieciseis = () => {
           </Button>
           <br /> <br />
           <Stack
-            direction="row"
+            direction={{"xs": "column", "md": "row"}}
             justifyContent="center"
             alignItems="center"
             spacing={1}
@@ -116,7 +116,7 @@ const DulcesDieciseis = () => {
            💝
         </Typography>
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 4 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: {'xs': 'repeat(1, 1fr)', 'md': 'repeat(2, 1fr)'}, gap: 4 }}>
           {mysteryBoxes.map((box, idx) => (
             <Grid  key={idx}>
               <Card
