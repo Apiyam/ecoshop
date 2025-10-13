@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lubella – Bienestar íntimo consciente",
+  title: "Ecopipo – Dulces Dieciséis",
   description: "Productos Lubella para mujer, pañoletas, toallas femeninas, nocturnas, calzones menstruales y más",
   icons: {
     icon: `${domain}/imgs/favicon.png`,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Lubella – Bienestar íntimo consciente",
+    title: "Ecopipo – Dulces Dieciséis",
     description: "Productos Lubella para mujer, pañoletas, toallas femeninas, nocturnas, calzones menstruales y más",
     images: `${domain}/imgs/lubella-productos.JPG`,
     url: domain,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lubella – Bienestar íntimo consciente",
+    title: "Ecopipo – Dulces Dieciséis",
     description: "Productos Lubella para mujer, pañoletas, toallas femeninas, nocturnas, calzones menstruales y más",
     images: `${domain}/imgs/lubella-productos.JPG`,
   },

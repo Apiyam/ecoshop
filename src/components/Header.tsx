@@ -160,11 +160,6 @@ export default function Header() {
                   ))}
                 </Menu>
               </Dropdown>
-              <Link href="/" underline="none">
-                <Button variant="plain" sx={{ color: 'white' }}>
-                  Facturación
-                </Button>
-              </Link>
               
             </Box>
 
