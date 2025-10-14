@@ -18,6 +18,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import SixteenDescription from "./_components/SixteenDescription";
+import MysteryBoxModal from "./_components/MysteryBoxModal";
 
 const DulcesDieciseis = () => {
   const purple = "#733080";
@@ -29,21 +30,22 @@ const DulcesDieciseis = () => {
       desc: "Paquete misterioso con 3 pañales premium estampados. ¡Doble descuento aniversario!",
       price: "836",
       discountText: "32% de descuento aplicado",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ4R7SVY19Ve_tL8LZ3Pj75FDnTEThyFgy4g&s",
+      image: "/imgs/3box.jpg",
     },
     {
       title: "Mystery Box Ecopipo 6 pañales",
       desc: "Paquete misterioso con 6 pañales premium estampados. ¡Triple descuento aniversario!",
       price: "1550",
       discountText: "37% de descuento aplicado",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ4R7SVY19Ve_tL8LZ3Pj75FDnTEThyFgy4g&s",
+      image: "/imgs/6box.jpg",
     },
   ];
 
   const [selectedBox, setSelectedBox] = useState<string>("unisex");
-
+  const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
+      <img src="/imgs/popup.jpg" alt="16" style={{ width: "100%", height: "auto" }} />
       {/* Hero Section */}
       <Box
         sx={{
@@ -55,7 +57,7 @@ const DulcesDieciseis = () => {
             variant="h3"
             sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.5px" }}
           >
-            🎉 Dulces Dieciséis Ecopipo 🎉
+           Dulces Dieciséis Ecopipo <br /> 🎉🎉🎉
           </Typography>
           <Typography
             variant="h6"
@@ -67,26 +69,10 @@ const DulcesDieciseis = () => {
               mb: 4,
             }}
           >
-            16 días de promociones y sorpresas para celebrar nuestro aniversario.
-            ¡Aprovecha descuentos dobles en nuestras Mystery Boxes y vive la magia
-            de Ecopipo!
+            16 días de promociones y sorpresas para celebrar nuestro aniversario. ¡Aprovecha 16% en todos nuestros productos y descuentos dobles en nuestras Mystery Boxes Ecopipo!
           </Typography>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              bgcolor: green,
-              color: "white",
-              fontWeight: 600,
-              borderRadius: 3,
-              px: 4,
-              py: 1.5,
-              ":hover": { bgcolor: "#7BA628" },
-            }}
-          >
-            Ver ofertas
-          </Button>
-          <br /> <br />
+          
+          <br />
           <Stack
             direction={{"xs": "column", "md": "row"}}
             justifyContent="center"
@@ -99,22 +85,84 @@ const DulcesDieciseis = () => {
               Promoción válida del 15 al 31 de octubre
             </Typography>
           </Stack>
+          <Box>
+          <a href="#mystery-boxes">
+          <Button
+            variant="contained"
+            className="btn-responsive"
+            size="large"
+            sx={{
+              bgcolor: green,
+              color: "white",
+              fontWeight: 600,
+              borderRadius: 3,
+              px: 4,
+              py: 1.5,
+              ":hover": { bgcolor: "#7BA628" },
+            }}
+            
+          >
+            MYSTERY BOX ANIVERSARIO
+          </Button>
+          </a>
+          <Button
+            variant="contained"
+            className="btn-responsive"
+            size="large"
+            sx={{
+              marginLeft: "10px",
+              bgcolor: purple,
+              color: "white",
+              fontWeight: 600,
+              borderRadius: 3,
+              px: 4,
+              py: 1.5,
+              ":hover": { bgcolor: purple },
+            }}
+          >
+            OFERTAS ANIVERSARIO
+          </Button>
+          </Box>
         </Container>
       </Box>
 
       <SixteenDescription />
 
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Button
+        onClick={() => setShowMysteryBoxModal(true)}
+            variant="contained"
+            className="btn-responsive"
+            size="large"
+            sx={{
+              marginLeft: "10px",
+              marginBottom: "10px",
+              bgcolor: purple,
+              color: "white",
+              fontWeight: 600,
+              borderRadius: 3,
+              px: 4,
+              py: 1.5,
+              ":hover": { bgcolor: purple },
+            }}
+          >
+            ¿Qué Contiene la Mystery Box?
+          </Button>
+      </Box>
+
       {/* Mystery Box Section */}
-      <Container sx={{ py: 10 }}>
+      <Container sx={{ py: 10 }} id="mystery-boxes">
         <Typography
           variant="h4"
           textAlign="center"
           sx={{ mb: 6, color: purple, fontWeight: 800 }}
         >
-           ¡Escoge ya tu mystery box Ecopipo! ¡Por tiempo limitado!
+           ¡Escoge ya tu Mystery Box Ecopipo! ¡Por tiempo limitado!
            <br />
            💝
         </Typography>
+        
+
 
         <Box sx={{ display: 'grid', gridTemplateColumns: {'xs': 'repeat(1, 1fr)', 'md': 'repeat(2, 1fr)'}, gap: 4 }}>
           {mysteryBoxes.map((box, idx) => (
@@ -124,17 +172,13 @@ const DulcesDieciseis = () => {
                   borderRadius: 4,
                   overflow: "hidden",
                   boxShadow: 3,
+                  width: "90%",
                   transition: "all 0.3s ease",
                   ":hover": { boxShadow: 6, transform: "translateY(-4px)" },
                 }}
               >
-                <CardMedia
-                  component="img"
-                  height="400"
-                  image={box.image}
-                  alt={box.title}
-                  sx={{ objectFit: "cover", backgroundColor: "#F0F0F0" }}
-                />
+                <img src={box.image} alt={box.title} style={{ width: "100%", height: "auto" }} />
+               
                 <CardContent>
                   <Typography variant="h4" sx={{ fontWeight: 700, color: purple }}>
                     {box.title}
@@ -193,6 +237,7 @@ const DulcesDieciseis = () => {
           Ecopipo® 2025 — Celebrando contigo con dulzura y sustentabilidad.
         </Typography>
       </Box>
+      <MysteryBoxModal open={showMysteryBoxModal} onClose={() => setShowMysteryBoxModal(false)} />
     </Box>
   );
 };

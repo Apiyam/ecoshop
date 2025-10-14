@@ -37,6 +37,12 @@
     margin: 0;
     padding: 0;
   }
+
+  .btn-responsive {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+    margin-left: 0 !important;
+  }
 }
 
 

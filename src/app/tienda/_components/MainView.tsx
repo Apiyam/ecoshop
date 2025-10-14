@@ -38,6 +38,7 @@ import { useProducts } from '@/context/ProductContext'
 import { SearchOutlined, TableChartOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter } from "next/navigation";
+import PopupModal from '../../_components/PopupModal'
 
 
 interface MainViewProps {
@@ -61,7 +62,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     const debouncedSearchValue = useDebounce(searchValue, 500)
     const [searchResults, setSearchResults] = useState<ProductItem[]>([])
     const router = useRouter();
-
+    const [showPopup, setShowPopup] = useState(true)
     useEffect(() => {
         getCategories().then((categories) => setCategories(categories))
     }, [])
@@ -145,7 +146,8 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     if (!categories || !products || !loaded) return <LoadingIndicator isFullScreen={true} />
 
     const checkDiscount = (product: ProductItem) => {
-        return categories.find((category) => category.name.includes(product.parent_name))?.discount || 0
+        return 16;
+        //return categories.find((category) => category.name.includes(product.parent_name))?.discount || 0
 
     }
     const handleChangeEstampados = (
@@ -437,6 +439,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                     </Sheet>
                 </Modal>
             }
+            <PopupModal open={showPopup} onClose={() => setShowPopup(false)} />
         </Container>
     )
 }

@@ -7,18 +7,22 @@ const SixteenDescription = () => {
   const purple = "#733080";
   const green = "#89b329";
 
-  const features = [
-    "Incluye 3 o 6 pañales estampados misteriosos (según la opción elegida).",
-    "Puedes elegir la categoría: niño, niña o unisex.",
-    "Unitalla: se ajusta al crecimiento de tu bebé.",
-    "Doble barrera antiescurrimiento para máxima protección.",
-    "Telas certificadas, suaves y seguras para la piel sensible.",
-    "Cierres ajustables con broches o velcro.",
-    "Fáciles de lavar y reutilizar, cuidando el planeta y tu bolsillo.",
-  ];
+
+  {
+    /*
+    <Stack spacing={1.5} sx={{ mb: 3 }}>
+            {features.map((f, i) => (
+              <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <CheckCircleIcon sx={{ color: green }} />
+                <Typography sx={{ color: "#555", lineHeight: 1.5 }}>{f}</Typography>
+              </Box>
+            ))}
+          </Stack>
+    */
+  }
 
   return (
-    <Container sx={{ py: 6 }}>
+    <Container sx={{ py: 6 }} >
       <Card
         elevation={3}
         sx={{
@@ -41,63 +45,19 @@ const SixteenDescription = () => {
               letterSpacing: "-0.5px",
             }}
           >
-            💝 Mistery Box Ecopipo
+            💝 Mystery Box Ecopipo
           </Typography>
 
-          <Typography sx={{ mb: 2, color: "#444", lineHeight: 1.7 }}>
-            Nuestra <strong>Mistery Box Ecopipo</strong> incluye un paquete de{" "}
-            <strong>3 o 6 pañales premium estampados</strong> que se eligen de manera
-            misteriosa (¡al azar!). Tú decides si prefieres diseños para{" "}
-            <strong>niño, niña o unisex</strong>, y nosotros nos encargamos del resto.
+          <Typography sx={{ mb: 2, color: "#444", lineHeight: 1.7, textAlign: "center", fontSize: "1.2rem" }}>
+          ¡Hasta 37% de descuento! Ideal para quienes aman la sorpresa y quieren vivir la emoción de no saber qué diseño les tocará 😍
           </Typography>
 
-          <Typography sx={{ mb: 3, color: "#444", lineHeight: 1.7 }}>
-            Cada pañal es <strong>unitalla</strong>, crece con tu bebé y está elaborado con{" "}
-            <strong>telas certificadas, libres de químicos tóxicos</strong>, con{" "}
-            <strong>doble barrera antiescurrimiento</strong>, ajuste con{" "}
-            <strong>broches o velcro</strong> y <strong>absorbentes lavables</strong> que
-            garantizan comodidad, protección y sustentabilidad.
+          <Typography sx={{ mb: 3, color: "#444", lineHeight: 1.7, textAlign: "center", fontSize: "1.2rem" }}>
+          ¡Déjate sorprender con nuestras Mystery Box Ecopipo! 🎁 Elige un paquete de 3 o 6 pañales premium estampados y recibe diseños misteriosos, seleccionados completamente al azar según la categoría que prefieras: niño, niña o unisex. Cada caja es una experiencia única — <strong>¡nunca sabrás cuáles te tocarán hasta que la abras!</strong>
           </Typography>
 
           <Divider sx={{ my: 3 }} />
 
-          <Typography
-            variant="h5"
-            sx={{
-              color: purple,
-              fontWeight: 700,
-              mb: 2,
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            ✨ Características principales:
-          </Typography>
-
-          <Stack spacing={1.5} sx={{ mb: 3 }}>
-            {features.map((f, i) => (
-              <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <CheckCircleIcon sx={{ color: green }} />
-                <Typography sx={{ color: "#555", lineHeight: 1.5 }}>{f}</Typography>
-              </Box>
-            ))}
-          </Stack>
-
-          <Divider sx={{ my: 3 }} />
-
-          <Typography
-            sx={{
-              color: green,
-              fontStyle: "italic",
-              fontWeight: 500,
-              textAlign: "center",
-              fontSize: "1.1rem",
-            }}
-          >
-            💚 Ideal para quienes aman la emoción de la sorpresa y quieren ampliar su
-            colección Ecopipo con diseños únicos 😍
-          </Typography>
         </CardContent>
       </Card>
     </Container>
