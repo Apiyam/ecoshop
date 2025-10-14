@@ -74,7 +74,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
           <CloseIcon />
         </Box>
 
-        <CardContent sx={{ p: 5 }}>
+        <CardContent sx={{ p: 5, maxHeight: "80vh", overflowY: "auto" }}>
  
 
           <Stack spacing={2} alignItems="left">

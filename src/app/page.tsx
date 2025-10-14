@@ -13,6 +13,7 @@ import {
   Divider,
   Select,
   MenuItem,
+  Link,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
@@ -105,6 +106,7 @@ const DulcesDieciseis = () => {
             MYSTERY BOX ANIVERSARIO
           </Button>
           </a>
+          <Link href="/tienda" underline="none">
           <Button
             variant="contained"
             className="btn-responsive"
@@ -122,13 +124,14 @@ const DulcesDieciseis = () => {
           >
             OFERTAS ANIVERSARIO
           </Button>
+          </Link>
           </Box>
         </Container>
       </Box>
 
       <SixteenDescription />
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
       <Button
         onClick={() => setShowMysteryBoxModal(true)}
             variant="contained"

@@ -46,6 +46,8 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
           color: "white",
           textAlign: "center",
           animation: "fadeIn 0.6s ease-out",
+          maxHeight: "80vh",
+          overflowY: "auto",
         }}
       >
         {/* Botón de cierre */}
