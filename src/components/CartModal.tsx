@@ -26,7 +26,25 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   }, [])
 
   const getDiscountedPrice = (product: ProductItem) => {
-    const discount = categories.find(cat => cat.name.includes(product.parent_name))?.discount || 0
+    let discount = 0;
+    discount = categories.find((category) => category.name.includes(product.parent_name))?.discount || 16
+    if(product.name.includes("Tanga")) {
+      discount = 50;
+    }
+    if(product.name.includes("Leggings")) {
+        discount = 70;
+    }
+    if(product.name.includes("Pañoleta")) {
+        discount = 70;
+    }
+    if(product.name.includes("Mochila")) {
+        discount = 40;
+    }
+    if(product.name.includes("Lonchera")) {
+        discount = 35;
+    }
+    
+
     return parseFloat(product.public_price) * (1 - discount / 100)
   }
 
@@ -36,14 +54,14 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   const goToWordpress = () => {
     setGoingToWordpress(true)
     const data = encodeURIComponent(JSON.stringify(cartItems.map(i => ({ id: i.product.id, quantity: i.quantity }))))
-    window.location.href = `https://ecopipo.com/matriz/?items=${data}`
+    window.location.href = `https://ecopipo.com/matriz/?redirect=ecopipo&items=${data}`
   }
 
   return (
     <Modal open={open} onClose={onClose}>
       <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%' }}>
         <ModalClose />
-        <Typography level="h4">Carrito de compras Lubella</Typography>
+        <Typography level="h4">Carrito de compras Ecopipo</Typography>
 
         <Box sx={{ overflowX: 'auto', border: '1px solid', borderColor: 'neutral.outlinedBorder', maxHeight: '70vh', my: 2 }}>
           <Table stickyHeader>

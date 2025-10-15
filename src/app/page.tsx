@@ -27,6 +27,7 @@ const DulcesDieciseis = () => {
 
   const mysteryBoxes = [
     {
+      id: 1,
       title: "Mystery Box Ecopipo 3 pañales",
       desc: "Paquete misterioso con 3 pañales premium estampados. ¡Doble descuento aniversario!",
       price: "836",
@@ -34,6 +35,7 @@ const DulcesDieciseis = () => {
       image: "/imgs/3box.jpg",
     },
     {
+      id: 2,
       title: "Mystery Box Ecopipo 6 pañales",
       desc: "Paquete misterioso con 6 pañales premium estampados. ¡Triple descuento aniversario!",
       price: "1550",
@@ -42,7 +44,10 @@ const DulcesDieciseis = () => {
     },
   ];
 
-  const [selectedBox, setSelectedBox] = useState<string>("unisex");
+  const [selectedBoxPack6, setSelectedBoxPack6] = useState<string>("unisex");
+  const [selectedBoxPack3, setSelectedBoxPack3] = useState<string>("unisex");
+  const [selectedSizePack6, setSelectedSizePack6] = useState<string>("velcro");
+  const [selectedSizePack3, setSelectedSizePack3] = useState<string>("velcro");
   const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
@@ -203,10 +208,16 @@ const DulcesDieciseis = () => {
                     *Precio redondeado para tu comodidad.
                   </Typography>
                   <br />
-                  <Select value={selectedBox} onChange={(e) => setSelectedBox(e.target.value)} fullWidth>
+                  <Typography variant="body2" sx={{ fontWeight: 800, color: purple }}>Género</Typography>
+                  <Select value={box.id === 1 ? selectedBoxPack6 : selectedBoxPack3} onChange={(e) => box.id === 1 ? setSelectedBoxPack6(e.target.value) : setSelectedBoxPack3(e.target.value)} fullWidth>
                     <MenuItem value="unisex">Unisex</MenuItem>
                     <MenuItem value="nino">Niño</MenuItem>
                     <MenuItem value="nina">Niña</MenuItem>
+                  </Select>
+                  <Typography variant="body2" sx={{ fontWeight: 800, color: purple }}>Tipo cierre</Typography>
+                  <Select value={box.id === 1 ? selectedSizePack6 : selectedSizePack3} onChange={(e) => box.id === 1 ? setSelectedSizePack6(e.target.value) : setSelectedSizePack3(e.target.value)} fullWidth>
+                    <MenuItem value="velcro">Velcro</MenuItem>
+                    <MenuItem value="broches">Broches</MenuItem>
                   </Select>
                   <Button
                     variant="contained"

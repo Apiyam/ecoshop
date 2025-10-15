@@ -146,8 +146,23 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     if (!categories || !products || !loaded) return <LoadingIndicator isFullScreen={true} />
 
     const checkDiscount = (product: ProductItem) => {
-        return 16;
-        //return categories.find((category) => category.name.includes(product.parent_name))?.discount || 0
+        //return 16;
+        if(product.name.includes("Tanga")) {
+            return 50;
+        }
+        if(product.name.includes("Leggings")) {
+            return 70;
+        }
+        if(product.name.includes("Pañoleta")) {
+            return 70;
+        }
+        if(product.name.includes("Mochila")) {
+            return 40;
+        }
+        if(product.name.includes("Lonchera")) {
+            return 35;
+        }
+        return categories.find((category) => category.name.includes(product.parent_name))?.discount || 16
 
     }
     const handleChangeEstampados = (
