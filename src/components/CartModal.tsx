@@ -31,6 +31,9 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
     if(product.name.includes("Tanga")) {
       discount = 50;
     }
+    if(product.name.includes("Mystery")) {
+      discount = 0;
+    }
     if(product.name.includes("Leggings")) {
         discount = 70;
     }

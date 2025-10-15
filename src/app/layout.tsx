@@ -21,20 +21,20 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Ecopipo – Dulces Dieciséis",
-  description: "Productos Lubella para mujer, pañoletas, toallas femeninas, nocturnas, calzones menstruales y más",
+  description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
   icons: {
-    icon: `${domain}/imgs/favicon.png`,
-    shortcut: `${domain}/imgs/favicon.png`,
-    apple: `${domain}/imgs/favicon.png`,
+    icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
+    shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
+    apple: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     other: {
       rel: 'icon',
-      url: `${domain}/imgs/favicon.png`,
+      url: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     },
   },
   openGraph: {
     title: "Ecopipo – Dulces Dieciséis",
-    description: "Productos Lubella para mujer, pañoletas, toallas femeninas, nocturnas, calzones menstruales y más",
-    images: `${domain}/imgs/lubella-productos.JPG`,
+    description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
+    images: `/imgs/popup.jpg`,
     url: domain,
     siteName: "Lubella",
     locale: "es_MX",
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ecopipo – Dulces Dieciséis",
-    description: "Productos Lubella para mujer, pañoletas, toallas femeninas, nocturnas, calzones menstruales y más",
-    images: `${domain}/imgs/lubella-productos.JPG`,
+    description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
+    images: `/imgs/popup.jpg`,
   },
 };
 

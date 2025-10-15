@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -20,10 +20,102 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import SixteenDescription from "./_components/SixteenDescription";
 import MysteryBoxModal from "./_components/MysteryBoxModal";
+import { ProductItem } from "@/lib/wooApi";
+import { useCart } from "@/context/CartContext";
+
+const mappBox = [{
+  "cierre":"velcro",
+  "box": "3",
+  "tipo":"nino",
+  "name":"Mystery Box Ecopipo 3 pañales Velcro Niño",
+  "id":"26631"
+},
+{
+  "cierre":"velcro",
+  "box": "3",
+  "tipo":"nina",
+  "name":"Mystery Box Ecopipo 3 pañales Velcro Niña",
+  "id":"26632"
+},
+{
+  "cierre":"velcro",
+  "box": "3",
+  "tipo":"unisex",
+  "name":"Mystery Box Ecopipo 3 pañales Velcro Unisex",
+  "id":"26633"
+},
+{
+  "cierre":"velcro",
+  "box": "6",
+  "tipo":"nino",
+  "name":"Mystery Box Ecopipo 6 pañales Velcro Niño",
+  "id":"26634"
+},
+{
+  "cierre":"velcro",
+  "box": "6",
+  "tipo":"nina",
+  "name":"Mystery Box Ecopipo 6 pañales Velcro Niña",
+  "id":"26635"
+},
+{
+  "cierre":"velcro",
+  "box": "6",
+  "tipo":"unisex",
+  "name":"Mystery Box Ecopipo 6 pañales Velcro Unisex",
+  "id":"26636"
+},
+{
+  "cierre":"broches",
+  "box": "3",
+  "tipo":"nino",
+  "name":"Mystery Box Ecopipo 3 pañales Broches Niño",
+  "id":"26598"
+},
+{
+  "cierre":"broches",
+  "box": "3",
+  "tipo":"nina",
+  "name":"Mystery Box Ecopipo 3 pañales Broches Niña",
+  "id":"26599"
+},
+{
+  "cierre":"broches",
+  "box": "3",
+  "tipo":"unisex",
+  "name":"Mystery Box Ecopipo 3 pañales Broches Unisex",
+  "id":"26600"
+},
+{
+  "cierre":"broches",
+  "box": "6",
+  "tipo":"nino",
+  "name":"Mystery Box Ecopipo 6 pañales Broches Niño",
+  "id":"26601"
+},
+{
+  "cierre":"broches",
+  "box": "6",
+  "tipo":"nina",
+  "name":"Mystery Box Ecopipo 6 pañales Broches Niña",
+  "id":"26602"
+},
+{
+  "cierre":"broches",
+  "box": "6",
+  "tipo":"unisex",
+  "name":"Mystery Box Ecopipo 6 pañales Broches Unisex",
+  "id":"26603"
+}]
 
 const DulcesDieciseis = () => {
   const purple = "#733080";
   const green = "#89b329";
+  const [mysteryItem, setMysteryItem] = useState<any>(null);
+
+  useEffect(() => {
+    
+  }, []);
 
   const mysteryBoxes = [
     {
@@ -44,11 +136,75 @@ const DulcesDieciseis = () => {
     },
   ];
 
-  const [selectedBoxPack6, setSelectedBoxPack6] = useState<string>("unisex");
-  const [selectedBoxPack3, setSelectedBoxPack3] = useState<string>("unisex");
-  const [selectedSizePack6, setSelectedSizePack6] = useState<string>("velcro");
-  const [selectedSizePack3, setSelectedSizePack3] = useState<string>("velcro");
+  const [selectedBoxPack6, setSelectedBoxPack6] = useState<string>("");
+  const [selectedBoxPack3, setSelectedBoxPack3] = useState<string>("");
+  const [selectedSizePack6, setSelectedSizePack6] = useState<string>("");
+  const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
   const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
+  const { addToCart, updatedCart, setShouldDisplayCart } = useCart()
+  const [addedToCart, setAddedToCart] = useState(false)
+  useEffect(() => {
+    if (updatedCart) {
+      setAddedToCart(true)
+    }
+  }, [updatedCart])
+
+  const validateMysteryBox = (id: number) => {
+    if(id === 1){
+      if(selectedBoxPack6 === "" || selectedSizePack6 === ""){
+        alert("Por favor, selecciona una opción para el paquete y el tamaño");
+        return;
+      }
+    }
+    if(id === 2){
+      if(selectedBoxPack3 === "" || selectedSizePack3 === ""){
+        alert("Por favor, selecciona una opción para el paquete y el tamaño");
+        return;
+      }
+    }
+    let selectedItem 
+    if(id === 1){
+      selectedItem = mappBox.find((item) => item.tipo === selectedBoxPack6 && item.cierre === selectedSizePack6);
+    }
+    if(id === 2){
+      selectedItem = mappBox.find((item) => item.tipo === selectedBoxPack3 && item.cierre === selectedSizePack3);
+    }
+
+    console.log(id, selectedItem)
+
+    const product: ProductItem = {
+      sku: selectedItem?.id ?? "",
+      id: parseInt(selectedItem?.id ?? "0"),
+      parent: 0,
+      parent_name: "",
+      name: selectedItem?.name ?? "",
+      public_price: id === 1 ? "836" : "1550",
+      cedis_universo: "",
+      cedis_galaxia: "",
+      cedis_constelacion: "",
+      cedis_sol: "",
+      mayorista_luna: "",
+      mayorista_estrella: "",
+      minorista_nebulosa: "",
+      promotora_cometa: "",
+      sat: "",
+      categories: "",
+      images: id === 1 ? "/imgs/3box.jpg" : "/imgs/6box.jpg",
+      stock: 100,
+      description: id === 1 ? "Paquete misterioso con 3 pañales premium estampados. ¡Triple descuento aniversario!" : "Paquete misterioso con 6 pañales premium estampados. ¡Triple descuento aniversario!",
+    }
+  
+      addToCart({ product: product, quantity: 1 })
+      setAddedToCart(true)
+      setShouldDisplayCart(true)
+
+
+    setMysteryItem({
+      box: id === 1 ? selectedBoxPack6 : selectedBoxPack3,
+      size: id === 1 ? selectedSizePack6 : selectedSizePack3,
+    });
+  }
+
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
       <img src="/imgs/popup.jpg" alt="16" style={{ width: "100%", height: "auto" }} />
@@ -210,12 +366,14 @@ const DulcesDieciseis = () => {
                   <br />
                   <Typography variant="body2" sx={{ fontWeight: 800, color: purple }}>Género</Typography>
                   <Select value={box.id === 1 ? selectedBoxPack6 : selectedBoxPack3} onChange={(e) => box.id === 1 ? setSelectedBoxPack6(e.target.value) : setSelectedBoxPack3(e.target.value)} fullWidth>
+                    <MenuItem value="">Selecciona una opción</MenuItem>
                     <MenuItem value="unisex">Unisex</MenuItem>
                     <MenuItem value="nino">Niño</MenuItem>
                     <MenuItem value="nina">Niña</MenuItem>
                   </Select>
                   <Typography variant="body2" sx={{ fontWeight: 800, color: purple }}>Tipo cierre</Typography>
                   <Select value={box.id === 1 ? selectedSizePack6 : selectedSizePack3} onChange={(e) => box.id === 1 ? setSelectedSizePack6(e.target.value) : setSelectedSizePack3(e.target.value)} fullWidth>
+                    <MenuItem value="">Selecciona una opción</MenuItem>
                     <MenuItem value="velcro">Velcro</MenuItem>
                     <MenuItem value="broches">Broches</MenuItem>
                   </Select>
@@ -229,6 +387,9 @@ const DulcesDieciseis = () => {
                       fontWeight: 600,
                       borderRadius: 3,
                       ":hover": { bgcolor: "#7BA628" },
+                    }}
+                    onClick={() => {
+                      validateMysteryBox(box.id)
                     }}
                   >
                     Añadir al carrito
