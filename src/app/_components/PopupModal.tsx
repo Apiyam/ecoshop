@@ -13,6 +13,7 @@ import {
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useCart } from "@/context/CartContext";
 
 type PopupModalProps = {
   open: boolean;
@@ -21,7 +22,7 @@ type PopupModalProps = {
 const PopupModal = ({ open, onClose }: PopupModalProps) => {
   const purple = "#733080";
   const green = "#89b329";
-
+  const { goalCustomPackage } = useCart()
   return (
     <Modal
       open={open}
@@ -73,11 +74,11 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
             fontWeight="bold"
             sx={{ mb: 1 }}
           >
-            🎂 ¡Dulces Dieciséis Ecopipo!
+             ¡Preparada para tu paquete personalizado! 💚
           </Typography>
 
           <Typography variant="h6" sx={{ mb: 2 }}>
-            💚 Celebramos 16 años cuidando a tu bebé, pañal a pañal.
+            ¡Aprovecha el Pipofin y obtén descuentos dobles en tus paquetes personalizados!
           </Typography>
 
           <Divider
@@ -91,9 +92,9 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
             <Typography variant="body1">
               Aprovecha{" "}
               <strong style={{ color: green, fontSize: "1.2em" }}>
-                16% de descuento
+                10% de descuento
               </strong>{" "}
-              en toda la tienda ¡Incluidos paquetes! ✨
+              en toda la tienda ✨
             </Typography>
 
             <Typography variant="body1">
@@ -101,11 +102,6 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
               <strong>más descuento obtienes 🤩</strong>
             </Typography>
 
-            <Typography variant="body1">
-              Y si te encantan las sorpresas… nuestras{" "}
-              <strong style={{ color: green }}>Mystery Boxes</strong> tienen{" "}
-              <strong>¡hasta 37% de descuento! 🎁</strong>
-            </Typography>
           </Stack>
 
           <Button

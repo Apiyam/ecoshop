@@ -489,16 +489,5 @@
     "discount": 0,
     "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Outlet.png",
     "children": []
-  },
-  {
-    "parent": [
-      4057
-    ],
-    "name": "Promocionales",
-    "slug": "promocionales",
-    "show": false,  
-    "discount": 0,
-    "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Promocionales.png",
-    "children": []
   }
 ]

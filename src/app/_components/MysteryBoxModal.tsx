@@ -20,13 +20,12 @@ type MysteryBoxModalProps = {
 }
 
 const features = [
-  "Incluye 3 o 6 pañales estampados misteriosos (según la opción elegida).",
-  "Puedes elegir la categoría: niño, niña o unisex.",
-  "Unitalla: se ajusta al crecimiento de tu bebé.",
-  "Doble barrera antiescurrimiento para máxima protección.",
-  "Telas certificadas, suaves y seguras para la piel sensible.",
-  "Cierres ajustables con broches o velcro.",
-  "Fáciles de lavar y reutilizar, cuidando el planeta y tu bolsillo.",
+  "Tu paquete no necesita tener el mismo tamaño, estampado, color, etc",
+  "Obtienes un descuento del 5% cuando añades al menos 6 productos iguales o diferentes.",
+  "Obtienes un descuento del 8% cuando añades al menos 10 productos iguales o diferentes.",
+  "Obtienes un descuento del 10% cuando añades al menos 15 productos iguales o diferentes.",
+  "Obtienes un descuento del 12% cuando añades a partir de 20 productos iguales o diferentes.",
+  "¡10% DE DESCUENTO EN TU COMPRA TOTAL, INCLUIDOS LOS PAQUETES!",
 ];
 
 const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
@@ -48,7 +47,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
     >
       <Card
         sx={{
-          width: { xs: "90%", sm: 500 },
+          width: { xs: "90%", sm: 700 },
           borderRadius: 4,
           boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
           position: "relative",
@@ -88,7 +87,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
               gap: 1,
             }}
           >
-            ✨ ¡Esto contiene tu Mystery Box!
+            ✨ ¿Cómo armo mi paquete personalizado?
           </Typography>
 
           <Stack spacing={1.5} sx={{ mb: 3 }} alignItems="left">
@@ -111,18 +110,18 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
               fontSize: "1.1rem",
             }}
           >
-            💚 Ideal para quienes aman la emoción de la sorpresa y quieren ampliar su
-            colección Ecopipo con diseños únicos 😍
+            💚 Ideal para quienes quieren ampliar su colección Ecopipo con diseños únicos 😍
           </Typography>
 
           </Stack>
 
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
             sx={{
               mt: 4,
-              backgroundColor: "white",
-              color: purple,
+              backgroundColor: purple,
+              color: "white",
               fontWeight: "bold",
               px: 4,
               py: 1.2,
@@ -135,8 +134,9 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
             }}
             onClick={onClose}
           >
-            ¡Ir a comprar ahora!
+            ¡Ir a armar mi paquete!
           </Button>
+          </Box>
         </CardContent>
       </Card>
     </Modal>

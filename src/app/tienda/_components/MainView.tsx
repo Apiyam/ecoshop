@@ -39,6 +39,7 @@ import { SearchOutlined, TableChartOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter } from "next/navigation";
 import PopupModal from '../../_components/PopupModal'
+import ProgressGoal from '@/app/_components/ProgressGoal'
 
 
 interface MainViewProps {
@@ -178,6 +179,8 @@ export default function MainView({ selectedProduct }: MainViewProps) {
 
     return (
         <Container>
+            <ProgressGoal />
+            <div style={{ height: '120px' }} />
             <CategoryGrid categories={categories} onCategoryChange={(category) => {
                 setSelectedCategory(category)
                 setSelectedEstampados([])

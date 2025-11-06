@@ -79,12 +79,6 @@ const products = [
     type: 'link',
     name: 'Outlet',
     href: '/tienda/outlet'
-  },
-
-  {
-    type: 'link',
-    name: 'Promocionales',
-    href: '/tienda/promocionales'
   }
 ]
 

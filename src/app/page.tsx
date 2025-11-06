@@ -22,192 +22,61 @@ import SixteenDescription from "./_components/SixteenDescription";
 import MysteryBoxModal from "./_components/MysteryBoxModal";
 import { ProductItem } from "@/lib/wooApi";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 
-const mappBox = [{
-  "cierre":"velcro",
-  "box": "3",
-  "tipo":"nino",
-  "name":"Mystery Box Ecopipo 3 pañales Velcro Niño",
-  "id":"26631"
-},
-{
-  "cierre":"velcro",
-  "box": "3",
-  "tipo":"nina",
-  "name":"Mystery Box Ecopipo 3 pañales Velcro Niña",
-  "id":"26632"
-},
-{
-  "cierre":"velcro",
-  "box": "3",
-  "tipo":"unisex",
-  "name":"Mystery Box Ecopipo 3 pañales Velcro Unisex",
-  "id":"26633"
-},
-{
-  "cierre":"velcro",
-  "box": "6",
-  "tipo":"nino",
-  "name":"Mystery Box Ecopipo 6 pañales Velcro Niño",
-  "id":"26634"
-},
-{
-  "cierre":"velcro",
-  "box": "6",
-  "tipo":"nina",
-  "name":"Mystery Box Ecopipo 6 pañales Velcro Niña",
-  "id":"26635"
-},
-{
-  "cierre":"velcro",
-  "box": "6",
-  "tipo":"unisex",
-  "name":"Mystery Box Ecopipo 6 pañales Velcro Unisex",
-  "id":"26636"
-},
-{
-  "cierre":"broches",
-  "box": "3",
-  "tipo":"nino",
-  "name":"Mystery Box Ecopipo 3 pañales Broches Niño",
-  "id":"26598"
-},
-{
-  "cierre":"broches",
-  "box": "3",
-  "tipo":"nina",
-  "name":"Mystery Box Ecopipo 3 pañales Broches Niña",
-  "id":"26599"
-},
-{
-  "cierre":"broches",
-  "box": "3",
-  "tipo":"unisex",
-  "name":"Mystery Box Ecopipo 3 pañales Broches Unisex",
-  "id":"26600"
-},
-{
-  "cierre":"broches",
-  "box": "6",
-  "tipo":"nino",
-  "name":"Mystery Box Ecopipo 6 pañales Broches Niño",
-  "id":"26601"
-},
-{
-  "cierre":"broches",
-  "box": "6",
-  "tipo":"nina",
-  "name":"Mystery Box Ecopipo 6 pañales Broches Niña",
-  "id":"26602"
-},
-{
-  "cierre":"broches",
-  "box": "6",
-  "tipo":"unisex",
-  "name":"Mystery Box Ecopipo 6 pañales Broches Unisex",
-  "id":"26603"
-}]
 
 const DulcesDieciseis = () => {
   const purple = "#733080";
   const green = "#89b329";
   const [mysteryItem, setMysteryItem] = useState<any>(null);
-
-  useEffect(() => {
-    
-  }, []);
+  const router = useRouter();
 
   const mysteryBoxes = [
     {
       id: 1,
-      title: "Mystery Box Ecopipo 3 pañales",
-      desc: "Paquete misterioso con 3 pañales premium estampados. ¡Doble descuento aniversario!",
-      price: "836",
-      discountText: "32% de descuento aplicado",
-      image: "/imgs/3box.jpg",
+      title: "Paquete de 6 piezas",
+      desc: "Arma tu paquete de 6 productos con descuento del 5%",
+      price: "",
+      goal: 6,
+      discountText: "5% de descuento aplicado",
+      image: "https://placehold.co/300x300",
     },
     {
       id: 2,
-      title: "Mystery Box Ecopipo 6 pañales",
-      desc: "Paquete misterioso con 6 pañales premium estampados. ¡Triple descuento aniversario!",
-      price: "1550",
-      discountText: "37% de descuento aplicado",
-      image: "/imgs/6box.jpg",
+      title: "Paquete de 10 piezas",
+      desc: "Arma tu paquete de 10 productos con descuento del 8%",
+      price: "",
+      goal: 10,
+      discountText: "8% de descuento aplicado",
+      image: "https://placehold.co/300x300",
+    },
+    {
+      id: 3,
+      title: "Paquete de 15 piezas",
+      desc: "Arma tu paquete de 15 productos con descuento del 10%",
+      price: "",
+      goal: 15,
+      discountText: "10% de descuento aplicado",
+      image: "https://placehold.co/300x300",
+    },
+    {
+      id: 4,
+      title: "Paquete de 20 piezas",
+      desc: "Arma tu paquete de 20 o más productos con descuento del 12%",
+      price: "",
+      goal: 20,
+      discountText: "12% de descuento aplicado",
+      image: "https://placehold.co/300x300",
     },
   ];
 
-  const [selectedBoxPack6, setSelectedBoxPack6] = useState<string>("");
-  const [selectedBoxPack3, setSelectedBoxPack3] = useState<string>("");
-  const [selectedSizePack6, setSelectedSizePack6] = useState<string>("");
-  const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
   const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
-  const { addToCart, updatedCart, setShouldDisplayCart } = useCart()
-  const [addedToCart, setAddedToCart] = useState(false)
-  useEffect(() => {
-    if (updatedCart) {
-      setAddedToCart(true)
-    }
-  }, [updatedCart])
+  const { setGoalCustomPackage } = useCart()
 
-  const validateMysteryBox = (id: number) => {
-    if(id === 1){
-      if(selectedBoxPack6 === "" || selectedSizePack6 === ""){
-        alert("Por favor, selecciona una opción para el paquete y el tamaño");
-        return;
-      }
-    }
-    if(id === 2){
-      if(selectedBoxPack3 === "" || selectedSizePack3 === ""){
-        alert("Por favor, selecciona una opción para el paquete y el tamaño");
-        return;
-      }
-    }
-    let selectedItem 
-    if(id === 1){
-      selectedItem = mappBox.find((item) => item.tipo === selectedBoxPack6 && item.cierre === selectedSizePack6);
-    }
-    if(id === 2){
-      selectedItem = mappBox.find((item) => item.tipo === selectedBoxPack3 && item.cierre === selectedSizePack3);
-    }
-
-    console.log(id, selectedItem)
-
-    const product: ProductItem = {
-      sku: selectedItem?.id ?? "",
-      id: parseInt(selectedItem?.id ?? "0"),
-      parent: 0,
-      parent_name: "",
-      name: selectedItem?.name ?? "",
-      public_price: id === 1 ? "836" : "1550",
-      cedis_universo: "",
-      cedis_galaxia: "",
-      cedis_constelacion: "",
-      cedis_sol: "",
-      mayorista_luna: "",
-      mayorista_estrella: "",
-      minorista_nebulosa: "",
-      promotora_cometa: "",
-      sat: "",
-      categories: "",
-      images: id === 1 ? "/imgs/3box.jpg" : "/imgs/6box.jpg",
-      stock: 100,
-      description: id === 1 ? "Paquete misterioso con 3 pañales premium estampados. ¡Triple descuento aniversario!" : "Paquete misterioso con 6 pañales premium estampados. ¡Triple descuento aniversario!",
-    }
-  
-      addToCart({ product: product, quantity: 1 })
-      setAddedToCart(true)
-      setShouldDisplayCart(true)
-
-
-    setMysteryItem({
-      box: id === 1 ? selectedBoxPack6 : selectedBoxPack3,
-      size: id === 1 ? selectedSizePack6 : selectedSizePack3,
-    });
-  }
 
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
-      <img src="/imgs/popup.jpg" alt="16" style={{ width: "100%", height: "auto" }} />
+      <img src="https://placehold.co/1300x400" alt="16" style={{ width: "100%", height: "auto" }} />
       {/* Hero Section */}
       <Box
         sx={{
@@ -219,7 +88,7 @@ const DulcesDieciseis = () => {
             variant="h3"
             sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.5px" }}
           >
-           Dulces Dieciséis Ecopipo <br /> 🎉🎉🎉
+           ¡APROVECHA EL PIPOFIN! <br /> 🎉🎉🎉
           </Typography>
           <Typography
             variant="h6"
@@ -231,7 +100,7 @@ const DulcesDieciseis = () => {
               mb: 4,
             }}
           >
-            16 días de promociones y sorpresas para celebrar nuestro aniversario. ¡Aprovecha 16% en todos nuestros productos y descuentos dobles en nuestras Mystery Boxes Ecopipo!
+            ¡10% de descuento en todos nuestros productos! Arma tus paquetes personalizados y obtén aún más de descuento.
           </Typography>
           
           <br />
@@ -244,7 +113,7 @@ const DulcesDieciseis = () => {
           >
             <AccessTimeIcon sx={{ color: purple }} />
             <Typography variant="h6" sx={{ fontWeight: 600, color: purple }}>
-              Promoción válida del 15 al 31 de octubre
+              Promoción válida del 20 de noviembre al 30 de noviembre
             </Typography>
           </Stack>
           <Box>
@@ -264,7 +133,7 @@ const DulcesDieciseis = () => {
             }}
             
           >
-            MYSTERY BOX ANIVERSARIO
+            QUIERO ARMAR MI PAQUETE
           </Button>
           </a>
           <Link href="/tienda" underline="none">
@@ -283,17 +152,24 @@ const DulcesDieciseis = () => {
               ":hover": { bgcolor: purple },
             }}
           >
-            OFERTAS ANIVERSARIO
+            OFERTAS PIPOFIN
           </Button>
           </Link>
           </Box>
         </Container>
       </Box>
 
-      <SixteenDescription />
-
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
-      <Button
+      {/* Mystery Box Section */}
+      <Container sx={{ py: 10 }} id="mystery-boxes">
+        <Typography
+          variant="h4"
+          textAlign="center"
+          sx={{ mb: 6, color: purple, fontWeight: 800 }}
+        >
+           ¡Escoge tu paquete personalizado con descuentos dobles!
+           <br />
+           💝 <br /><br />
+           <Button
         onClick={() => setShowMysteryBoxModal(true)}
             variant="contained"
             className="btn-responsive"
@@ -310,20 +186,8 @@ const DulcesDieciseis = () => {
               ":hover": { bgcolor: purple },
             }}
           >
-            ¿Qué Contiene la Mystery Box?
+            ¿Cómo funciona mi paquete personalizado?
           </Button>
-      </Box>
-
-      {/* Mystery Box Section */}
-      <Container sx={{ py: 10 }} id="mystery-boxes">
-        <Typography
-          variant="h4"
-          textAlign="center"
-          sx={{ mb: 6, color: purple, fontWeight: 800 }}
-        >
-           ¡Escoge ya tu Mystery Box Ecopipo! ¡Por tiempo limitado!
-           <br />
-           💝
         </Typography>
         
 
@@ -356,27 +220,6 @@ const DulcesDieciseis = () => {
                       {box.discountText}
                     </Typography>
                   </Stack>
-                  <Divider sx={{ my: 2 }} />
-                  <Typography variant="h4" sx={{ fontWeight: 800, color: purple }}>
-                    ${box.price} MXN
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "#777" }}>
-                    *Precio redondeado para tu comodidad.
-                  </Typography>
-                  <br />
-                  <Typography variant="body2" sx={{ fontWeight: 800, color: purple }}>Género</Typography>
-                  <Select value={box.id === 1 ? selectedBoxPack6 : selectedBoxPack3} onChange={(e) => box.id === 1 ? setSelectedBoxPack6(e.target.value) : setSelectedBoxPack3(e.target.value)} fullWidth>
-                    <MenuItem value="">Selecciona una opción</MenuItem>
-                    <MenuItem value="unisex">Unisex</MenuItem>
-                    <MenuItem value="nino">Niño</MenuItem>
-                    <MenuItem value="nina">Niña</MenuItem>
-                  </Select>
-                  <Typography variant="body2" sx={{ fontWeight: 800, color: purple }}>Tipo cierre</Typography>
-                  <Select value={box.id === 1 ? selectedSizePack6 : selectedSizePack3} onChange={(e) => box.id === 1 ? setSelectedSizePack6(e.target.value) : setSelectedSizePack3(e.target.value)} fullWidth>
-                    <MenuItem value="">Selecciona una opción</MenuItem>
-                    <MenuItem value="velcro">Velcro</MenuItem>
-                    <MenuItem value="broches">Broches</MenuItem>
-                  </Select>
                   <Button
                     variant="contained"
                     fullWidth
@@ -389,10 +232,11 @@ const DulcesDieciseis = () => {
                       ":hover": { bgcolor: "#7BA628" },
                     }}
                     onClick={() => {
-                      validateMysteryBox(box.id)
+                      setGoalCustomPackage(box.goal);
+                      router.push("/tienda");
                     }}
                   >
-                    Añadir al carrito
+                    Ir a armar mi paquete
                   </Button>
                 </CardContent>
               </Card>
@@ -406,10 +250,10 @@ const DulcesDieciseis = () => {
       <Box sx={{ bgcolor: purple, py: 6, textAlign: "center", color: "white" }}>
         <CelebrationIcon sx={{ color: green, fontSize: 40 }} />
         <Typography variant="h6" sx={{ fontWeight: 600, mt: 1 }}>
-          16 días de amor, sorpresas y descuentos 💚
+          Aprovecha el Pipofin y obtén descuentos dobles en tus paquetes personalizados 💚
         </Typography>
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          Ecopipo® 2025 — Celebrando contigo con dulzura y sustentabilidad.
+          Ecopipo® 2025 — Empresa 100% mexicana.
         </Typography>
       </Box>
       <MysteryBoxModal open={showMysteryBoxModal} onClose={() => setShowMysteryBoxModal(false)} />

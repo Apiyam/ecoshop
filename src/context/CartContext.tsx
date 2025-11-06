@@ -19,6 +19,8 @@ type CartContextType = {
   clearCart: () => void
   searchItem: (id: number) => CartItem | undefined
   setShouldDisplayCart: (shouldDisplay: boolean) => void
+  goalCustomPackage: number
+  setGoalCustomPackage: (goal: number) => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -26,6 +28,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const [goalCustomPackage, setGoalCustomPackage] = useState(0)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [updatedCart, setUpdatedCart] = useState(false)
   const [totalItems, setTotalItems] = useState(0)
@@ -83,7 +86,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, totalItems, updateQuantity, removeFromCart, clearCart, searchItem, updatedCart, shouldDisplayCart, setShouldDisplayCart }}
+      value={{ 
+        cartItems,
+        goalCustomPackage,
+        setGoalCustomPackage,
+        addToCart,
+        totalItems,
+        updateQuantity,
+        removeFromCart,
+        clearCart,
+        searchItem, updatedCart, shouldDisplayCart, setShouldDisplayCart }}
     >
       {children}
     </CartContext.Provider>
