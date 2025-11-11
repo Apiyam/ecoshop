@@ -108,7 +108,7 @@ export default function Header() {
           py: 1,
           position: 'sticky',
           top: 0,
-          zIndex: 1000,
+          zIndex: 10000,
         }}
       >
         <Container
@@ -184,7 +184,7 @@ export default function Header() {
           width: 280,
           height: '100dvh',
           bgcolor: 'background.surface',
-          zIndex: 2000,
+          zIndex: 20000,
           boxShadow: 'lg',
           transform: openMobileMenu ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.3s ease-in-out',
@@ -198,7 +198,7 @@ export default function Header() {
         </Box>
         <Divider />
 
-        <List sx={{ pl: 1 }}>
+        <List sx={{ pl: 1, overflowY: 'auto' }}>
           <ListItem>
             <ListItemButton component="a" href="/" onClick={() => setOpenMobileMenu(false)}>
               Inicio

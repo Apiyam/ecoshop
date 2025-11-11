@@ -29,7 +29,7 @@ export default function ProductModal({ open, onClose, product, discount }: Quick
   if (!product) return <LoadingIndicator />
   const { name, images, public_price, description, stock } = product
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} sx={{ zIndex: 100000 }}>
       <ModalDialog layout="center" size="lg" sx={{ maxWidth: '800px', width: '90%' }}>
         <ModalClose />
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>

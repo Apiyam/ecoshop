@@ -76,7 +76,7 @@ const DulcesDieciseis = () => {
 
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
-      <img src="https://placehold.co/1300x400" alt="16" style={{ width: "100%", height: "auto" }} />
+      <img src="https://placehold.co/1200x800" alt="16" style={{ width: "100%", height: "auto" }} />
       {/* Hero Section */}
       <Box
         sx={{
@@ -85,7 +85,7 @@ const DulcesDieciseis = () => {
       >
         <Container>
           <Typography
-            variant="h3"
+            variant="h4"
             sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.5px" }}
           >
            ¡APROVECHA EL PIPOFIN! <br /> 🎉🎉🎉
@@ -200,7 +200,7 @@ const DulcesDieciseis = () => {
                   borderRadius: 4,
                   overflow: "hidden",
                   boxShadow: 3,
-                  width: "90%",
+                  width: "100%",
                   transition: "all 0.3s ease",
                   ":hover": { boxShadow: 6, transform: "translateY(-4px)" },
                 }}

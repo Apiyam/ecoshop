@@ -40,6 +40,7 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter } from "next/navigation";
 import PopupModal from '../../_components/PopupModal'
 import ProgressGoal from '@/app/_components/ProgressGoal'
+import { useCart } from '@/context/CartContext'
 
 
 interface MainViewProps {
@@ -64,6 +65,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     const [searchResults, setSearchResults] = useState<ProductItem[]>([])
     const router = useRouter();
     const [showPopup, setShowPopup] = useState(true)
+    const { currentGoal, totalItems, discountGoals, currentDiscount } = useCart()
     useEffect(() => {
         getCategories().then((categories) => setCategories(categories))
     }, [])
@@ -163,8 +165,9 @@ export default function MainView({ selectedProduct }: MainViewProps) {
         if(product.name.includes("Lonchera")) {
             return 35;
         }
-        return categories.find((category) => category.name.includes(product.parent_name))?.discount || 16
-
+        //return currentDiscount;
+        /*return categories.find((category) => category.name.includes(product.parent_name))?.discount || 16*/
+        return 0;
     }
     const handleChangeEstampados = (
         event: React.SyntheticEvent | null,
@@ -179,7 +182,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
 
     return (
         <Container>
-            <ProgressGoal />
+            <ProgressGoal onHeader />
             <div style={{ height: '120px' }} />
             <CategoryGrid categories={categories} onCategoryChange={(category) => {
                 setSelectedCategory(category)

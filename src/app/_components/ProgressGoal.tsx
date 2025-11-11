@@ -18,68 +18,59 @@ import { LinearProgress } from "@mui/joy";
 import confetti from "canvas-confetti";
 import { useCart } from "@/context/CartContext";
 
-const discountGoals = [
-  { minProducts: 6, discount: 5 },
-  { minProducts: 10, discount: 8 },
-  { minProducts: 15, discount: 10 },
-  { minProducts: 20, discount: 12 },
-];
+type GoalProgressProps = {
+  onHeader?: boolean
+}
 
-const GoalProgress = () => {
+const GoalProgress = ({ onHeader = false }: GoalProgressProps) => {
   const purple = "#733080";
   const green = "#89b329";
   const gradient = "rgb(89 118 24)";
-  const { goalCustomPackage = 15, cartItems = [], setGoalCustomPackage } = useCart();
-
+  const [isTopGoal, setIsTopGoal] = useState(false);
+  const { cartItems = [], currentGoal, nextGoal, setCurrentGoal, setNextGoal, discountGoals } = useCart();
+  const { setCurrentDiscount, currentDiscount } = useCart();
   const [openModal, setOpenModal] = useState(false);
-  const [currentGoal, setCurrentGoal] = useState(discountGoals[0]);
-  const [nextGoal, setNextGoal] = useState(discountGoals[1]);
-
+ 
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const progress = Math.min((totalItems / currentGoal.minProducts) * 100, 100);
   const remaining = currentGoal.minProducts - totalItems;
 
   useEffect(() => {
     const reachedGoal = totalItems >= currentGoal.minProducts;
-    if (reachedGoal) {
-      confetti({
-        particleCount: 200,
-        spread: 90,
-        startVelocity: 35,
-        origin: { y: 0.6 },
-      });
+    if (reachedGoal && !isTopGoal) {
       setOpenModal(true);
-
-      const next = discountGoals.find(g => g.minProducts > currentGoal.minProducts);
-      if (next) setNextGoal(next);
+      setCurrentDiscount(currentGoal.discount);
+    }
+    if(totalItems >= 20) {
+      setIsTopGoal(true);
     }
   }, [totalItems]);
 
   const message =
     totalItems >= currentGoal.minProducts
-      ? `🎉 ¡Lograste la meta de ${currentGoal.minProducts} productos!`
+      ? `🎉 ¡Lograste la meta de ${currentGoal.discount}% de descuento!`
       : remaining > 0
-      ? `🔥 Te faltan solo ${remaining} producto${remaining > 1 ? "s" : ""} para alcanzar ${currentGoal.discount}% de descuento`
-      : "¡Sigue agregando productos para más recompensas!";
+      ? `🔥 Te faltan ${remaining} producto${remaining > 1 ? "s" : ""} para alcanzar ${currentGoal.discount}% de descuento ${currentDiscount}% de descuento actual` 
+      : "¡Sigue agregando productos para más recompensas! ";
 
   return (
     <Box
       sx={{
         width: "100%",
-        mb: 3,
+        mb: 0,
         mt: 1,
-        position: "fixed",
+        position: onHeader ? "fixed" : "relative",
         margin: 0,
         left: 0,
-        zIndex: 1000,
+        zIndex: 10000 ,
       }}
     >
       <Card
         sx={{
           overflow: "hidden",
-          boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
           background: gradient,
           color: "#fff",
+          borderRadius: 0,
         }}
       >
         <CardContent>
@@ -130,7 +121,7 @@ const GoalProgress = () => {
             y obtuviste un <b>{currentGoal.discount}%</b> de descuento.
           </Typography>
 
-          {nextGoal && (
+          {nextGoal && !isTopGoal && (
             <>
               <Divider sx={{ my: 2 }} />
               <Typography sx={{ fontSize: 15, color: "#000" }}>
@@ -144,8 +135,16 @@ const GoalProgress = () => {
 
           <Button
             onClick={() => {
-              setGoalCustomPackage(nextGoal?.minProducts || 6);
+              if(currentGoal.minProducts === 20) {
+                setOpenModal(false);
+                setIsTopGoal(true);
+                return;
+              }
+              console.log(nextGoal);
+              setCurrentGoal(nextGoal);
+              setNextGoal(discountGoals.find(g => g.minProducts > nextGoal.minProducts) || discountGoals[0]);
               setOpenModal(false);
+              setIsTopGoal(false);
              
             }}
             variant="contained"

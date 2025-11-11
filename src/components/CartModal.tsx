@@ -10,6 +10,7 @@ import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
 import { CategoryItem, getCategories, ProductItem } from '../lib/wooApi'
 import ConfirmationModal from './ConfirmationModal'
+import GoalProgress from '@/app/_components/ProgressGoal'
 
 export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { cartItems, removeFromCart, clearCart } = useCart()
@@ -17,7 +18,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   const [clearCartModal, setClearCartModal] = useState(false)
   const [goingToWordpress, setGoingToWordpress] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-
+  const { currentDiscount } = useCart();
   useEffect(() => {
     getCategories().then((categories) => setCategories(categories))
     if (typeof window !== 'undefined') {
@@ -26,8 +27,8 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   }, [])
 
   const getDiscountedPrice = (product: ProductItem) => {
-    let discount = 0;
-    discount = categories.find((category) => category.name.includes(product.parent_name))?.discount || 16
+    let discount = currentDiscount;
+    
     if(product.name.includes("Tanga")) {
       discount = 50;
     }
@@ -46,6 +47,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
     if(product.name.includes("Lonchera")) {
         discount = 35;
     }
+
     
 
     return parseFloat(product.public_price) * (1 - discount / 100)
@@ -62,11 +64,10 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
   return (
     <Modal open={open} onClose={onClose}>
-      <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%' }}>
+      <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%', height: '55vh' }}>
         <ModalClose />
         <Typography level="h4">Carrito de compras Ecopipo</Typography>
-
-        <Box sx={{ overflowX: 'auto', border: '1px solid', borderColor: 'neutral.outlinedBorder', maxHeight: '70vh', my: 2 }}>
+        <Box sx={{ overflowX: 'auto', border: '1px solid', borderColor: 'neutral.outlinedBorder', maxHeight: '60vh', my: 2 }}>
           <Table stickyHeader>
             <thead>
               <tr>
