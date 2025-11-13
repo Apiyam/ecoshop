@@ -50,7 +50,7 @@ const GoalProgress = ({ onHeader = false }: GoalProgressProps) => {
     totalItems >= currentGoal.minProducts
       ? `🎉 ¡Lograste la meta de ${currentGoal.discount}% de descuento!`
       : remaining > 0
-      ? `🔥 Te faltan ${remaining} producto${remaining > 1 ? "s" : ""} para alcanzar ${currentGoal.discount}% de descuento ${currentDiscount}% de descuento actual` 
+      ? `🔥 Añade ${remaining} producto${remaining > 1 ? "s" : ""} para ganar ${currentGoal.discount}% de descuento (actual: ${currentDiscount}%)` 
       : "¡Sigue agregando productos para más recompensas! ";
 
   return (

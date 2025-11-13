@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ecopipo – Dulces Dieciséis",
+  title: "Ecopipo – Pipofin 2025",
   description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -32,19 +32,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Ecopipo – Dulces Dieciséis",
+    title: "Ecopipo – Pipofin 2025",
     description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
-    images: `/imgs/popup.jpg`,
+    images: `/imgs/buenfin.jpg`,
     url: domain,
-    siteName: "Lubella",
+    siteName: "Ecopipo",
     locale: "es_MX",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ecopipo – Dulces Dieciséis",
+    title: "Ecopipo – Pipofin 2025",
     description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
-    images: `/imgs/popup.jpg`,
+    images: `/imgs/buenfin.jpg`,
   },
 };
 

@@ -39,7 +39,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 6,
       discountText: "5% de descuento aplicado",
-      image: "https://placehold.co/300x300",
+      image: "/imgs/paq6.jpg",
     },
     {
       id: 2,
@@ -48,7 +48,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 10,
       discountText: "8% de descuento aplicado",
-      image: "https://placehold.co/300x300",
+      image: "/imgs/paq10.jpg",
     },
     {
       id: 3,
@@ -57,7 +57,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 15,
       discountText: "10% de descuento aplicado",
-      image: "https://placehold.co/300x300",
+      image: "/imgs/paq15.jpg",
     },
     {
       id: 4,
@@ -66,7 +66,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 20,
       discountText: "12% de descuento aplicado",
-      image: "https://placehold.co/300x300",
+      image: "/imgs/paq20.jpg",
     },
   ];
 
@@ -76,7 +76,7 @@ const DulcesDieciseis = () => {
 
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
-      <img src="https://placehold.co/1200x800" alt="16" style={{ width: "100%", height: "auto" }} />
+      <img src="/imgs/buenfin.jpg" alt="16" style={{ width: "100%", height: "auto" }} />
       {/* Hero Section */}
       <Box
         sx={{
@@ -88,7 +88,7 @@ const DulcesDieciseis = () => {
             variant="h4"
             sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.5px" }}
           >
-           ¡APROVECHA EL PIPOFIN! <br /> 🎉🎉🎉
+           ¡Llegó el PipoFin 2025! <br /> 🎉🎉🎉
           </Typography>
           <Typography
             variant="h6"
@@ -100,7 +100,10 @@ const DulcesDieciseis = () => {
               mb: 4,
             }}
           >
-            ¡10% de descuento en todos nuestros productos! Arma tus paquetes personalizados y obtén aún más de descuento.
+            10% de descuento en toda la tienda usando el cupón:
+<br />
+<strong>🟩 PIPOFIN</strong> <br />
+Además, arma tus paquetes desde 6 piezas y obtén descuentos progresivos, llegando hasta 22% en paquetes de 20 piezas.
           </Typography>
           
           <br />
@@ -113,7 +116,7 @@ const DulcesDieciseis = () => {
           >
             <AccessTimeIcon sx={{ color: purple }} />
             <Typography variant="h6" sx={{ fontWeight: 600, color: purple }}>
-              Promoción válida del 20 de noviembre al 30 de noviembre
+            📅 Válido del 13 al 18 de noviembre de 2025.
             </Typography>
           </Stack>
           <Box>

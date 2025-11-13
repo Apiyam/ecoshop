@@ -70,15 +70,17 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
           <CelebrationIcon sx={{ fontSize: 48, color: green, mb: 1 }} />
           <Typography
             id="dulces-dieciseis"
-            variant="h4"
+            variant="h5"
             fontWeight="bold"
             sx={{ mb: 1 }}
           >
-             ¡Preparada para tu paquete personalizado! 💚
+             🎉 ¡Arma tu paquete personalizado!
           </Typography>
 
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            ¡Aprovecha el Pipofin y obtén descuentos dobles en tus paquetes personalizados!
+          <Typography variant="body1" sx={{ mb: 2 }}>
+          Obtén 10% de descuento en toda la tienda usando el código 🟩 PIPOFIN.
+<br />
+Además, disfruta descuentos adicionales en paquetes de 6, 10, 15 y 20 piezas. ✨ Entre más productos elijas, ¡más ahorras! 😍
           </Typography>
 
           <Divider

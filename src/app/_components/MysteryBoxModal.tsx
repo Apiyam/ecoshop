@@ -25,7 +25,7 @@ const features = [
   "Obtienes un descuento del 8% cuando añades al menos 10 productos iguales o diferentes.",
   "Obtienes un descuento del 10% cuando añades al menos 15 productos iguales o diferentes.",
   "Obtienes un descuento del 12% cuando añades a partir de 20 productos iguales o diferentes.",
-  "¡10% DE DESCUENTO EN TU COMPRA TOTAL, INCLUIDOS LOS PAQUETES!",
+  "Además, recibe 10% de descuento adicional en tu compra total usando el cupón PIPOFIN.",
 ];
 
 const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
