@@ -39,7 +39,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 6,
       discountText: "5% de descuento aplicado",
-      image: "/imgs/paq6.jpg",
+      image: "/imgs/paq6.JPG",
     },
     {
       id: 2,
@@ -48,7 +48,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 10,
       discountText: "8% de descuento aplicado",
-      image: "/imgs/paq10.jpg",
+      image: "/imgs/paq10.JPG",
     },
     {
       id: 3,
@@ -57,7 +57,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 15,
       discountText: "10% de descuento aplicado",
-      image: "/imgs/paq15.jpg",
+      image: "/imgs/paq15.JPG",
     },
     {
       id: 4,
@@ -66,7 +66,7 @@ const DulcesDieciseis = () => {
       price: "",
       goal: 20,
       discountText: "12% de descuento aplicado",
-      image: "/imgs/paq20.jpg",
+      image: "/imgs/paq20.JPG",
     },
   ];
 
