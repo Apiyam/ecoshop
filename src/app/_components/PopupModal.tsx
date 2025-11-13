@@ -91,13 +91,7 @@ Además, disfruta descuentos adicionales en paquetes de 6, 10, 15 y 20 piezas. �
           />
 
           <Stack spacing={2} alignItems="center">
-            <Typography variant="body1">
-              Aprovecha{" "}
-              <strong style={{ color: green, fontSize: "1.2em" }}>
-                10% de descuento
-              </strong>{" "}
-              en toda la tienda ✨
-            </Typography>
+            
 
             <Typography variant="body1">
               Entre más productos elijas,{" "}
@@ -131,5 +125,6 @@ Además, disfruta descuentos adicionales en paquetes de 6, 10, 15 y 20 piezas. �
     </Modal>
   );
 };
+
 
 export default PopupModal;
