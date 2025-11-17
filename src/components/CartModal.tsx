@@ -64,12 +64,15 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
   return (
     <Modal open={open} onClose={onClose}>
-      <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%', height: '55vh' }}>
+      <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%', height: '65vh', marginTop: '20px' }}>
         <ModalClose />
         <Typography level="h4">Carrito de compras Ecopipo</Typography>
-        <Box sx={{ overflowX: 'auto', border: '1px solid', borderColor: 'neutral.outlinedBorder', maxHeight: '60vh', my: 2 }}>
+        <Box sx={{ overflowX: 'auto', border: '1px solid', borderColor: 'neutral.outlinedBorder', 
+          maxHeight: '100vh', my: 2, minHeight: '300px' }}>
           <Table stickyHeader>
-            <thead>
+            {
+              !isMobile && (
+                <thead>
               <tr>
                 {!isMobile && <th></th>}
                 <th style={{ width: '150px' }}>Producto</th>
@@ -77,12 +80,15 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                   <>
                     <th>Cantidad</th>
                     <th>Precio</th>
+                    <th>Total</th>
                   </>
                 )}
-                <th>Total</th>
+                
                 <th></th>
               </tr>
             </thead>
+              )
+            }
             <tbody>
               {cartItems.length === 0 ? (
                 <tr>
@@ -99,13 +105,17 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                         <Box component="img" src={product.images} alt={product.name} sx={{ width: 48, height: 48, borderRadius: 'md' }} />
                       </td>
                     )}
-                    <td>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        {isMobile && <Box component="img" src={product.images} alt={product.name} sx={{ width: 48, height: 48, borderRadius: 'md' }} />}
-                        <Typography fontWeight="md">{product.name}</Typography>
-                      </Box>
-                      {isMobile && <QuantitySelector product={product} simple />}
-                    </td>
+                    {
+                      isMobile && (
+                        <td colSpan={3}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box component="img" src={product.images} alt={product.name} sx={{ width: 48, height: 48, borderRadius: 'md' }} />
+                            <Typography fontWeight="md">{product.name}</Typography>
+                          </Box>
+                          <QuantitySelector product={product} simple />
+                        </td>
+                      )
+                    }
                     {!isMobile && (
                       <>
                         <td><QuantitySelector product={product} simple /></td>
