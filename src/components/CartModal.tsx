@@ -99,31 +99,45 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
               ) : cartItems.map(({ product, quantity }) => {
                 const price = getDiscountedPrice(product)
                 return (
-                  <tr key={product.id}>
-                    {!isMobile && (
-                      <td>
+                  isMobile ? (
+                    <tr key={product.id} style={{ width: '100%', marginBottom: '0' }}>
+                      <table style={{ width: '100%' }}>
+                        <tr>
+                          <td colSpan={4}>
+                            <img 
+                            src={product.images}
+                             alt={product.name} 
+                             style={{ width: 48, height: 48, borderRadius: 'md', marginRight: '10px', float: 'left' }} />
+                            
+                            <Typography fontWeight="md" style={{ marginTop: '10px' }}>{product.name}</Typography>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <QuantitySelector product={product} simple />
+                          </td>
+                          <td>
+                            <Typography>{(price * quantity).toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}</Typography>
+                          </td>
+                          <td>
+                            <IconButton size="sm" color="danger" onClick={() => removeFromCart(product.id)}>
+                              <DeleteForever />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      </table>
+                      
+                      
+                    </tr>
+                  ) : (
+                    <tr key={product.id}>
+                    <td>
                         <Box component="img" src={product.images} alt={product.name} sx={{ width: 48, height: 48, borderRadius: 'md' }} />
                       </td>
-                    )}
-                    {
-                      isMobile && (
-                        <td colSpan={3}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Box component="img" src={product.images} alt={product.name} sx={{ width: 48, height: 48, borderRadius: 'md' }} />
-                            <Typography fontWeight="md">{product.name}</Typography>
-                          </Box>
-                          <QuantitySelector product={product} simple />
-                        </td>
-                      )
-                    }
-                    {!isMobile && (
-                      <>
                         <td><QuantitySelector product={product} simple /></td>
                         <td>
                         <Typography>{price.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}</Typography>
                       </td>
-                      </>
-                    )}
                     
                     <td>
                       <Typography>{(price * quantity).toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}</Typography>
@@ -134,6 +148,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                       </IconButton>
                     </td>
                   </tr>
+              )
                 )
               })}
             </tbody>
