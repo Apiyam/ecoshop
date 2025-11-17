@@ -66,9 +66,9 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
     <Modal open={open} onClose={onClose}>
       <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%', height: '65vh', marginTop: '20px' }}>
         <ModalClose />
-        <Typography level="h4">Carrito de compras Ecopipo</Typography>
+        <Typography level="h4" m={0}>Carrito de compras Ecopipo</Typography>
         <Box sx={{ overflowX: 'auto', border: '1px solid', borderColor: 'neutral.outlinedBorder', 
-          maxHeight: '100vh', my: 2, minHeight: '300px' }}>
+          maxHeight: '100vh',  minHeight: '230px' }}>
           <Table stickyHeader>
             {
               !isMobile && (
@@ -101,9 +101,9 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                 return (
                   isMobile ? (
                     <tr key={product.id} style={{ width: '100%', marginBottom: '0' }}>
-                      <table style={{ width: '100%' }}>
+                      <table style={{ width: '100%', borderBottom: '1px solid #e0e0e0' }}>
                         <tr>
-                          <td colSpan={4}>
+                          <td colSpan={4} style={{ borderBottom: 'none' }}>
                             <img 
                             src={product.images}
                              alt={product.name} 
@@ -112,7 +112,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                             <Typography fontWeight="md" style={{ marginTop: '10px' }}>{product.name}</Typography>
                           </td>
                         </tr>
-                        <tr>
+                        <tr style={{ borderTop: 'none' }}>
                           <td>
                             <QuantitySelector product={product} simple />
                           </td>

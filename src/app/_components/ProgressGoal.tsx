@@ -50,7 +50,7 @@ const GoalProgress = ({ onHeader = false }: GoalProgressProps) => {
     totalItems >= currentGoal.minProducts
       ? `🎉 ¡Lograste la meta de ${currentGoal.discount}% de descuento!`
       : remaining > 0
-      ? `🔥 Añade ${remaining} producto${remaining > 1 ? "s" : ""} para ganar ${currentGoal.discount}% de descuento (actual: ${currentDiscount}%)` 
+      ? `🔥 ${remaining} producto${remaining > 1 ? "s" : ""} más para un ${currentGoal.discount}% de descuento (actual: ${currentDiscount}%)` 
       : "¡Sigue agregando productos para más recompensas! ";
 
   return (
@@ -75,13 +75,12 @@ const GoalProgress = ({ onHeader = false }: GoalProgressProps) => {
       >
         <CardContent>
           <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row"  alignItems="center">
              
-              <Typography fontWeight="bold" sx={{ fontSize: "1.1rem" }}>
+              <Typography  sx={{ fontSize: "0.8rem", padding: '0' }}>
                {message}
               </Typography>
             </Stack>
-            <Typography fontWeight="bold">{progress.toFixed(0)}%</Typography>
           </Stack>
 
           <LinearProgress

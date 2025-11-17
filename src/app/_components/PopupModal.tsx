@@ -38,7 +38,7 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
     >
       <Card
         sx={{
-          width: { xs: "90%", sm: 500 },
+          width: { xs: "99%", sm: 500 },
           borderRadius: 4,
           boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
           position: "relative",
@@ -49,6 +49,7 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
           animation: "fadeIn 0.6s ease-out",
           maxHeight: "80vh",
           overflowY: "auto",
+          padding: '0',
         }}
       >
         {/* Botón de cierre */}
@@ -66,7 +67,9 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
           <CloseIcon />
         </Box>
 
-        <CardContent sx={{ p: 5 }}>
+        <CardContent sx={{ p: 1 }}>
+          <br />
+          <br />
           <CelebrationIcon sx={{ fontSize: 48, color: green, mb: 1 }} />
           <Typography
             id="dulces-dieciseis"
