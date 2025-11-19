@@ -76,8 +76,8 @@ const DulcesDieciseis = () => {
 
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333" }}>
-      <img src="/imgs/buenfin.jpg" alt="16" style={{ width: "100%", height: "auto" }} />
-      {/* Hero Section */}
+      {/* Hero Section  <img src="/imgs/buenfin.jpg" alt="16" style={{ width: "100%", height: "auto" }} />
+       */}
       <Box
         sx={{
           bgcolor: "#EFE9F1", py: 5, textAlign: "center"
@@ -88,7 +88,7 @@ const DulcesDieciseis = () => {
             variant="h4"
             sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.5px" }}
           >
-           ¡Llegó el PipoFin 2025! <br /> 🎉🎉🎉
+           ¡Arma tus paquetes Ecopipo! <br /> 🎉🎉🎉
           </Typography>
           <Typography
             variant="h6"
@@ -100,10 +100,7 @@ const DulcesDieciseis = () => {
               mb: 4,
             }}
           >
-            10% de descuento en toda la tienda usando el cupón:
-<br />
-<strong>🟩 PIPOFIN</strong> <br />
-Además, arma tus paquetes desde 6 piezas y obtén descuentos progresivos, llegando hasta 22% en paquetes de 20 piezas.
+            Aarma tus paquetes desde 6 piezas y obtén descuentos progresivos, llegando hasta 22% en paquetes de 20 piezas.
           </Typography>
           
           <br />
@@ -116,7 +113,7 @@ Además, arma tus paquetes desde 6 piezas y obtén descuentos progresivos, llega
           >
             <AccessTimeIcon sx={{ color: purple }} />
             <Typography variant="h6" sx={{ fontWeight: 600, color: purple }}>
-            📅 Válido del 13 al 18 de noviembre de 2025.
+            📅 Acumula tus descuentos de forma progresiva
             </Typography>
           </Stack>
           <Box>
@@ -155,7 +152,7 @@ Además, arma tus paquetes desde 6 piezas y obtén descuentos progresivos, llega
               ":hover": { bgcolor: purple },
             }}
           >
-            OFERTAS PIPOFIN
+            TIENDA ECOPIPO
           </Button>
           </Link>
           </Box>
@@ -169,7 +166,7 @@ Además, arma tus paquetes desde 6 piezas y obtén descuentos progresivos, llega
           textAlign="center"
           sx={{ mb: 6, color: purple, fontWeight: 800 }}
         >
-           ¡Escoge tu paquete personalizado con descuentos dobles!
+           ¡Escoge tu paquete personalizado con descuentos!
            <br />
            💝 <br /><br />
            <Button
@@ -253,7 +250,7 @@ Además, arma tus paquetes desde 6 piezas y obtén descuentos progresivos, llega
       <Box sx={{ bgcolor: purple, py: 6, textAlign: "center", color: "white" }}>
         <CelebrationIcon sx={{ color: green, fontSize: 40 }} />
         <Typography variant="h6" sx={{ fontWeight: 600, mt: 1 }}>
-          Aprovecha el Pipofin y obtén descuentos dobles en tus paquetes personalizados 💚
+          Obtén descuentos en tus paquetes personalizados, ecológicos y sustentables 💚
         </Typography>
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
           Ecopipo® 2025 — Empresa 100% mexicana.
