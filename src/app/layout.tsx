@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ecopipo – Pipofin 2025",
+  title: "Ecopipo – Paquetes Ecopipo",
   description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Ecopipo – Pipofin 2025",
+    title: "Ecopipo – Paquetes Ecopipo",
     description: "Compra en nuestra tienda online y encuentra los mejores pañales Ecopipo en diferentes colores y estampados. ¡Dale a tu bebé lo mejor mientras cuidas el planeta! 🌍💚 🚛 Envíos a todo el país | 📦 Ofertas y descuentos exclusivos | 🛒 Compra fácil y segura",
     images: `/imgs/buenfin.jpg`,
     url: domain,
