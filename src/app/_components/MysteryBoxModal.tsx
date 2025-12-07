@@ -10,7 +10,6 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
-import CelebrationIcon from "@mui/icons-material/Celebration";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
@@ -20,24 +19,23 @@ type MysteryBoxModalProps = {
 }
 
 const features = [
-  "Tu paquete no necesita tener el mismo tamaño, estampado, color, etc",
-  "Obtienes un descuento del 5% cuando añades al menos 6 productos iguales o diferentes.",
-  "Obtienes un descuento del 8% cuando añades al menos 10 productos iguales o diferentes.",
-  "Obtienes un descuento del 10% cuando añades al menos 15 productos iguales o diferentes.",
-  "Obtienes un descuento del 12% cuando añades a partir de 20 productos iguales o diferentes.",
-  "Además, recibe 10% de descuento adicional en tu compra total usando el cupón PIPOFIN.",
+  "Cada Mystery Box contiene pañales premium estampados de edición limitada seleccionados al azar.",
+  "Los diseños son una sorpresa total — ¡nunca sabrás cuáles te tocarán hasta que abras tu caja!",
+  "Puedes elegir el género (Niño, Niña o Unisex) y el tipo de cierre (Velcro o Broches).",
+  "Perfecto para regalar o para comenzar tu colección Ecopipo con diseños únicos.",
 ];
 
 const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
-  const purple = "#733080";
-  const green = "#89b329";
+  const red = "#C8102E";
+  const green = "#228B22";
+  const gold = "#D4AF37";
 
   return (
-    <Modal
+      <Modal
       open={open}
       onClose={onClose}
-      aria-labelledby="dulces-dieciseis"
-      aria-describedby="promo-ecopipo"
+      aria-labelledby="mystery-box-navideno"
+      aria-describedby="promo-navideno-ecopipo"
       sx={{
         display: "flex",
         alignItems: "center",
@@ -49,11 +47,11 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
         sx={{
           width: { xs: "90%", sm: 700 },
           borderRadius: 4,
-          boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
           position: "relative",
           overflow: "hidden",
-          background: `#eee`,
-          color: "white",
+          background: `linear-gradient(135deg, #fff 0%, #FFF8F0 100%)`,
+          border: `3px solid ${gold}`,
           textAlign: "left",
           animation: "fadeIn 0.6s ease-out",
         }}
@@ -66,8 +64,9 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
             top: 12,
             right: 12,
             cursor: "pointer",
-            color: "#fff9",
-            "&:hover": { color: "#fff" },
+            color: "#666",
+            zIndex: 10,
+            "&:hover": { color: red },
           }}
         >
           <CloseIcon />
@@ -80,38 +79,72 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
           <Typography
             variant="h5"
             sx={{
-              color: purple,
-              fontWeight: 700,
+              color: red,
+              fontWeight: 800,
               mb: 2,
               display: "flex",
               gap: 1,
+              textAlign: "center",
+              justifyContent: "center",
             }}
           >
-            ✨ ¿Cómo armo mi paquete personalizado?
+            🎄 ¿Qué Contiene la Mystery Box Navideña? 🎁
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              color: "#444",
+              mb: 3,
+              textAlign: "center",
+              lineHeight: 1.7,
+              fontSize: "1.05rem",
+            }}
+          >
+            Cada caja es una sorpresa mágica llena de productos de edición limitada. ¡Descubre qué diseños únicos te tocarán!
           </Typography>
 
           <Stack spacing={1.5} sx={{ mb: 3 }} alignItems="left">
             {features.map((f, i) => (
-              <Box key={i} sx={{ display: "flex", alignItems: "left", gap: 1.5 }}>
-                <CheckCircleIcon sx={{ color: green }} />
-                <Typography sx={{ color: "#555", lineHeight: 1.5 }}>{f}</Typography>
+              <Box key={i} sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
+                <CheckCircleIcon sx={{ color: green, mt: 0.5, flexShrink: 0 }} />
+                <Typography sx={{ color: "#555", lineHeight: 1.7 }}>{f}</Typography>
               </Box>
             ))}
           </Stack>
 
-          <Divider sx={{ my: 3 }} />
+          <Divider sx={{ my: 3, borderColor: gold, borderWidth: 2 }} />
 
-          <Typography
+          <Box
             sx={{
-              color: green,
-              fontStyle: "italic",
-              fontWeight: 500,
-              textAlign: "center",
-              fontSize: "1.1rem",
+              bgcolor: "#FFF8F0",
+              borderRadius: 2,
+              p: 2,
+              border: `2px solid ${gold}`,
             }}
           >
-            💚 Ideal para quienes quieren ampliar su colección Ecopipo con diseños únicos 😍
-          </Typography>
+            <Typography
+              sx={{
+                color: red,
+                fontStyle: "italic",
+                fontWeight: 600,
+                textAlign: "center",
+                fontSize: "1.1rem",
+              }}
+            >
+              🎄 ¡La Magia de la Sorpresa Ecopipo! ✨
+            </Typography>
+            <Typography
+              sx={{
+                color: "#666",
+                textAlign: "center",
+                mt: 1,
+                fontSize: "0.95rem",
+              }}
+            >
+              Ideal para regalar o para comenzar tu colección con diseños únicos de edición limitada
+            </Typography>
+          </Box>
 
           </Stack>
 
@@ -120,21 +153,24 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
             variant="contained"
             sx={{
               mt: 4,
-              backgroundColor: purple,
+              backgroundColor: red,
               color: "white",
-              fontWeight: "bold",
+              fontWeight: 700,
               px: 4,
-              py: 1.2,
+              py: 1.5,
               borderRadius: 3,
+              fontSize: "1.1rem",
+              boxShadow: "0 4px 12px rgba(200,16,46,0.3)",
               "&:hover": {
-                backgroundColor: "#a5cc40",
-                transform: "scale(1.03)",
+                backgroundColor: "#A00D25",
+                transform: "translateY(-2px)",
+                boxShadow: "0 6px 16px rgba(200,16,46,0.4)",
               },
-              transition: "all 0.2s ease",
+              transition: "all 0.3s ease",
             }}
             onClick={onClose}
           >
-            ¡Ir a armar mi paquete!
+            🎁 Ver Mystery Boxes
           </Button>
           </Box>
         </CardContent>

@@ -8,19 +8,16 @@ import { useEffect, useState } from 'react'
 import { ArrowBack, DeleteForever } from '@mui/icons-material'
 import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
-import { CategoryItem, getCategories, ProductItem } from '../lib/wooApi'
+import { ProductItem } from '../lib/wooApi'
 import ConfirmationModal from './ConfirmationModal'
-import GoalProgress from '@/app/_components/ProgressGoal'
 
 export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { cartItems, removeFromCart, clearCart } = useCart()
-  const [categories, setCategories] = useState<CategoryItem[]>([])
   const [clearCartModal, setClearCartModal] = useState(false)
   const [goingToWordpress, setGoingToWordpress] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const { currentDiscount } = useCart();
   useEffect(() => {
-    getCategories().then((categories) => setCategories(categories))
     if (typeof window !== 'undefined') {
       setIsMobile(window.innerWidth < 600)
     }
@@ -133,6 +130,9 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                     <tr key={product.id}>
                     <td>
                         <Box component="img" src={product.images} alt={product.name} sx={{ width: 48, height: 48, borderRadius: 'md' }} />
+                      </td>
+                      <td>
+                        <Typography>{product.name}</Typography>
                       </td>
                         <td><QuantitySelector product={product} simple /></td>
                         <td>
