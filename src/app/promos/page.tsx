@@ -276,7 +276,11 @@ const MysteryBoxNavideno = () => {
               textShadow: "2px 2px 4px rgba(0,0,0,0.3)"
             }}
           >
-           🎄 La Magia de la Sorpresa Ecopipo 🎄
+           🎄
+           <br />
+            La Magia de la Sorpresa Ecopipo
+            <br />
+            🎁
           </Typography>
           <Typography
             variant="h5"

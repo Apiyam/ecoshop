@@ -88,7 +88,9 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
               justifyContent: "center",
             }}
           >
-            🎄 ¿Qué Contiene la Mystery Box Navideña? 🎁
+             ¿Qué Contiene la Mystery Box Navideña?
+             <br />
+             🎄
           </Typography>
 
           <Typography
@@ -132,7 +134,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
                 fontSize: "1.1rem",
               }}
             >
-              🎄 ¡La Magia de la Sorpresa Ecopipo! ✨
+            ¡La Magia de la Sorpresa Ecopipo! <br /> ✨
             </Typography>
             <Typography
               sx={{
