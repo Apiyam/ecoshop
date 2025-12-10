@@ -30,14 +30,14 @@ const mappBox = [
   {
     "cierre": "velcro",
     "box": "3",
-    "tipo": "niña",
+    "tipo": "nina",
     "name": "Super Box Navideña 10 pack Velcro Niña",
     "id": "28142"
   },
   {
     "cierre": "velcro",
     "box": "3",
-    "tipo": "niño",
+    "tipo": "nino",
     "name": "Super Box Navideña 10 pack Velcro Niño",
     "id": "28140"
   },
@@ -51,14 +51,14 @@ const mappBox = [
   {
     "cierre": "broches",
     "box": "3",
-    "tipo": "niña",
+    "tipo": "nina",
     "name": "Super Box Navideña 10 pack Broches Niña",
     "id": "28136"
   },
   {
     "cierre": "broches",
     "box": "3",
-    "tipo": "niño",
+    "tipo": "nino",
     "name": "Super Box Navideña 10 pack Broches Niño",
     "id": "28134"
   },
@@ -72,14 +72,14 @@ const mappBox = [
   {
     "cierre": "broches",
     "box": "2",
-    "tipo": "niña",
+    "tipo": "nina",
     "name": "Super Box Navideña 6 pack Broches Niña",
     "id": "28130"
   },
   {
     "cierre": "broches",
     "box": "2",
-    "tipo": "niño",
+    "tipo": "nino",
     "name": "Super Box Navideña 6 pack Broches Niño",
     "id": "28128"
   },
@@ -93,14 +93,14 @@ const mappBox = [
   {
     "cierre": "broches",
     "box": "1",
-    "tipo": "niña",
+    "tipo": "nina",
     "name": "Super Box Navideña 3 pack Broches Niña",
     "id": "28124"
   },
   {
     "cierre": "broches",
     "box": "1",
-    "tipo": "niño",
+    "tipo": "nino",
     "name": "Super Box Navideña 3 pack Broches Niño",
     "id": "28122"
   },
@@ -114,14 +114,14 @@ const mappBox = [
   {
     "cierre": "velcro",
     "box": "2",
-    "tipo": "niña",
+    "tipo": "nina",
     "name": "Super Box Navideña 6 pack Velcro Niña",
     "id": "28118"
   },
   {
     "cierre": "velcro",
     "box": "2",
-    "tipo": "niño",
+    "tipo": "nino",
     "name": "Super Box Navideña 6 pack Velcro Niño",
     "id": "28116"
   }
@@ -179,34 +179,34 @@ const MysteryBoxNavideno = () => {
   const { addToCart, setShouldDisplayCart } = useCart()
 
   const validateMysteryBox = (id: number) => {
-    if(id === 1){
-      if(selectedBoxPack6 === "" || selectedSizePack6 === ""){
-        alert("Por favor, selecciona una opción para el paquete y el tamaño");
-        return;
-      }
-    }
-    if(id === 2){
+    if(id == 1){
       if(selectedBoxPack3 === "" || selectedSizePack3 === ""){
         alert("Por favor, selecciona una opción para el paquete y el tamaño");
         return;
       }
     }
-    if(id === 3){
+    if(id == 2){
+      if(selectedBoxPack6 === "" || selectedSizePack6 === ""){
+        alert("Por favor, selecciona una opción para el paquete y el tamaño");
+        return;
+      }
+    }
+    if(id == 3){
       if(selectedBoxPack10 === "" || selectedSizePack10 === ""){
         alert("Por favor, selecciona una opción para el paquete y el tamaño");
         return;
       }
     }
     let selectedItem 
-    console.log(selectedBoxPack6, selectedSizePack6, selectedBoxPack3, selectedSizePack3, selectedBoxPack10, selectedSizePack10)
-    if(id === 1){
-      selectedItem = mappBox.find((item) => item.box === "1" && item.tipo === selectedBoxPack6 && item.cierre === selectedSizePack6);
+    console.log("id", id, "package 3", selectedBoxPack3, selectedSizePack3, "package 6", selectedBoxPack6, selectedSizePack6, "package 10", selectedBoxPack10, selectedSizePack10)
+    if(id == 1){
+      selectedItem = mappBox.find((item) => item.box == "1" && item.tipo == selectedBoxPack3 && item.cierre == selectedSizePack3);
     }
-    if(id === 2){
-      selectedItem = mappBox.find((item) => item.box === "2" && item.tipo === selectedBoxPack3 && item.cierre === selectedSizePack3);
+    if(id == 2){
+      selectedItem = mappBox.find((item) => item.box == "2" && item.tipo == selectedBoxPack6 && item.cierre == selectedSizePack6);
     }
-    if(id === 3){
-      selectedItem = mappBox.find((item) => item.box === "3" && item.tipo === selectedBoxPack10 && item.cierre === selectedSizePack10);
+    if(id == 3){
+      selectedItem = mappBox.find((item) => item.box == "3" && item.tipo == selectedBoxPack10 && item.cierre == selectedSizePack10);
     }
     console.log(id, selectedItem)
 
@@ -458,8 +458,8 @@ const MysteryBoxNavideno = () => {
                   <Divider sx={{ my: 2 }} />
                   <Typography variant="body2" sx={{ fontWeight: 700, color: red, mb: 1 }}>Género</Typography>
                   <Select 
-                    value={box.id === 1 ? selectedBoxPack6 : box.id === 2 ? selectedBoxPack3 : selectedBoxPack10} 
-                    onChange={(e) => box.id === 1 ? setSelectedBoxPack6(e.target.value) : box.id === 2 ? setSelectedBoxPack3(e.target.value) : setSelectedBoxPack10(e.target.value)} 
+                    value={box.id == 1 ? selectedBoxPack3 : (box.id == 2 ? selectedBoxPack6 : selectedBoxPack10)} 
+                    onChange={(e) => box.id == 1 ? setSelectedBoxPack3(e.target.value) : (box.id == 2 ? setSelectedBoxPack6(e.target.value) : setSelectedBoxPack10(e.target.value))} 
                     fullWidth
                     sx={{ mb: 2 }}
                   >
@@ -470,8 +470,8 @@ const MysteryBoxNavideno = () => {
                   </Select>
                   <Typography variant="body2" sx={{ fontWeight: 700, color: red, mb: 1 }}>Tipo de cierre</Typography>
                   <Select 
-                    value={box.id === 1 ? selectedSizePack6 : box.id === 2 ? selectedSizePack3 : selectedSizePack10} 
-                    onChange={(e) => box.id === 1 ? setSelectedSizePack6(e.target.value) : box.id === 2 ? setSelectedSizePack3(e.target.value) : setSelectedSizePack10(e.target.value)} 
+                    value={box.id == 1 ? selectedSizePack3 : (box.id == 2 ? selectedSizePack6 : selectedSizePack10)} 
+                    onChange={(e) => box.id == 1 ? setSelectedSizePack3(e.target.value) : (box.id == 2 ? setSelectedSizePack6(e.target.value) : setSelectedSizePack10(e.target.value))} 
                     fullWidth
                     sx={{ mb: 2 }}
                   >
