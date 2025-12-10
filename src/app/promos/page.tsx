@@ -146,7 +146,7 @@ const MysteryBoxNavideno = () => {
       originalPrice: "1230",
       discountText: "20% de descuento",
       savings: "246",
-      image: "/imgs/3box.jpg",
+      image: "/imgs/ch3.JPG",
     },
     {
       id: 2,
@@ -156,7 +156,7 @@ const MysteryBoxNavideno = () => {
       originalPrice: "2460",
       discountText: "30% de descuento",
       savings: "738",
-      image: "/imgs/6box.jpg",
+      image: "/imgs/ch6.JPG",
     },
     {
       id: 3,
@@ -166,7 +166,7 @@ const MysteryBoxNavideno = () => {
       originalPrice: "4289",
       discountText: "40% de descuento",
       savings: "1716",
-      image: "/imgs/6box.jpg",
+      image: "/imgs/ch10.JPG",
     },
   ];
 
@@ -243,7 +243,7 @@ const MysteryBoxNavideno = () => {
   return (
     <Box sx={{ bgcolor: "#FFF8F0", minHeight: "100vh", color: "#333" }}>
       {/* Hero Section */}
-      <img src="/imgs/popup.jpg" alt="Hero" style={{ width: "100%", height: "auto" }} />
+      <img src="/imgs/ch.JPG" alt="Hero" style={{ width: "100%", height: "auto" }} />
       <Box
         sx={{
           background: `linear-gradient(135deg, ${green} 0%, ${green} 100%)`,
