@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import CelebrationIcon from "@mui/icons-material/Celebration";
 import MysteryBoxModal from "../_components/MysteryBoxModal";
 import { ProductItem } from "@/lib/wooApi";
 import { useCart } from "@/context/CartContext";
@@ -146,7 +145,7 @@ const MysteryBoxNavideno = () => {
       originalPrice: "1230",
       discountText: "20% de descuento",
       savings: "246",
-      image: "/imgs/ch3.JPG",
+      image: "/imgs/ch3.jpg",
     },
     {
       id: 2,
@@ -156,7 +155,7 @@ const MysteryBoxNavideno = () => {
       originalPrice: "2460",
       discountText: "30% de descuento",
       savings: "738",
-      image: "/imgs/ch6.JPG",
+      image: "/imgs/ch6.jpg",
     },
     {
       id: 3,
@@ -166,7 +165,7 @@ const MysteryBoxNavideno = () => {
       originalPrice: "4289",
       discountText: "40% de descuento",
       savings: "1716",
-      image: "/imgs/ch10.JPG",
+      image: "/imgs/ch10.jpg",
     },
   ];
 
@@ -228,7 +227,7 @@ const MysteryBoxNavideno = () => {
       promotora_cometa: "",
       sat: "",
       categories: "",
-      images: id == 1 ? "/imgs/3box.jpg" : id == 2 ? "/imgs/6box.jpg" : "/imgs/10box.jpg",
+      images: id == 1 ? "/imgs/ch3.jpg" : id == 2 ? "/imgs/ch6.jpg" : "/imgs/ch10.jpg",
       stock: 100,
       description: id == 1 ? "Paquete misterioso con 3 pañales premium estampados." : id == 2 ? "Paquete misterioso con 6 pañales premium estampados." : "Paquete misterioso con 10 pañales premium estampados y 1 filtro de bambú.",
     }
@@ -243,7 +242,7 @@ const MysteryBoxNavideno = () => {
   return (
     <Box sx={{ bgcolor: "#FFF8F0", minHeight: "100vh", color: "#333" }}>
       {/* Hero Section */}
-      <img src="/imgs/ch.JPG" alt="Hero" style={{ width: "100%", height: "auto" }} />
+      <img src="/imgs/ch.jpg" alt="Hero" style={{ width: "100%", height: "auto" }} />
       <Box
         sx={{
           background: `linear-gradient(135deg, ${green} 0%, ${green} 100%)`,
