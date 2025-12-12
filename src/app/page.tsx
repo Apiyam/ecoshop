@@ -22,6 +22,27 @@ import { useCart } from "@/context/CartContext";
 const mappBox = [
   {
     "cierre": "velcro",
+    "box": "1",
+    "tipo": "unisex",
+    "name": "Super Box Navideña 3 pack Velcro Unisex",
+    "id": "28114"
+  },
+  {
+    "cierre": "velcro",
+    "box": "1",
+    "tipo": "nino",
+    "name": "Super Box Navideña 3 pack Velcro Niño",
+    "id": "28110"
+  },
+  {
+    "cierre": "velcro",
+    "box": "1",
+    "tipo": "nina",
+    "name": "Super Box Navideña 3 pack Velcro Niña",
+    "id": "28112"
+  },
+  {
+    "cierre": "velcro",
     "box": "3",
     "tipo": "unisex",
     "name": "Super Box Navideña 10 pack Velcro Unisex",
