@@ -14,14 +14,15 @@ import CelebrationIcon from "@mui/icons-material/Celebration";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useCart } from "@/context/CartContext";
+import { BRAND_PURPLE, BRAND_GREEN } from "@/lib/constants";
 
 type PopupModalProps = {
   open: boolean;
   onClose: () => void;
 }
 const PopupModal = ({ open, onClose }: PopupModalProps) => {
-  const purple = "#733080";
-  const green = "#89b329";
+  const purple = BRAND_PURPLE;
+  const green = BRAND_GREEN;
   const { goalCustomPackage } = useCart()
   return (
     <Modal

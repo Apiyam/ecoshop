@@ -181,9 +181,9 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     
 
     return (
-        <Container>
+        <Container sx={{ pb: { xs: 8, sm: 4 } }}>
             <ProgressGoal onHeader />
-            <div style={{ height: '120px' }} />
+            <div style={{ height: '140px' }} />
             <CategoryGrid categories={categories} onCategoryChange={(category) => {
                 setSelectedCategory(category)
                 setSelectedEstampados([])

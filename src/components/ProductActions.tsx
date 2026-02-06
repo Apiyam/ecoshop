@@ -6,6 +6,7 @@ import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
 import { useEffect, useState } from 'react'
 import Notification from './Notification'
+import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
 
 type ProductActionsProps = {
   onViewDetails: () => void,
@@ -38,14 +39,27 @@ export default function ProductActions({ onViewDetails, product, overrideActions
       <QuantitySelector product={product} /> : (
         <Button
           startDecorator={<ShoppingCart />}
-          color="primary"
           variant="solid"
-          sx={{ width: '50%' }}
           disabled={product.stock === 0 || product.stock === null}
           onClick={() => {
             addToCart({ product: product, quantity: 1 })
             setAddedToCart(true)
             setShouldDisplayCart(true)
+          }}
+          sx={{
+            width: '50%',
+            minHeight: 44,
+            borderRadius: '12px',
+            bgcolor: BRAND_GREEN,
+            color: 'white',
+            fontWeight: 600,
+            boxShadow: '0 2px 8px rgba(137,179,41,0.3)',
+            transition: 'all 0.2s ease',
+            '&:hover': {
+              bgcolor: BRAND_GREEN_HOVER,
+              transform: 'translateY(-1px)',
+              boxShadow: '0 4px 12px rgba(137,179,41,0.4)',
+            },
           }}
         >
           Comprar
@@ -56,10 +70,21 @@ export default function ProductActions({ onViewDetails, product, overrideActions
       ) */}
       <Button
         startDecorator={<Visibility />}
-        color="neutral"
         variant="outlined"
-        sx={{ width: {xs: overrideActions ? '100%' : '50%', sm: '50%' } }}
         onClick={onViewDetails}
+        sx={{
+          width: { xs: overrideActions ? '100%' : '50%', sm: '50%' },
+          minHeight: 44,
+          borderRadius: '12px',
+          borderColor: BRAND_PURPLE,
+          color: BRAND_PURPLE,
+          fontWeight: 600,
+          '&:hover': {
+            borderColor: BRAND_PURPLE_HOVER,
+            bgcolor: 'rgba(115,48,128,0.08)',
+            transform: 'translateY(-1px)',
+          },
+        }}
       >
         Detalles
       </Button>

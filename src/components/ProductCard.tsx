@@ -1,8 +1,9 @@
-import { Card, Typography, AspectRatio, Chip, Box, Button } from '@mui/joy'
+import { Card, Typography, AspectRatio, Chip, Box } from '@mui/joy'
 import { ProductItem } from '../lib/wooApi'
 import ProductActions from './ProductActions'
 import { useState } from 'react'
 import ProductModal from './ProductModal'
+import { BRAND_GREEN } from '@/lib/constants'
 
 type ProductCardProps = {
   product: ProductItem
@@ -25,7 +26,7 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
         position: 'absolute',
         top: 8,
         left: 8,
-        backgroundColor: 'red',
+        backgroundColor: BRAND_GREEN,
         color: '#fff',
         px: 1.5,
         py: 0.5,
@@ -117,7 +118,7 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
         position: 'absolute',
         top: -10,
         right: -10,
-        backgroundColor: 'red',
+        backgroundColor: BRAND_GREEN,
         color: '#fff',
         px: 1.5,
         py: 0.5,

@@ -11,6 +11,7 @@ import {
   Chip,
 } from '@mui/joy'
 import { ProductItem } from '../lib/wooApi'
+import { BRAND_PURPLE } from '@/lib/constants'
 import LoadingIndicator from './LoadingIndicator'
 import { useState } from 'react'
 import QuantitySelector from './QuantitySelector'
@@ -41,7 +42,7 @@ export default function ProductModal({ open, onClose, product, discount }: Quick
                   position: 'absolute',
                   top: 8,
                   left: 8,
-                  backgroundColor: '#733080',
+                  backgroundColor: BRAND_PURPLE,
                   color: '#fff',
                   px: 1.5,
                   py: 0.5,

@@ -23,10 +23,17 @@ export default function WhatsappButton() {
         bottom: 16,
         right: 16,
         zIndex: 1000,
+        minHeight: 44,
+        minWidth: 44,
         backgroundColor: '#25D366',
         color: 'white',
+        borderRadius: 2,
+        boxShadow: '0 4px 12px rgba(37,211,102,0.35)',
+        transition: 'all 0.2s ease',
         '&:hover': {
           backgroundColor: '#1EBE5D',
+          transform: 'translateY(-2px)',
+          boxShadow: '0 6px 16px rgba(37,211,102,0.45)',
         },
         textTransform: 'none',
       }}

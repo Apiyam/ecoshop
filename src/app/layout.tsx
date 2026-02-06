@@ -5,6 +5,7 @@ import { CartProvider } from "../context/CartContext";
 import { Analytics } from "@vercel/analytics/next"
 import Header from "../components/Header";
 import WhatsappButton from "./_components/WhatsappButton";
+import FaqPackagesButton from "./_components/FaqPackagesButton";
 import { PostHogContext } from "../context/PostHogContext";
 
 const domain = "https://ecopipo.com/matriz";//process.env.NEXT_PUBLIC_DOMAIN as string;
@@ -20,8 +21,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ecopipo – Navidad y Año Nuevo con Ecopipo",
-  description: "¡Llegaron las Mystery Boxes Navideñas de Ecopipo! 🎁 Cajas sorpresa llenas de magia, valor y diseños de edición limitada que ¡Cuando se acaben... se acaban! ¡Atrévete a descubrirlo!",
+  title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
+  description: "Compra paquetes especiales Ecopipo: 6, 10, 15 o 20 piezas. Más pañales reutilizables, mejor precio. Envíos a todo México. ¡Elige tu paquete y empieza a ahorrar hoy!",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -32,8 +33,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Ecopipo – Navidad y Año Nuevo con Ecopipo",
-    description: "¡Llegaron las Mystery Boxes Navideñas de Ecopipo! 🎁 Cajas sorpresa llenas de magia, valor y diseños de edición limitada que ¡Cuando se acaben... se acaban! ¡Atrévete a descubrirlo!",
+    title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
+    description: "Compra paquetes especiales Ecopipo: 6, 10, 15 o 20 piezas. Más pañales reutilizables, mejor precio. Envíos a todo México. ¡Elige tu paquete y empieza a ahorrar hoy!",
     images: `/imgs/ch.jpg`,
     url: domain,
     siteName: "Ecopipo",
@@ -42,8 +43,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ecopipo – Navidad y Año Nuevo con Ecopipo",
-    description: "¡Llegaron las Mystery Boxes Navideñas de Ecopipo! 🎁 Cajas sorpresa llenas de magia, valor y diseños de edición limitada que ¡Cuando se acaben... se acaban! ¡Atrévete a descubrirlo!",
+    title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
+    description: "Compra paquetes especiales Ecopipo: 6, 10, 15 o 20 piezas. Más pañales reutilizables, mejor precio. Envíos a todo México. ¡Elige tu paquete y empieza a ahorrar hoy!",
     images: `/imgs/ch.jpg`,
   },
 };
@@ -59,6 +60,7 @@ export default function RootLayout({
         <CartProvider>
           <Header />
           {children}
+          <FaqPackagesButton />
           <WhatsappButton />
         </CartProvider>
         </PostHogContext>

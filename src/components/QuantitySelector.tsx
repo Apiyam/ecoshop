@@ -1,10 +1,11 @@
 import { Box, IconButton, Input, Button } from "@mui/joy"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { useCart } from "../context/CartContext"
 import { ProductItem } from "../lib/wooApi"
 import Notification from "./Notification"
+import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE } from "@/lib/constants"
 
 type QuantitySelectorProps = {
     product: ProductItem
@@ -65,9 +66,14 @@ type QuantitySelectorProps = {
           <IconButton
             size="sm"
             variant="soft"
-            color="neutral"
             onClick={handleDecrease}
             disabled={quantity === 1}
+            sx={{
+              minWidth: 44,
+              minHeight: 44,
+              color: BRAND_PURPLE,
+              '&:hover': { bgcolor: 'rgba(115,48,128,0.12)' },
+            }}
           >
             <RemoveRoundedIcon />
           </IconButton>
@@ -91,9 +97,14 @@ type QuantitySelectorProps = {
           <IconButton
             size="sm"
             variant="soft"
-            color="neutral"
             onClick={handleIncrease}
             disabled={quantity >= product.stock}
+            sx={{
+              minWidth: 44,
+              minHeight: 44,
+              color: BRAND_PURPLE,
+              '&:hover': { bgcolor: 'rgba(115,48,128,0.12)' },
+            }}
           >
             <AddRoundedIcon />
           </IconButton>
@@ -105,18 +116,33 @@ type QuantitySelectorProps = {
             <Notification message="El carrito ha sido actualizado" open={addedToCart} onClose={() => setAddedToCart(false)} />
           )}
           <Button
-            color="primary"
-          fullWidth
-          disabled={product.stock === 0 || product.stock === null}
-          sx={{ padding: 1.5, marginTop:"-20px", width: "120px" }}
-          onClick={() => {
-            addToCart({
-              product: product,
-              quantity: quantity,
-            })
-            setShouldDisplayCart(true)
-          }}
-        >
+            fullWidth
+            disabled={product.stock === 0 || product.stock === null}
+            onClick={() => {
+              addToCart({
+                product: product,
+                quantity: quantity,
+              })
+              setShouldDisplayCart(true)
+            }}
+            sx={{
+              padding: 1.5,
+              marginTop: '-20px',
+              width: '120px',
+              minHeight: 44,
+              borderRadius: '12px',
+              bgcolor: BRAND_GREEN,
+              color: 'white',
+              fontWeight: 600,
+              boxShadow: '0 2px 8px rgba(137,179,41,0.3)',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                bgcolor: BRAND_GREEN_HOVER,
+                transform: 'translateY(-1px)',
+                boxShadow: '0 4px 12px rgba(137,179,41,0.4)',
+              },
+            }}
+          >
             Añadir {quantity} pzas.
           </Button>
           </>

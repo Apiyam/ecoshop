@@ -1,3 +1,9 @@
+/** Colores de marca Ecopipo */
+export const BRAND_PURPLE = '#733080'
+export const BRAND_PURPLE_HOVER = '#5b2470'
+export const BRAND_GREEN = '#89b329'
+export const BRAND_GREEN_HOVER = '#7BA628'
+
 export const ESTAMPADOS = [
     "Agua",
     "Aguacates",

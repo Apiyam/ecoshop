@@ -10,6 +10,7 @@ import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
 import { ProductItem } from '../lib/wooApi'
 import ConfirmationModal from './ConfirmationModal'
+import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
 
 export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { cartItems, removeFromCart, clearCart } = useCart()
@@ -22,6 +23,15 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       setIsMobile(window.innerWidth < 600)
     }
   }, [])
+
+  useEffect(() => {
+    if (!open && typeof document !== 'undefined') {
+      requestAnimationFrame(() => {
+        document.body.style.overflow = ''
+        document.body.style.paddingRight = ''
+      })
+    }
+  }, [open])
 
   const getDiscountedPrice = (product: ProductItem) => {
     let discount = currentDiscount;
@@ -60,7 +70,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   }
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} sx={{ zIndex: 11000 }} disableScrollLock>
       <ModalDialog size="lg" sx={{ maxWidth: 1200, width: '98%', height: '65vh', marginTop: '20px' }}>
         <ModalClose />
         <Typography level="h4" m={0}>Carrito de compras Ecopipo</Typography>
@@ -164,18 +174,53 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
             )}
             {!goingToWordpress && (
               <div>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Button fullWidth color="primary" onClick={goToWordpress}>
+              <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
+                <Button
+                  fullWidth
+                  onClick={goToWordpress}
+                  sx={{
+                    minHeight: 44,
+                    borderRadius: '12px',
+                    bgcolor: BRAND_GREEN,
+                    color: 'white',
+                    fontWeight: 600,
+                    boxShadow: '0 2px 8px rgba(137,179,41,0.3)',
+                    '&:hover': { bgcolor: BRAND_GREEN_HOVER, transform: 'translateY(-1px)' },
+                  }}
+                >
                   Ir a pagar: {getTotal().toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}
                 </Button>
-                <Button fullWidth variant="outlined" onClick={() => setClearCartModal(true)}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => setClearCartModal(true)}
+                  sx={{
+                    minHeight: 44,
+                    borderRadius: '12px',
+                    borderColor: BRAND_PURPLE,
+                    color: BRAND_PURPLE,
+                    '&:hover': { borderColor: BRAND_PURPLE_HOVER, bgcolor: 'rgba(115,48,128,0.08)' },
+                  }}
+                >
                   Limpiar carrito
                 </Button>
-                
               </Box>
-              <Button startDecorator={<ArrowBack />} sx={{ mt: 2 }} color="danger" fullWidth variant="outlined" onClick={() => onClose()}>
-                  Continuar comprando
-                </Button>
+              <Button
+                startDecorator={<ArrowBack />}
+                fullWidth
+                variant="outlined"
+                onClick={() => onClose()}
+                sx={{
+                  mt: 2,
+                  minHeight: 44,
+                  borderRadius: '12px',
+                  borderColor: 'danger.outlinedBorder',
+                  color: 'danger.outlinedColor',
+                  '&:hover': { bgcolor: 'danger.softBg' },
+                }}
+              >
+                Continuar comprando
+              </Button>
               <Typography sx={{ fontSize: '12px' }}>*Precios de envío y descuentos adicionales se calculan en el siguiente paso.</Typography>
               </div>
             )}

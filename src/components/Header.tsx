@@ -30,7 +30,7 @@ import CartModal from './CartModal'
 import { useEffect, useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { SearchOutlined } from '@mui/icons-material'
-
+import { BRAND_PURPLE } from '@/lib/constants'
 
 const products = [
   {
@@ -103,8 +103,8 @@ export default function Header() {
         variant="solid"
         color="neutral"
         sx={{
-          bgcolor: '#733080',
-          borderBottom: '1px solid #733080',
+          bgcolor: BRAND_PURPLE,
+          borderBottom: `1px solid ${BRAND_PURPLE}`,
           py: 1,
           position: 'sticky',
           top: 0,
@@ -123,7 +123,12 @@ export default function Header() {
             {/* Menu mobile */}
             <IconButton
               variant="plain"
-              sx={{ color: 'white', display: { sm: 'none' } }}
+              sx={{
+                color: 'white',
+                display: { sm: 'none' },
+                minWidth: 44,
+                minHeight: 44,
+              }}
               onClick={() => setOpenMobileMenu(true)}
             >
               <MenuIcon />
@@ -161,7 +166,11 @@ export default function Header() {
             <IconButton
               size="sm"
               variant="plain"
-              sx={{ color: 'white' }}
+              sx={{
+                color: 'white',
+                minWidth: 44,
+                minHeight: 44,
+              }}
               onClick={() => setOpenCart(true)}
             >
               <Typography level="body-lg" sx={{ color: 'white', marginRight: '10px' }}>
@@ -192,13 +201,17 @@ export default function Header() {
       >
         <Box sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography level="title-md">Menú</Typography>
-          <IconButton variant="plain" onClick={() => setOpenMobileMenu(false)}>
+          <IconButton
+              variant="plain"
+              onClick={() => setOpenMobileMenu(false)}
+              sx={{ minWidth: 44, minHeight: 44 }}
+            >
             <CloseIcon />
           </IconButton>
         </Box>
         <Divider />
 
-        <List sx={{ pl: 1, overflowY: 'auto' }}>
+        <List sx={{ pl: 1, overflowY: 'auto', '& .MuiListItemButton-root': { minHeight: 44 } }}>
           <ListItem>
             <ListItemButton component="a" href="/" onClick={() => setOpenMobileMenu(false)}>
               Inicio

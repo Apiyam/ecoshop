@@ -17,7 +17,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  
+  --ecopipo-purple: #733080;
+  --ecopipo-purple-hover: #5b2470;
+  --ecopipo-green: #89b329;
+  --ecopipo-green-hover: #7BA628;
 }
 
 
