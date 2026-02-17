@@ -82,9 +82,7 @@ const PopupModal = ({ open, onClose }: PopupModalProps) => {
           </Typography>
 
           <Typography variant="body1" sx={{ mb: 2 }}>
-          Obtén 10% de descuento en toda la tienda usando el código 🟩 PIPOFIN.
-<br />
-Además, disfruta descuentos adicionales en paquetes de 6, 10, 15 y 20 piezas. ✨ Entre más productos elijas, ¡más ahorras! 😍
+         Disfruta descuentos en paquetes de 6, 10, 15 y 20 piezas. ✨ Entre más productos elijas, ¡más ahorras! 😍
           </Typography>
 
           <Divider
