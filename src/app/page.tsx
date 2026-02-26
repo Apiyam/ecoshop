@@ -70,9 +70,9 @@ const DulcesDieciseis = () => {
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333", pb: { xs: 6, sm: 0 } }}>
       {/* Hero Section  
+      
        */}
-      <img src="/imgs/ecopipo.jpeg" alt="Promoción Amor Propio 10%" style={{ width: "100%", height: "auto" }} />
-      <Box
+     <Box
         sx={{
           bgcolor: "#EFE9F1", py: 5, textAlign: "center"
         }}
