@@ -17,6 +17,7 @@ type CartContextType = {
   totalItems: number
   updatedCart: boolean
   shouldDisplayCart: boolean
+  addedToCartMessage: { kind: 'added'; name: string } | { kind: 'updated'; name: string; quantity: number } | null
   addToCart: (item: CartItem) => void
   updateQuantity: (id: number, quantity: number) => void
   removeFromCart: (id: number) => void
@@ -49,6 +50,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [updatedCart, setUpdatedCart] = useState(false)
   const [totalItems, setTotalItems] = useState(0)
   const [shouldDisplayCart, setShouldDisplayCart] = useState(false)
+  const [addedToCartMessage, setAddedToCartMessage] = useState<CartContextType['addedToCartMessage']>(null)
   const [currentGoal, setCurrentGoal] = useState(discountGoals.find(g => g.minProducts === goalCustomPackage) || discountGoals[0]);
   const [nextGoal, setNextGoal] = useState(discountGoals.find(g => g.minProducts > currentGoal.minProducts) || discountGoals[1]);
   const [currentDiscount, setCurrentDiscount] = useState(0);
@@ -69,17 +71,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const addToCart = (item: CartItem) => {
     const existing = cartItems.find((i) => i.product.id === item.product.id)
     if (existing) {
-      updateQuantity(item.product.id, item.quantity)
+      const newQty = existing.quantity + item.quantity
+      updateQuantity(item.product.id, newQty)
+      setAddedToCartMessage({ kind: 'updated', name: item.product.name, quantity: newQty })
     } else {
       setCartItems([...cartItems, item])
       setTotalItems(totalItems + item.quantity)
+      setAddedToCartMessage({ kind: 'added', name: item.product.name })
     }
     setUpdatedCart(true)
+    setTimeout(() => setAddedToCartMessage(null), 3500)
     localStorage.setItem('lubella_cart', JSON.stringify(cartItems))
     setTimeout(() => {
       setUpdatedCart(false)
     }, 3000)
-   
   }
 
   const searchItem = (id: number) => {
@@ -122,7 +127,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         currentDiscount,
         setCurrentDiscount,
         clearCart,
-        searchItem, updatedCart, shouldDisplayCart, setShouldDisplayCart, currentGoal, nextGoal, setCurrentGoal, setNextGoal }}
+        searchItem, updatedCart, shouldDisplayCart, setShouldDisplayCart, currentGoal, nextGoal, setCurrentGoal, setNextGoal, addedToCartMessage }}
     >
       {children}
     </CartContext.Provider>

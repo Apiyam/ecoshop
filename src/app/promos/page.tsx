@@ -176,7 +176,7 @@ const MysteryBoxNavideno = () => {
   const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
   const [selectedSizePack10, setSelectedSizePack10] = useState<string>("");
   const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
-  const { addToCart, setShouldDisplayCart } = useCart()
+  const { addToCart } = useCart()
 
   const validateMysteryBox = (id: number) => {
     if(id === 1){
@@ -235,7 +235,6 @@ const MysteryBoxNavideno = () => {
     console.log(product)
   
       addToCart({ product: product, quantity: 1 })
-      setShouldDisplayCart(true)
 
   }
 

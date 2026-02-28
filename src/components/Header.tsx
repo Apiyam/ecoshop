@@ -13,24 +13,23 @@ import {
   MenuButton,
   MenuItem,
   Menu,
-  ListDivider,
   Divider,
   List,
   ListItem,
   ListItemButton,
-  Input
 } from '@mui/joy'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import ExpandLess from '@mui/icons-material/ExpandLess'
-
-import CartModal from './CartModal'
-import { useEffect, useState } from 'react'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import { Snackbar } from '@mui/material'
+import NextLink from 'next/link'
+import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { SearchOutlined } from '@mui/icons-material'
-import { BRAND_PURPLE } from '@/lib/constants'
+import { BRAND_PURPLE, BRAND_GREEN } from '@/lib/constants'
 
 const products = [
   {
@@ -83,19 +82,9 @@ const products = [
 ]
 
 export default function Header() {
-  const [openCart, setOpenCart] = useState(false)
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [expandProducts, setExpandProducts] = useState(false)
-  const { totalItems, shouldDisplayCart, setShouldDisplayCart } = useCart()
-
-  useEffect(() => {
-    if (shouldDisplayCart) {
-      setOpenCart(true)
-      setTimeout(() => {
-        setShouldDisplayCart(false)
-      }, 1000)
-    }
-  }, [shouldDisplayCart])
+  const { totalItems, addedToCartMessage } = useCart()
 
   return (
     <>
@@ -162,24 +151,17 @@ export default function Header() {
               
             </Box>
 
-            {/* Carrito */}
-            <IconButton
-              size="sm"
-              variant="plain"
-              sx={{
-                color: 'white',
-                minWidth: 44,
-                minHeight: 44,
-              }}
-              onClick={() => setOpenCart(true)}
-            >
-              <Typography level="body-lg" sx={{ color: 'white', marginRight: '10px' }}>
-                Ver carrito
-              </Typography>
-              <Badge badgeContent={(totalItems > 10 ? "+9" : totalItems)} color="danger">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
+            {/* Carrito: enlace a página /carrito */}
+            <NextLink href="/carrito" passHref legacyBehavior>
+              <Link underline="none" sx={{ display: 'flex', alignItems: 'center', color: 'white' }}>
+                <Typography level="body-lg" sx={{ color: 'white', marginRight: '10px' }}>
+                  Ver carrito
+                </Typography>
+                <Badge badgeContent={totalItems > 10 ? '+9' : totalItems} color="danger">
+                  <ShoppingCartIcon />
+                </Badge>
+              </Link>
+            </NextLink>
           </Box>
         </Container>
       </Sheet>
@@ -244,10 +226,40 @@ export default function Header() {
 
             </>
           )}
-         
         </List>
       </Sheet>
-      <CartModal open={openCart} onClose={() => setOpenCart(false)} />
+
+      {/* Toast: producto añadido o actualizado en el carrito */}
+      <Snackbar
+        open={!!addedToCartMessage}
+        autoHideDuration={3500}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{ mt: 2 }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            bgcolor: BRAND_GREEN,
+            color: 'white',
+            px: 2.5,
+            py: 1.5,
+            borderRadius: 2,
+            boxShadow: 3,
+            fontWeight: 600,
+          }}
+        >
+          <CheckCircleIcon sx={{ fontSize: 28 }} />
+          <Typography sx={{ color: 'white', fontWeight: 600 }}>
+            {addedToCartMessage?.kind === 'added'
+              ? 'Se ha añadido un producto al carrito.'
+              : addedToCartMessage?.kind === 'updated'
+                ? `Se actualizó el producto con ${addedToCartMessage.quantity} ${addedToCartMessage.quantity === 1 ? 'unidad' : 'unidades'}.`
+                : ''}
+          </Typography>
+        </Box>
+      </Snackbar>
     </>
   )
 }

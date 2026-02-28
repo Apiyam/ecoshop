@@ -1,7 +1,7 @@
 'use client'
 
 import { useKeenSlider } from 'keen-slider/react'
-import { Card, CardContent, Typography, AspectRatio, IconButton, Box } from '@mui/joy'
+import { Card, IconButton, Box } from '@mui/joy'
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { useEffect } from 'react'
 import { CategoryItem } from '../lib/wooApi'
@@ -61,7 +61,7 @@ export default function CategorySlider({ categories, onCategoryChange }: Categor
                 width: '100%',
                 padding: 0,
                 cursor: 'pointer',
-                mx: 'auto',
+                overflow: 'hidden',
                 '&:hover': {
                   boxShadow: 'md',
                   borderColor: 'neutral.outlinedHoverBorder',
@@ -70,7 +70,31 @@ export default function CategorySlider({ categories, onCategoryChange }: Categor
               }}
               onClick={() => onCategoryChange(cat)}
             >
-              <img src={cat.image} alt={cat.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              <Box
+                sx={{
+                  width: '100%',
+                  height: 0,
+                  paddingBottom: '100%',
+                  position: 'relative',
+                  bgcolor: 'neutral.100',
+                  overflow: 'hidden',
+                }}
+              >
+                <Box
+                  component="img"
+                  src={cat.image}
+                  alt={cat.name}
+                  loading="lazy"
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </Box>
             </Card>
           </div>
         ))}

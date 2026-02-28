@@ -22,6 +22,7 @@ import {
     CardContent,
     Card,
     Input,
+    AspectRatio,
 } from '@mui/joy'
 import ViewModuleIcon from '@mui/icons-material/ViewModule'
 import ViewListIcon from '@mui/icons-material/ViewList'
@@ -34,13 +35,15 @@ import LoadingIndicator from '../../../components/LoadingIndicator'
 import { Alert, useMediaQuery } from '@mui/material'
 import { ESTAMPADOS } from '../../../lib/constants'
 import ClearIcon from '@mui/icons-material/Clear'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { useProducts } from '@/context/ProductContext'
 import { SearchOutlined, TableChartOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import PopupModal from '../../_components/PopupModal'
 import ProgressGoal from '@/app/_components/ProgressGoal'
 import { useCart } from '@/context/CartContext'
+import { checkDiscount } from '@/lib/productDiscount'
 
 
 interface MainViewProps {
@@ -63,9 +66,28 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     const [searchValue, setSearchValue] = useState('')
     const debouncedSearchValue = useDebounce(searchValue, 500)
     const [searchResults, setSearchResults] = useState<ProductItem[]>([])
-    const router = useRouter();
-    const [showPopup, setShowPopup] = useState(true)
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const [showPopup, setShowPopup] = useState(false)
     const { currentGoal, totalItems, discountGoals, currentDiscount } = useCart()
+
+    // Mostrar popup "Arma tu paquete" solo la primera vez que entra a la tienda
+    useEffect(() => {
+        try {
+            if (typeof window !== 'undefined' && !sessionStorage.getItem('ecopipo_tienda_popup_seen')) {
+                setShowPopup(true)
+            }
+        } catch (_) {}
+    }, [])
+
+    const handleClosePopup = () => {
+        try {
+            if (typeof window !== 'undefined') sessionStorage.setItem('ecopipo_tienda_popup_seen', '1')
+        } catch (_) {}
+        setShowPopup(false)
+    }
+
     useEffect(() => {
         getCategories().then((categories) => setCategories(categories))
     }, [])
@@ -85,6 +107,31 @@ export default function MainView({ selectedProduct }: MainViewProps) {
             setSelectedCategory(categories?.[0] || null)
         }
     }, [categories, products, selectedProduct])
+
+    // Sincronizar subcategoría (hijo) desde la URL para que al volver atrás se restaure la vista
+    useEffect(() => {
+        if (!categories?.length || !selectedCategory) return
+        const categorySlug = searchParams.get('category')
+        if (!categorySlug) return
+        const child = selectedCategory.children?.find((c) => c.slug === categorySlug)
+        if (child) setSelectedChildren(child)
+    }, [categories, selectedCategory, searchParams])
+
+    // Restaurar scroll al volver de la página de detalle del producto (cuando ya está la lista)
+    const [scrollRestored, setScrollRestored] = useState(false)
+    useEffect(() => {
+        if (scrollRestored) return
+        if (selectedChildren == null) return
+        try {
+            const saved = sessionStorage.getItem('tienda_scroll')
+            if (saved != null) {
+                sessionStorage.removeItem('tienda_scroll')
+                setScrollRestored(true)
+                const y = Number(saved)
+                requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'instant' }))
+            }
+        } catch (_) {}
+    }, [selectedChildren, scrollRestored])
     useEffect(() => {
         if (selectedCategory?.children.length === 0 && products) {
             let stringsToFilter = [selectedCategory?.name]
@@ -148,27 +195,6 @@ export default function MainView({ selectedProduct }: MainViewProps) {
 
     if (!categories || !products || !loaded) return <LoadingIndicator isFullScreen={true} />
 
-    const checkDiscount = (product: ProductItem) => {
-        //return 16;
-        if(product.name.includes("Tanga")) {
-            return 50;
-        }
-        if(product.name.includes("Leggings")) {
-            return 70;
-        }
-        if(product.name.includes("Pañoleta")) {
-            return 70;
-        }
-        if(product.name.includes("Mochila")) {
-            return 40;
-        }
-        if(product.name.includes("Lonchera")) {
-            return 35;
-        }
-        //return currentDiscount;
-        /*return categories.find((category) => category.name.includes(product.parent_name))?.discount || 16*/
-        return 0;
-    }
     const handleChangeEstampados = (
         event: React.SyntheticEvent | null,
         newValue: Array<string> | null,
@@ -189,6 +215,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                 setSelectedEstampados([])
                 setSelectedChildren(null)
                 setSelectedFilters('-')
+                router.push('/tienda/' + category.slug)
             }} />
             <Box sx={{  display: 'flex', position: 'relative', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'white',  gap: 1, minWidth: '220px', justifyContent: 'right', alignItems: 'center', mt: 2 }}>
                 <Input placeholder="Buscar en toda la tienda..." size="lg" sx={{ minWidth: '270px' }} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
@@ -212,6 +239,31 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                     </Box>
                 )}
             </Box>
+
+            {/* Botón Atrás: volver a subcategorías o a categorías */}
+            {(selectedChildren != null || (pathname && pathname !== '/tienda')) && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+                <Button
+                  variant="plain"
+                  color="neutral"
+                  size="sm"
+                  startDecorator={<ArrowBackIosNewIcon sx={{ fontSize: 18 }} />}
+                  onClick={() => {
+                    if (selectedChildren != null) {
+                      setSelectedChildren(null)
+                      setSelectedFilters('-')
+                      if (pathname) router.push(pathname)
+                    } else if (pathname && pathname !== '/tienda') {
+                      router.push('/tienda')
+                    }
+                  }}
+                  sx={{ alignSelf: 'flex-start' }}
+                >
+                  {selectedChildren != null ? `Atrás a ${selectedCategory?.name}` : 'Atrás a categorías'}
+                </Button>
+              </Box>
+            )}
+
             <Typography level="h3" sx={{ mt: 2, textAlign: 'center', color: '#fff', backgroundColor: '#9e71a7', padding: '10px' }}>{`${selectedCategory?.name} ${selectedChildren ? `- ${selectedChildren.name}` : ''}`}</Typography>
             <Box sx={{ display: 'flex', gap: 4, mt: 4, flexDirection: { xs: 'column', sm: 'row' } }}>
                 {/* Filtros laterales */}
@@ -318,13 +370,14 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                         selectedChildren == null && (
                             <Grid container spacing={2}>
                                 {selectedCategory?.children.map((child) => (
-                                    <Grid xs={12} sm={6} md={4} lg={3} key={child.name}>
+                                    <Grid xs={6} sm={6} md={4} lg={3} key={child.name}>
                                         <Card
                                             onClick={() => {
-                                                setSelectedChildren(child);
+                                                setSelectedChildren(child)
                                                 setSelectedFilters('-')
-                                                setIsLoading(true);
-                                                router.push("?category=" + child.slug, undefined);
+                                                setIsLoading(true)
+                                                const base = pathname ?? '/tienda'
+                                                router.push(base + (base.includes('?') ? '&' : '?') + 'category=' + child.slug)
                                             }}
                                             sx={{
                                                 height: '100%', // tarjeta ocupa todo el alto del grid item
@@ -346,21 +399,22 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                                                     flexDirection: 'column',
                                                     alignItems: 'center',
                                                     p: 1,
-                                                    flexGrow: 1, // CardContent ocupa todo el espacio disponible
+                                                    flexGrow: 1,
                                                 }}
                                             >
-                                                <Box
-                                                    component="img"
-                                                    src={child.image}
-                                                    alt={child.name}
+                                                <AspectRatio
+                                                    ratio="1"
                                                     sx={{
-                                                        width: '80%',
-                                                        height: 150,
-                                                        objectFit: 'cover',
+                                                        width: '100%',
                                                         borderRadius: 2,
-                                                        mb: 2,
+                                                        overflow: 'hidden',
+                                                        bgcolor: 'neutral.100',
+                                                        mb: 1,
+                                                        '& img': { objectFit: 'contain' },
                                                     }}
-                                                />
+                                                >
+                                                    <Box component="img" src={child.image} alt={child.name} loading="lazy" />
+                                                </AspectRatio>
                                                 <Typography level="body-md" sx={{ fontWeight: 500, mt: 'auto', textAlign: 'center' }}>
                                                     {child.name}
                                                 </Typography>
@@ -410,7 +464,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
 
                     {viewMode === 'grid' && (selectedCategory?.children.length === 0 || selectedChildren != null) ? <Grid container spacing={2}>
                         {isLoading ? <LoadingIndicator /> : filteredProducts?.map((product: ProductItem) => (
-                            <Grid xs={12} sm={4} key={product.sku}>
+                            <Grid xs={6} sm={4} key={product.sku}>
                                 <ProductCard product={product} viewMode={viewMode} discount={checkDiscount(product)} />
                             </Grid>
                         ))}
@@ -460,7 +514,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                     </Sheet>
                 </Modal>
             }
-            <PopupModal open={showPopup} onClose={() => setShowPopup(false)} />
+            <PopupModal open={showPopup} onClose={handleClosePopup} />
         </Container>
     )
 }

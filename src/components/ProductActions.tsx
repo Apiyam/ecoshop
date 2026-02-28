@@ -5,90 +5,99 @@ import { ProductItem } from '../lib/wooApi'
 import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
 import { useEffect, useState } from 'react'
-import Notification from './Notification'
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
 
 type ProductActionsProps = {
-  onViewDetails: () => void,
+  onViewDetails: () => void
   product: ProductItem
   overrideActions?: boolean
 }
 
 export default function ProductActions({ onViewDetails, product, overrideActions }: ProductActionsProps) {
-  const { addToCart, updatedCart, setShouldDisplayCart } = useCart()
+  const { addToCart, updatedCart } = useCart()
   const [addedToCart, setAddedToCart] = useState(false)
   useEffect(() => {
-    if (updatedCart) {
-      setAddedToCart(true)
-    }
+    if (updatedCart) setAddedToCart(true)
   }, [updatedCart])
+
+  const addOne = () => {
+    addToCart({ product, quantity: 1 })
+    setAddedToCart(true)
+  }
+
+  if (overrideActions) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+        <QuantitySelector product={product} />
+        <Button
+          size="sm"
+          variant="outlined"
+          onClick={onViewDetails}
+          startDecorator={<Visibility />}
+          sx={{
+            py: 0.5,
+            px: 1,
+            minHeight: 32,
+            borderRadius: 'md',
+            borderColor: BRAND_PURPLE,
+            color: BRAND_PURPLE,
+            fontSize: '0.8rem',
+            '&:hover': { borderColor: BRAND_PURPLE_HOVER, bgcolor: 'rgba(115,48,128,0.08)' },
+          }}
+        >
+          Ver más
+        </Button>
+      </Box>
+    )
+  }
+
   return (
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        borderTopLeftRadius: '12px',
-        borderTopRightRadius: '12px',
-        
-        gap: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 0.5,
+        mt: 0.5,
+        pt: 0.5,
+        borderTop: '1px solid',
+        borderColor: 'neutral.outlinedBorder',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection:{xs: overrideActions ? 'column' : 'row', sm: 'row'}, justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1 }}>
-      {overrideActions ? 
-      <QuantitySelector product={product} /> : (
-        <Button
-          startDecorator={<ShoppingCart />}
-          variant="solid"
-          disabled={product.stock === 0 || product.stock === null}
-          onClick={() => {
-            addToCart({ product: product, quantity: 1 })
-            setAddedToCart(true)
-            setShouldDisplayCart(true)
-          }}
-          sx={{
-            width: '50%',
-            minHeight: 44,
-            borderRadius: '12px',
-            bgcolor: BRAND_GREEN,
-            color: 'white',
-            fontWeight: 600,
-            boxShadow: '0 2px 8px rgba(137,179,41,0.3)',
-            transition: 'all 0.2s ease',
-            '&:hover': {
-              bgcolor: BRAND_GREEN_HOVER,
-              transform: 'translateY(-1px)',
-              boxShadow: '0 4px 12px rgba(137,179,41,0.4)',
-            },
-          }}
-        >
-          Comprar
-        </Button>
-      )}
-      {/* addedToCart && (
-        <Notification message="El carrito ha sido actualizado" open={addedToCart} onClose={() => setAddedToCart(false)} />
-      ) */}
-      <Button
-        startDecorator={<Visibility />}
-        variant="outlined"
-        onClick={onViewDetails}
+      <IconButton
+        aria-label="Añadir al carrito"
+        variant="solid"
+        color="neutral"
+        disabled={product.stock === 0 || product.stock === null}
+        onClick={addOne}
         sx={{
-          width: { xs: overrideActions ? '100%' : '50%', sm: '50%' },
-          minHeight: 44,
-          borderRadius: '12px',
-          borderColor: BRAND_PURPLE,
-          color: BRAND_PURPLE,
-          fontWeight: 600,
-          '&:hover': {
-            borderColor: BRAND_PURPLE_HOVER,
-            bgcolor: 'rgba(115,48,128,0.08)',
-            transform: 'translateY(-1px)',
-          },
+          width: 36,
+          height: 36,
+          borderRadius: '50%',
+          bgcolor: BRAND_GREEN,
+          color: 'white',
+          '&:hover': { bgcolor: BRAND_GREEN_HOVER },
         }}
       >
-        Detalles
-      </Button>
-      </Box>
+        <ShoppingCart sx={{ fontSize: 18 }} />
+      </IconButton>
+      <IconButton
+        aria-label="Ver detalles del producto"
+        size="sm"
+        variant="outlined"
+        color="neutral"
+        onClick={onViewDetails}
+        sx={{
+          width: 32,
+          height: 32,
+          borderRadius: '50%',
+          borderColor: BRAND_PURPLE,
+          color: BRAND_PURPLE,
+          '&:hover': { borderColor: BRAND_PURPLE_HOVER, bgcolor: 'rgba(115,48,128,0.1)' },
+        }}
+      >
+        <Visibility sx={{ fontSize: 16 }} />
+      </IconButton>
     </Box>
   )
 }

@@ -141,7 +141,7 @@ const DulcesDieciseis = () => {
   const [selectedSizePack6, setSelectedSizePack6] = useState<string>("");
   const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
   const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
-  const { addToCart, updatedCart, setShouldDisplayCart } = useCart()
+  const { addToCart, updatedCart } = useCart()
   const [addedToCart, setAddedToCart] = useState(false)
   useEffect(() => {
     if (updatedCart) {
@@ -196,7 +196,6 @@ const DulcesDieciseis = () => {
   
       addToCart({ product: product, quantity: 1 })
       setAddedToCart(true)
-      setShouldDisplayCart(true)
 
 
     setMysteryItem({

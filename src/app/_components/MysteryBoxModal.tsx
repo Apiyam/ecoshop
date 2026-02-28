@@ -21,20 +21,20 @@ type MysteryBoxModalProps = {
 
 const steps = [
   {
-    title: "Paquetes de 6, 10, 15 y 20 piezas",
-    body: "Tú eliges cuántas piezas quieres. Puedes mezclar pañales, absorbentes, ropa y accesorios: todo lo que necesites para tu bebé y tu familia.",
+    title: "Elige tu pack",
+    body: "Pack Inteligente (4 lisos + 4 estampados), Pack Tranquilidad (5 lisos + 10 estampados + bolsa) o Pack Libertad (8 lisos + 12 estampados + bolsa). Todos incluyen filtro bambú y detergente.",
   },
   {
-    title: "Descuentos progresivos",
-    body: "6 piezas = 5% de descuento, 10 piezas = 8%, 15 piezas = 10% y 20 o más = 12%. Entre más productos sumes a tu paquete, más ahorras.",
+    title: "Elige tus lisos",
+    body: "Selecciona los pañales premium lisos que quieres. La cantidad depende del pack que elegiste.",
   },
   {
-    title: "Cómo armar tu paquete",
-    body: "Elige una meta (por ejemplo «Paquete de 10 piezas») y te llevamos a la tienda. Agrega al carrito lo que quieras; una barra te mostrará cuántas piezas llevas y cuántas faltan para el siguiente descuento.",
+    title: "Elige tus estampados",
+    body: "Elige tus pañales estampados favoritos. Puedes repetir diseños o mezclar según el pack.",
   },
   {
-    title: "Para mamás que cuidan el planeta",
-    body: "Productos reutilizables y sustentables. Menos desperdicio, más ahorro y más tranquilidad para ti y tu peque.",
+    title: "Bolsa y resumen",
+    body: "En Pack Tranquilidad y Libertad elige tu bolsa impermeable (wetbag). Revisa tu resumen y al dar «Pagar» se agrega todo al carrito al precio del pack.",
   },
 ];
 
@@ -91,7 +91,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
               textAlign: "center",
             }}
           >
-            ¿Cómo funciona mi paquete personalizado?
+            ¿Cómo funcionan los packs Expo?
           </Typography>
           <Typography
             id="modal-paquetes-desc"
@@ -103,7 +103,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
               lineHeight: 1.6,
             }}
           >
-            Te explicamos en cuatro pasos para que armes tu paquete con confianza.
+            En cuatro pasos: eliges pack, tus lisos, tus estampados, tu bolsa (si aplica) y pagas.
           </Typography>
 
           <Stack spacing={2}>
@@ -163,7 +163,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
                 },
               }}
             >
-              Entendido, quiero armar mi paquete
+              Entendido, ver packs
             </Button>
           </Box>
         </CardContent>
