@@ -55,3 +55,6 @@ export const PARENT_IDS = {
 } as const;
 
 export const WEBHOOK_URL = 'https://n8n.srv912585.hstgr.cloud/webhook/lubella';
+
+/** Key for sessionStorage to restore pack selection (e.g. when editing from cart) */
+export const PACK_SELECTION_STORAGE_KEY = (packId: string) => `ecopipo_pack_${packId}_selection`;

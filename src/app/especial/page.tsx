@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Box,
   Container,
@@ -15,15 +16,24 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import MysteryBoxModal from "../_components/MysteryBoxModal";
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE_HOVER } from "@/lib/constants";
-import { PACKS } from "./types";
+import { PACKS, type ExpoPackId } from "./types";
 import PackWizard from "./PackWizard";
 
 const DulcesDieciseis = () => {
   const purple = BRAND_PURPLE;
   const green = BRAND_GREEN;
+  const searchParams = useSearchParams();
 
   const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   const [wizardPack, setWizardPack] = useState<typeof PACKS[0] | null>(null);
+
+  useEffect(() => {
+    const editar = searchParams.get('editar') as ExpoPackId | null;
+    if (editar && (editar === 'inteligente' || editar === 'tranquilidad' || editar === 'libertad')) {
+      const pack = PACKS.find((p) => p.id === editar) ?? null;
+      if (pack) setWizardPack(pack);
+    }
+  }, [searchParams]);
 
 
   return (

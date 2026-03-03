@@ -12,21 +12,23 @@ import {
   CardActionArea,
   CardMedia,
   CircularProgress,
+  Badge,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { ProductItem } from '@/lib/wooApi';
 import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
 import {
   ExpoPack,
   PARENT_IDS,
+  PACK_SELECTION_STORAGE_KEY,
   WEBHOOK_URL,
 } from './types';
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_PURPLE_HOVER, BRAND_GREEN_HOVER } from '@/lib/constants';
-
-const STORAGE_KEY = (packId: string) => `ecopipo_pack_${packId}_selection`;
 
 /** Nombre para mostrar: quitar prefijo de categoría para que se vea el color/variación y permitir nombre completo */
 function getDisplayName(p: ProductItem): string {
@@ -70,7 +72,7 @@ type PackWizardProps = {
 type StepIndex = 0 | 1 | 2 | 3;
 
 export default function PackWizard({ pack, open, onClose, onComplete }: PackWizardProps) {
-  const { addToCart } = useCart();
+  const { setPackInCart } = useCart();
   const router = useRouter();
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,15 +88,15 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
     ? ['Elige tus lisos', 'Elige tus estampados', 'Elige tu bolsa impermeable', 'Resumen']
     : ['Elige tus lisos', 'Elige tus estampados', 'Resumen'];
 
-  const lisosList = products.filter((p) => p.parent === PARENT_IDS.LISOS);
-  const estampadosList = products.filter((p) => p.parent === PARENT_IDS.ESTAMPADOS);
-  const wetbagList = products.filter((p) => p.parent === PARENT_IDS.WETBAG);
+  const lisosList = products.filter((p) => p.parent === PARENT_IDS.LISOS && (p.stock ?? 0) > 0);
+  const estampadosList = products.filter((p) => p.parent === PARENT_IDS.ESTAMPADOS && (p.stock ?? 0) > 0);
+  const wetbagList = products.filter((p) => p.parent === PARENT_IDS.WETBAG && (p.stock ?? 0) > 0);
   const filtroProduct = products.find((p) => p.parent === PARENT_IDS.FILTRO_BAMBU || p.id === PARENT_IDS.FILTRO_BAMBU)
     ?? products.find((p) => p.id === PARENT_IDS.FILTRO_BAMBU);
   const detergenteProduct = products.find((p) => p.parent === PARENT_IDS.DETERGENTE || p.id === PARENT_IDS.DETERGENTE)
     ?? products.find((p) => p.id === PARENT_IDS.DETERGENTE);
 
-  // Persistir selección para no perderla al salir o regresar
+  // Persistir selección para no perderla al salir o regresar (no guardar mientras carga para no pisar lo restaurado desde Editar)
   const saveSelection = useCallback(() => {
     try {
       const payload = {
@@ -102,13 +104,14 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
         estampados: selectedEstampados.map((p) => p.id),
         wetbagId: selectedWetbag?.id ?? null,
       };
-      sessionStorage.setItem(STORAGE_KEY(pack.id), JSON.stringify(payload));
-    } catch (_) {}
+      sessionStorage.setItem(PACK_SELECTION_STORAGE_KEY(pack.id), JSON.stringify(payload));
+    } catch {}
   }, [pack.id, selectedLisos, selectedEstampados, selectedWetbag]);
 
   useEffect(() => {
+    if (loading) return;
     saveSelection();
-  }, [saveSelection]);
+  }, [saveSelection, loading]);
 
   useEffect(() => {
     if (!open) return;
@@ -127,24 +130,25 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
         );
         setProducts(normalized);
         try {
-          const saved = sessionStorage.getItem(STORAGE_KEY(pack.id));
+          const saved = sessionStorage.getItem(PACK_SELECTION_STORAGE_KEY(pack.id));
           if (saved) {
             const { lisos, estampados, wetbagId } = JSON.parse(saved);
             const byId = new Map(normalized.map((p) => [p.id, p]));
+            const getProduct = (id: number | string) => byId.get(Number(id)) ?? byId.get(id as number);
             if (Array.isArray(lisos)) {
-              const rest = lisos.map((id) => byId.get(id)).filter(Boolean) as ProductItem[];
+              const rest = lisos.map((id) => getProduct(id)).filter(Boolean) as ProductItem[];
               if (rest.length <= pack.lisos) setSelectedLisos(rest);
             }
             if (Array.isArray(estampados)) {
-              const rest = estampados.map((id) => byId.get(id)).filter(Boolean) as ProductItem[];
+              const rest = estampados.map((id) => getProduct(id)).filter(Boolean) as ProductItem[];
               if (rest.length <= pack.estampados) setSelectedEstampados(rest);
             }
             if (wetbagId != null && pack.wetbag > 0) {
-              const w = byId.get(wetbagId);
+              const w = getProduct(wetbagId);
               if (w) setSelectedWetbag(w);
             }
           }
-        } catch (_) {}
+        } catch {}
       })
       .catch(() => setError('No se pudieron cargar los productos.'))
       .finally(() => setLoading(false));
@@ -168,7 +172,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
     };
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
-  }, [open, pack.id, onClose]);
+  }, [open, pack.id, onClose, stepLabels.length]);
 
 
   const canNext = useCallback(() => {
@@ -192,43 +196,55 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
     if (step > 0) setStep((s) => (s - 1) as StepIndex);
   };
 
-  // Un solo producto por color/estampado: si ya está seleccionado, se quita; si no, se agrega (sin duplicados)
-  const toggleLiso = (product: ProductItem) => {
+  // Varias unidades del mismo color permitidas, respetando stock y máximo del pack
+  const addLiso = (product: ProductItem, e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setSelectedLisos((prev) => {
-      const idx = prev.findIndex((p) => p.id === product.id);
-      if (idx >= 0) return prev.filter((_, i) => i !== idx);
-      if (prev.length >= pack.lisos) return prev;
+      const countThis = prev.filter((p) => p.id === product.id).length;
+      const stock = Math.max(0, product.stock ?? 0);
+      if (prev.length >= pack.lisos || countThis >= stock) return prev;
       return [...prev, product];
     });
   };
 
-  const toggleEstampado = (product: ProductItem) => {
+  const removeLiso = (product: ProductItem, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setSelectedLisos((prev) => {
+      const idx = prev.findIndex((p) => p.id === product.id);
+      if (idx < 0) return prev;
+      return [...prev.slice(0, idx), ...prev.slice(idx + 1)];
+    });
+  };
+
+  const addEstampado = (product: ProductItem, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setSelectedEstampados((prev) => {
+      const countThis = prev.filter((p) => p.id === product.id).length;
+      const stock = Math.max(0, product.stock ?? 0);
+      if (prev.length >= pack.estampados || countThis >= stock) return prev;
+      return [...prev, product];
+    });
+  };
+
+  const removeEstampado = (product: ProductItem, e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setSelectedEstampados((prev) => {
       const idx = prev.findIndex((p) => p.id === product.id);
-      if (idx >= 0) return prev.filter((_, i) => i !== idx);
-      if (prev.length >= pack.estampados) return prev;
-      return [...prev, product];
+      if (idx < 0) return prev;
+      return [...prev.slice(0, idx), ...prev.slice(idx + 1)];
     });
   };
 
   const handlePagar = () => {
-    const addByQuantity = (items: ProductItem[]) => {
-      const byId = new Map<number, { product: ProductItem; qty: number }>();
-      items.forEach((p) => {
-        const prev = byId.get(p.id);
-        if (prev) prev.qty += 1;
-        else byId.set(p.id, { product: p, qty: 1 });
-      });
-      byId.forEach(({ product, qty }) => addToCart({ product, quantity: qty }));
-    };
-    addByQuantity(selectedLisos);
-    addByQuantity(selectedEstampados);
-    if (selectedWetbag) addToCart({ product: selectedWetbag, quantity: 1 });
-    if (filtroProduct) addToCart({ product: filtroProduct, quantity: 1 });
-    if (detergenteProduct) addToCart({ product: detergenteProduct, quantity: 1 });
+    setPackInCart({
+      pack,
+      selectedLisos: [...selectedLisos],
+      selectedEstampados: [...selectedEstampados],
+      selectedWetbag,
+    });
     try {
-      sessionStorage.removeItem(STORAGE_KEY(pack.id));
-    } catch (_) {}
+      sessionStorage.removeItem(PACK_SELECTION_STORAGE_KEY(pack.id));
+    } catch {}
     onComplete?.();
     onClose();
     router.push('/carrito');
@@ -255,34 +271,57 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
 
     const resumenStepIndex = hasWetbagStep ? 3 : 2;
     if (step === resumenStepIndex) {
+      const lisosGrouped = new Map<number, { product: ProductItem; count: number }>();
+      selectedLisos.forEach((p) => {
+        const prev = lisosGrouped.get(p.id);
+        if (prev) prev.count += 1;
+        else lisosGrouped.set(p.id, { product: p, count: 1 });
+      });
+      const estampadosGrouped = new Map<number, { product: ProductItem; count: number }>();
+      selectedEstampados.forEach((p) => {
+        const prev = estampadosGrouped.get(p.id);
+        if (prev) prev.count += 1;
+        else estampadosGrouped.set(p.id, { product: p, count: 1 });
+      });
+
       return (
         <Box sx={{ px: 1 }}>
           <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
             Lisos ({selectedLisos.length})
           </Typography>
           <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1, mb: 2 }}>
-            {selectedLisos.map((p) => (
-              <Box
-                key={p.id}
-                component="img"
-                src={p.images || '/imgs/placeholder.png'}
-                alt={p.name}
-                sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
-              />
+            {Array.from(lisosGrouped.values()).map(({ product: p, count }) => (
+              <Badge
+                key={`liso-${p.id}`}
+                badgeContent={count > 1 ? count : undefined}
+                sx={{ '& .MuiBadge-badge': { fontSize: '0.7rem', minWidth: 18, height: 18, bgcolor: accent, color: 'white' } }}
+              >
+                <Box
+                  component="img"
+                  src={p.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
+                  alt={p.name}
+                  sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
+                />
+              </Badge>
             ))}
           </Stack>
           <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
             Estampados ({selectedEstampados.length})
           </Typography>
           <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1, mb: 2 }}>
-            {selectedEstampados.map((p) => (
-              <Box
-                key={p.id}
-                component="img"
-                src={p.images || '/imgs/placeholder.png'}
-                alt={p.name}
-                sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
-              />
+            {Array.from(estampadosGrouped.values()).map(({ product: p, count }) => (
+              <Badge
+                key={`estampado-${p.id}`}
+                badgeContent={count > 1 ? count : undefined}
+                sx={{ '& .MuiBadge-badge': { fontSize: '0.7rem', minWidth: 18, height: 18, bgcolor: accent, color: 'white' } }}
+              >
+                <Box
+                  component="img"
+                  src={p.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
+                  alt={p.name}
+                  sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
+                />
+              </Badge>
             ))}
           </Stack>
           {hasWetbagStep && selectedWetbag && (
@@ -293,7 +332,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
               <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
                 <Box
                   component="img"
-                  src={selectedWetbag.images || '/imgs/placeholder.png'}
+                  src={selectedWetbag.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
                   alt={selectedWetbag.name}
                   sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
                 />
@@ -301,11 +340,15 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
               </Stack>
             </>
           )}
-          <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+          <Stack direction="column" spacing={1} sx={{ mb: 2 }}>
+            <Typography variant="subtitle2" color="text.secondary" >
+              Filtro bambú y detergente
+            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
             {filtroProduct && (
               <Box
                 component="img"
-                src={filtroProduct.images || '/imgs/placeholder.png'}
+                src={filtroProduct.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
                 alt="Filtro bambú"
                 sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
               />
@@ -313,11 +356,12 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
             {detergenteProduct && (
               <Box
                 component="img"
-                src={detergenteProduct.images || '/imgs/placeholder.png'}
+                src={detergenteProduct.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
                 alt="Detergente"
                 sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
               />
             )}
+            </Stack>
           </Stack>
           <Typography variant="h6" sx={{ fontWeight: 700, color: accent }}>
             Precio del pack: ${pack.priceDiscounted.toLocaleString('es-MX')}
@@ -345,7 +389,12 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
       return (
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, px: 1 }}>
           {lisosList.map((p) => {
-            const selected = selectedLisos.some((x) => x.id === p.id);
+            const countThis = selectedLisos.filter((x) => x.id === p.id).length;
+            const selected = countThis > 0;
+            const stock = Math.max(0, p.stock ?? 0);
+            const canAdd = selectedLisos.length < pack.lisos && countThis < stock;
+            const canRemove = countThis > 0;
+            const disabled = !canAdd && !canRemove;
             return (
               <Card
                 key={p.id}
@@ -353,36 +402,74 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                   borderRadius: 2,
                   border: selected ? `3px solid ${accent}` : 'none',
                   overflow: 'hidden',
+                  opacity: disabled ? 0.7 : 1,
                 }}
               >
-                <CardActionArea onClick={() => toggleLiso(p)}>
-                  <CardMedia
-                    component="img"
-                    image={p.images || '/imgs/placeholder.png'}
-                    alt={p.name}
-                    sx={{ aspectRatio: '1', objectFit: 'cover' }}
-                  />
-                  <Box sx={{ p: 1, textAlign: 'center' }}>
-                    <Typography
-                      variant="body2"
+                <CardMedia
+                  component="img"
+                  image={p.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
+                  alt={p.name}
+                  sx={{ aspectRatio: '1', objectFit: 'cover', pointerEvents: 'none' }}
+                />
+                <Box sx={{ p: 1, textAlign: 'center' }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      minHeight: 36,
+                    }}
+                    title={p.name}
+                  >
+                    {getDisplayName(p)}
+                  </Typography>
+                  <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ mt: 1 }}>
+                    <IconButton
+                      size="large"
+                      onClick={(e) => removeLiso(p, e)}
+                      disabled={!canRemove}
+                      aria-label="Quitar uno"
                       sx={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                        minHeight: 36,
+                        width: 44,
+                        height: 44,
+                        border: '2px solid',
+                        borderColor: canRemove ? accent : 'action.disabled',
+                        color: canRemove ? accent : 'action.disabled',
+                        bgcolor: canRemove ? `${accent}20` : 'transparent',
+                        '&:hover': canRemove ? { bgcolor: `${accent}30` } : {},
+                        '&:disabled': { opacity: 0.5 },
                       }}
-                      title={p.name}
                     >
-                      {getDisplayName(p)}
+                      <RemoveIcon sx={{ fontSize: 24 }} />
+                    </IconButton>
+                    <Typography variant="body1" sx={{ minWidth: 28, textAlign: 'center', fontWeight: 700, color: selected ? accent : 'text.secondary', fontSize: '1.1rem' }}>
+                      {countThis}
                     </Typography>
-                    {selected && (
-                      <Typography variant="caption" sx={{ color: accent, fontWeight: 600 }}>
-                        {selectedLisos.length}/{pack.lisos}
-                      </Typography>
-                    )}
-                  </Box>
-                </CardActionArea>
+                    <IconButton
+                      size="large"
+                      onClick={(e) => addLiso(p, e)}
+                      disabled={!canAdd}
+                      aria-label="Agregar uno"
+                      sx={{
+                        width: 44,
+                        height: 44,
+                        border: '2px solid',
+                        borderColor: canAdd ? accent : 'action.disabled',
+                        color: canAdd ? accent : 'action.disabled',
+                        bgcolor: canAdd ? `${accent}20` : 'transparent',
+                        '&:hover': canAdd ? { bgcolor: `${accent}30` } : {},
+                        '&:disabled': { opacity: 0.5 },
+                      }}
+                    >
+                      <AddIcon sx={{ fontSize: 24 }} />
+                    </IconButton>
+                  </Stack>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                    {selectedLisos.length}/{pack.lisos}
+                  </Typography>
+                </Box>
               </Card>
             );
           })}
@@ -394,7 +481,12 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
       return (
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, px: 1 }}>
           {estampadosList.map((p) => {
-            const selected = selectedEstampados.some((x) => x.id === p.id);
+            const countThis = selectedEstampados.filter((x) => x.id === p.id).length;
+            const selected = countThis > 0;
+            const stock = Math.max(0, p.stock ?? 0);
+            const canAdd = selectedEstampados.length < pack.estampados && countThis < stock;
+            const canRemove = countThis > 0;
+            const disabled = !canAdd && !canRemove;
             return (
               <Card
                 key={p.id}
@@ -402,36 +494,74 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                   borderRadius: 2,
                   border: selected ? `3px solid ${accent}` : 'none',
                   overflow: 'hidden',
+                  opacity: disabled ? 0.7 : 1,
                 }}
               >
-                <CardActionArea onClick={() => toggleEstampado(p)}>
-                  <CardMedia
-                    component="img"
-                    image={p.images || '/imgs/placeholder.png'}
-                    alt={p.name}
-                    sx={{ aspectRatio: '1', objectFit: 'cover' }}
-                  />
-                  <Box sx={{ p: 1, textAlign: 'center' }}>
-                    <Typography
-                      variant="body2"
+                <CardMedia
+                  component="img"
+                  image={p.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
+                  alt={p.name}
+                  sx={{ aspectRatio: '1', objectFit: 'cover', pointerEvents: 'none' }}
+                />
+                <Box sx={{ p: 1, textAlign: 'center' }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      minHeight: 36,
+                    }}
+                    title={p.name}
+                  >
+                    {getDisplayName(p)}
+                  </Typography>
+                  <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ mt: 1 }}>
+                    <IconButton
+                      size="large"
+                      onClick={(e) => removeEstampado(p, e)}
+                      disabled={!canRemove}
+                      aria-label="Quitar uno"
                       sx={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                        minHeight: 36,
+                        width: 44,
+                        height: 44,
+                        border: '2px solid',
+                        borderColor: canRemove ? accent : 'action.disabled',
+                        color: canRemove ? accent : 'action.disabled',
+                        bgcolor: canRemove ? `${accent}20` : 'transparent',
+                        '&:hover': canRemove ? { bgcolor: `${accent}30` } : {},
+                        '&:disabled': { opacity: 0.5 },
                       }}
-                      title={p.name}
                     >
-                      {getDisplayName(p)}
+                      <RemoveIcon sx={{ fontSize: 24 }} />
+                    </IconButton>
+                    <Typography variant="body1" sx={{ minWidth: 28, textAlign: 'center', fontWeight: 700, color: selected ? accent : 'text.secondary', fontSize: '1.1rem' }}>
+                      {countThis}
                     </Typography>
-                    {selected && (
-                      <Typography variant="caption" sx={{ color: accent, fontWeight: 600 }}>
-                        {selectedEstampados.length}/{pack.estampados}
-                      </Typography>
-                    )}
-                  </Box>
-                </CardActionArea>
+                    <IconButton
+                      size="large"
+                      onClick={(e) => addEstampado(p, e)}
+                      disabled={!canAdd}
+                      aria-label="Agregar uno"
+                      sx={{
+                        width: 44,
+                        height: 44,
+                        border: '2px solid',
+                        borderColor: canAdd ? accent : 'action.disabled',
+                        color: canAdd ? accent : 'action.disabled',
+                        bgcolor: canAdd ? `${accent}20` : 'transparent',
+                        '&:hover': canAdd ? { bgcolor: `${accent}30` } : {},
+                        '&:disabled': { opacity: 0.5 },
+                      }}
+                    >
+                      <AddIcon sx={{ fontSize: 24 }} />
+                    </IconButton>
+                  </Stack>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                    {selectedEstampados.length}/{pack.estampados}
+                  </Typography>
+                </Box>
               </Card>
             );
           })}
@@ -456,7 +586,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                 <CardActionArea onClick={() => setSelectedWetbag(p)}>
                   <CardMedia
                     component="img"
-                    image={p.images || '/imgs/placeholder.png'}
+                    image={p.images || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'}
                     alt={p.name}
                     sx={{ aspectRatio: '1', objectFit: 'cover' }}
                   />
@@ -490,14 +620,14 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
   const showNext = !isResumenStep && !loading && !error;
 
   return (
-    <Modal open={open} onClose={onClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <Modal open={open} onClose={onClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 8 }}>
       <Box
         sx={{
           bgcolor: 'background.paper',
           borderRadius: 3,
           maxWidth: 480,
           width: '100%',
-          maxHeight: '90vh',
+          maxHeight: '85vh',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
