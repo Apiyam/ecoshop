@@ -383,8 +383,8 @@ export default function CartContent({ onClose }: CartContentProps) {
       <Modal open={packDetailsOpen} onClose={() => setPackDetailsOpen(false)}>
         <ModalDialog sx={{ maxWidth: 440 }}>
           <ModalClose />
-          <Typography level="h6" sx={{ mb: 0.5 }}>{packInCart?.pack.name ?? 'Paquete'}</Typography>
-          <Typography level="body2" color="neutral" sx={{ mb: 2 }}>Contenido de tu paquete</Typography>
+          <Typography level="h4" sx={{ mb: 0.5 }}>{packInCart?.pack.name ?? 'Paquete'}</Typography>
+          <Typography level="h4" color="neutral" sx={{ mb: 2 }}>Contenido de tu paquete</Typography>
           {packInCart && (() => {
             const lisosGrouped = new Map<number, { product: ProductItem; count: number }>()
             packInCart.selectedLisos.forEach((p) => {
@@ -403,7 +403,7 @@ export default function CartContent({ onClose }: CartContentProps) {
               <Box sx={{ px: 0.5 }}>
                 {packInCart.selectedLisos.length > 0 && (
                   <>
-                    <Typography level="body2" sx={{ mb: 1, color: 'neutral.600' }}>
+                    <Typography level="body-md" sx={{ mb: 1, color: 'neutral.600' }}>
                       Lisos ({packInCart.selectedLisos.length})
                     </Typography>
                     <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1, mb: 2 }}>
@@ -426,7 +426,7 @@ export default function CartContent({ onClose }: CartContentProps) {
                 )}
                 {packInCart.selectedEstampados.length > 0 && (
                   <>
-                    <Typography level="body2" sx={{ mb: 1, color: 'neutral.600' }}>
+                    <Typography level="body-md" sx={{ mb: 1, color: 'neutral.600' }}>
                       Estampados ({packInCart.selectedEstampados.length})
                     </Typography>
                     <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1, mb: 2 }}>
@@ -449,7 +449,7 @@ export default function CartContent({ onClose }: CartContentProps) {
                 )}
                 {packInCart.selectedWetbag && (
                   <>
-                    <Typography level="body2" sx={{ mb: 1, color: 'neutral.600' }}>
+                    <Typography level="body-md" sx={{ mb: 1, color: 'neutral.600' }}>
                       Bolsa impermeable
                     </Typography>
                     <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
@@ -459,15 +459,15 @@ export default function CartContent({ onClose }: CartContentProps) {
                         alt={packInCart.selectedWetbag.name}
                         sx={{ width: 56, height: 56, borderRadius: 8, objectFit: 'cover' }}
                       />
-                      <Typography level="body2">{getDisplayName(packInCart.selectedWetbag)}</Typography>
+                      <Typography level="body-md">{getDisplayName(packInCart.selectedWetbag)}</Typography>
                     </Stack>
                   </>
                 )}
-                <Typography level="body2" sx={{ mb: 1, color: 'neutral.600' }}>
+                <Typography level="body-md" sx={{ mb: 1, color: 'neutral.600' }}>
                   Filtro bambú y detergente
                 </Typography>
-                <Typography level="body2" sx={{ mb: 2 }}>Incluidos en el pack</Typography>
-                <Typography level="h6" sx={{ fontWeight: 700, color: accent }}>
+                <Typography level="body-md" sx={{ mb: 2 }}>Incluidos en el pack</Typography>
+                <Typography level="h4" sx={{ fontWeight: 700, color: accent }}>
                   Precio del pack: ${packInCart.pack.priceDiscounted.toLocaleString('es-MX')}
                 </Typography>
               </Box>

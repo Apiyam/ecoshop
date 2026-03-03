@@ -37,12 +37,11 @@ import { ESTAMPADOS } from '../../../lib/constants'
 import ClearIcon from '@mui/icons-material/Clear'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { useProducts } from '@/context/ProductContext'
-import { SearchOutlined, TableChartOutlined } from '@mui/icons-material'
+import { SearchOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import PopupModal from '../../_components/PopupModal'
 import ProgressGoal from '@/app/_components/ProgressGoal'
-import { useCart } from '@/context/CartContext'
 import { checkDiscount } from '@/lib/productDiscount'
 
 
@@ -70,7 +69,6 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const [showPopup, setShowPopup] = useState(false)
-    const { currentGoal, totalItems, discountGoals, currentDiscount } = useCart()
 
     // Mostrar popup "Arma tu paquete" solo la primera vez que entra a la tienda
     useEffect(() => {
@@ -78,13 +76,17 @@ export default function MainView({ selectedProduct }: MainViewProps) {
             if (typeof window !== 'undefined' && !sessionStorage.getItem('ecopipo_tienda_popup_seen')) {
                 setShowPopup(true)
             }
-        } catch (_) {}
+        } catch {
+            console.log('Error al mostrar popup')
+        }
     }, [])
 
     const handleClosePopup = () => {
         try {
             if (typeof window !== 'undefined') sessionStorage.setItem('ecopipo_tienda_popup_seen', '1')
-        } catch (_) {}
+        } catch {
+            console.log('Error al cerrar popup')
+        }
         setShowPopup(false)
     }
 
@@ -130,7 +132,9 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                 const y = Number(saved)
                 requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'instant' }))
             }
-        } catch (_) {}
+        } catch {
+            console.log('Error al restaurar scroll')
+        }
     }, [selectedChildren, scrollRestored])
     useEffect(() => {
         if (selectedCategory?.children.length === 0 && products) {
@@ -225,14 +229,14 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                 {debouncedSearchValue && (
                     <Box sx={{border: '1px solid #9e71a7', width: '98%', borderRadius: 2, position: 'absolute', top: 50, right: 0, maxWidth: '650px', minHeight: '600px', height: '100%', backgroundColor: 'white', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 2, padding: 2 }}>
                         <Typography level="h4">
-                            {searchResults.length} resultados para "{debouncedSearchValue}"
+                            {searchResults.length} resultados para &quot;{debouncedSearchValue}&quot;
                         </Typography>
                         <IconButton variant="soft" color="danger" size="lg" onClick={() => setSearchValue('')} sx={{ position: 'absolute', top: 10, right: 10 }}>
                             <ClearIcon />
                         </IconButton>
                         <Grid container spacing={2} sx={{ overflowY: 'auto', height: '100%', p: 0,  maxHeight: '500px' }}>
                             {searchResults.map((product) => (
-                                    <ProductCard product={product} viewMode="list" discount={checkDiscount(product)} simple />
+                                    <ProductCard product={product} viewMode="list" discount={checkDiscount(product)} simple key={product.sku} />
                                
                             ))}
                         </Grid>
@@ -449,7 +453,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                                                 <Select defaultValue={"-"} value={selectedFilters} onChange={(e, value) => setSelectedFilters(value || '-')}>
                                                     <Option value="-">Todos los productos</Option>
                                                     {selectedChildren?.filters?.options.map((option) => (
-                                                        <Option value={option}>{option}</Option>
+                                                        <Option value={option} key={option}>{option}</Option>
                                                     ))}
                                                 </Select>
                                             )}
