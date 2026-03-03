@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import {
   Box,
   Button,
@@ -18,13 +18,25 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { ProductItem } from '@/lib/wooApi';
 import { useCart } from '@/context/CartContext';
+import { useRouter } from 'next/navigation';
 import {
   ExpoPack,
-  PACKS,
   PARENT_IDS,
   WEBHOOK_URL,
 } from './types';
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_PURPLE_HOVER, BRAND_GREEN_HOVER } from '@/lib/constants';
+
+const STORAGE_KEY = (packId: string) => `ecopipo_pack_${packId}_selection`;
+
+/** Nombre para mostrar: quitar prefijo de categoría para que se vea el color/variación y permitir nombre completo */
+function getDisplayName(p: ProductItem): string {
+  let n = p.name.replace(/6 Meses - 6 Años/gi, '').trim();
+  const parent = (p.parent_name || '').replace(/^Privado:\s*/i, '').trim();
+  if (parent && n.toLowerCase().startsWith(parent.toLowerCase())) {
+    n = n.slice(parent.length).replace(/^[\s\-–]+/, '').trim();
+  }
+  return n || p.name;
+}
 
 const emptyProductItem = (p: Partial<ProductItem>): ProductItem => ({
   sku: p.sku ?? '',
@@ -59,6 +71,7 @@ type StepIndex = 0 | 1 | 2 | 3;
 
 export default function PackWizard({ pack, open, onClose, onComplete }: PackWizardProps) {
   const { addToCart } = useCart();
+  const router = useRouter();
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,6 +79,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
   const [selectedLisos, setSelectedLisos] = useState<ProductItem[]>([]);
   const [selectedEstampados, setSelectedEstampados] = useState<ProductItem[]>([]);
   const [selectedWetbag, setSelectedWetbag] = useState<ProductItem | null>(null);
+  const historyKeyRef = useRef<string | null>(null);
 
   const hasWetbagStep = pack.wetbag > 0;
   const stepLabels = hasWetbagStep
@@ -79,6 +93,22 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
     ?? products.find((p) => p.id === PARENT_IDS.FILTRO_BAMBU);
   const detergenteProduct = products.find((p) => p.parent === PARENT_IDS.DETERGENTE || p.id === PARENT_IDS.DETERGENTE)
     ?? products.find((p) => p.id === PARENT_IDS.DETERGENTE);
+
+  // Persistir selección para no perderla al salir o regresar
+  const saveSelection = useCallback(() => {
+    try {
+      const payload = {
+        lisos: selectedLisos.map((p) => p.id),
+        estampados: selectedEstampados.map((p) => p.id),
+        wetbagId: selectedWetbag?.id ?? null,
+      };
+      sessionStorage.setItem(STORAGE_KEY(pack.id), JSON.stringify(payload));
+    } catch (_) {}
+  }, [pack.id, selectedLisos, selectedEstampados, selectedWetbag]);
+
+  useEffect(() => {
+    saveSelection();
+  }, [saveSelection]);
 
   useEffect(() => {
     if (!open) return;
@@ -96,10 +126,50 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
           emptyProductItem(p as Partial<ProductItem>)
         );
         setProducts(normalized);
+        try {
+          const saved = sessionStorage.getItem(STORAGE_KEY(pack.id));
+          if (saved) {
+            const { lisos, estampados, wetbagId } = JSON.parse(saved);
+            const byId = new Map(normalized.map((p) => [p.id, p]));
+            if (Array.isArray(lisos)) {
+              const rest = lisos.map((id) => byId.get(id)).filter(Boolean) as ProductItem[];
+              if (rest.length <= pack.lisos) setSelectedLisos(rest);
+            }
+            if (Array.isArray(estampados)) {
+              const rest = estampados.map((id) => byId.get(id)).filter(Boolean) as ProductItem[];
+              if (rest.length <= pack.estampados) setSelectedEstampados(rest);
+            }
+            if (wetbagId != null && pack.wetbag > 0) {
+              const w = byId.get(wetbagId);
+              if (w) setSelectedWetbag(w);
+            }
+          }
+        } catch (_) {}
       })
       .catch(() => setError('No se pudieron cargar los productos.'))
       .finally(() => setLoading(false));
-  }, [open]);
+  }, [open, pack.id, pack.lisos, pack.estampados, pack.wetbag]);
+
+  // Historial del navegador: "atrás" vuelve al paso anterior
+  useEffect(() => {
+    if (!open) return;
+    const key = `pack-${pack.id}-${Date.now()}`;
+    historyKeyRef.current = key;
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ packWizard: key, step: 0 }, '');
+    }
+    const onPopState = (e: PopStateEvent) => {
+      const state = (e.state ?? window.history.state) as { packWizard?: string; step?: number } | null;
+      if (state?.packWizard === historyKeyRef.current && typeof state.step === 'number') {
+        setStep(Math.max(0, Math.min(state.step, stepLabels.length - 1)) as StepIndex);
+      } else {
+        onClose();
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [open, pack.id, onClose]);
+
 
   const canNext = useCallback(() => {
     if (step === 0) return selectedLisos.length === pack.lisos;
@@ -109,13 +179,20 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
   }, [step, pack, selectedLisos.length, selectedEstampados.length, selectedWetbag, hasWetbagStep]);
 
   const handleNext = () => {
-    if (step < stepLabels.length - 1) setStep((s) => (s + 1) as StepIndex);
+    if (step < stepLabels.length - 1) {
+      const next = (step + 1) as StepIndex;
+      setStep(next);
+      if (typeof window !== 'undefined' && historyKeyRef.current) {
+        window.history.pushState({ packWizard: historyKeyRef.current, step: next }, '');
+      }
+    }
   };
 
   const handleBack = () => {
     if (step > 0) setStep((s) => (s - 1) as StepIndex);
   };
 
+  // Un solo producto por color/estampado: si ya está seleccionado, se quita; si no, se agrega (sin duplicados)
   const toggleLiso = (product: ProductItem) => {
     setSelectedLisos((prev) => {
       const idx = prev.findIndex((p) => p.id === product.id);
@@ -149,8 +226,12 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
     if (selectedWetbag) addToCart({ product: selectedWetbag, quantity: 1 });
     if (filtroProduct) addToCart({ product: filtroProduct, quantity: 1 });
     if (detergenteProduct) addToCart({ product: detergenteProduct, quantity: 1 });
+    try {
+      sessionStorage.removeItem(STORAGE_KEY(pack.id));
+    } catch (_) {}
     onComplete?.();
     onClose();
+    router.push('/carrito');
   };
 
   const accent = pack.color === 'green' ? BRAND_GREEN : BRAND_PURPLE;
@@ -282,8 +363,18 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                     sx={{ aspectRatio: '1', objectFit: 'cover' }}
                   />
                   <Box sx={{ p: 1, textAlign: 'center' }}>
-                    <Typography variant="body2" noWrap>
-                      {p.name}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        minHeight: 36,
+                      }}
+                      title={p.name}
+                    >
+                      {getDisplayName(p)}
                     </Typography>
                     {selected && (
                       <Typography variant="caption" sx={{ color: accent, fontWeight: 600 }}>
@@ -321,8 +412,18 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                     sx={{ aspectRatio: '1', objectFit: 'cover' }}
                   />
                   <Box sx={{ p: 1, textAlign: 'center' }}>
-                    <Typography variant="body2" noWrap>
-                      {p.name}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        minHeight: 36,
+                      }}
+                      title={p.name}
+                    >
+                      {getDisplayName(p)}
                     </Typography>
                     {selected && (
                       <Typography variant="caption" sx={{ color: accent, fontWeight: 600 }}>
@@ -360,8 +461,18 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                     sx={{ aspectRatio: '1', objectFit: 'cover' }}
                   />
                   <Box sx={{ p: 1, textAlign: 'center' }}>
-                    <Typography variant="body2" noWrap>
-                      {p.name}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        minHeight: 36,
+                      }}
+                      title={p.name}
+                    >
+                      {getDisplayName(p)}
                     </Typography>
                   </Box>
                 </CardActionArea>
