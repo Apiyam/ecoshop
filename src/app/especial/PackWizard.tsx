@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import {
   Box,
   Button,
@@ -38,6 +38,19 @@ function getDisplayName(p: ProductItem): string {
     n = n.slice(parent.length).replace(/^[\s\-–]+/, '').trim();
   }
   return n || p.name;
+}
+
+/** Ordenar pañales: mismo modelo (ej. amarillo) alfabéticamente, broche y velcro del mismo modelo uno al lado del otro (broche primero, luego velcro) */
+function sortPañalesByModelAndType<T extends ProductItem>(list: T[], getDisplayNameFn: (p: T) => string): T[] {
+  return [...list].sort((a, b) => {
+    const nameA = getDisplayNameFn(a).toLowerCase().trim();
+    const nameB = getDisplayNameFn(b).toLowerCase().trim();
+    const modelA = nameA.replace(/\b(broche|velcro)\b/gi, '').replace(/\s+/g, ' ').trim() || nameA;
+    const modelB = nameB.replace(/\b(broche|velcro)\b/gi, '').replace(/\s+/g, ' ').trim() || nameB;
+    if (modelA !== modelB) return modelA.localeCompare(modelB, 'es');
+    const typeOrder = (n: string) => (n.includes('broche') ? 0 : n.includes('velcro') ? 1 : 2);
+    return typeOrder(nameA) - typeOrder(nameB);
+  });
 }
 
 const emptyProductItem = (p: Partial<ProductItem>): ProductItem => ({
@@ -91,6 +104,9 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
   const lisosList = products.filter((p) => p.parent === PARENT_IDS.LISOS && (p.stock ?? 0) > 0);
   const estampadosList = products.filter((p) => p.parent === PARENT_IDS.ESTAMPADOS && (p.stock ?? 0) > 0);
   const wetbagList = products.filter((p) => p.parent === PARENT_IDS.WETBAG && (p.stock ?? 0) > 0);
+
+  const sortedLisosList = useMemo(() => sortPañalesByModelAndType(lisosList, getDisplayName), [lisosList]);
+  const sortedEstampadosList = useMemo(() => sortPañalesByModelAndType(estampadosList, getDisplayName), [estampadosList]);
   const filtroProduct = products.find((p) => p.parent === PARENT_IDS.FILTRO_BAMBU || p.id === PARENT_IDS.FILTRO_BAMBU)
     ?? products.find((p) => p.id === PARENT_IDS.FILTRO_BAMBU);
   const detergenteProduct = products.find((p) => p.parent === PARENT_IDS.DETERGENTE || p.id === PARENT_IDS.DETERGENTE)
@@ -387,8 +403,8 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
 
     if (step === 0) {
       return (
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, px: 1 }}>
-          {lisosList.map((p) => {
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, px: 1 }}>
+          {sortedLisosList.map((p) => {
             const countThis = selectedLisos.filter((x) => x.id === p.id).length;
             const selected = countThis > 0;
             const stock = Math.max(0, p.stock ?? 0);
@@ -411,7 +427,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                   alt={p.name}
                   sx={{ aspectRatio: '1', objectFit: 'cover', pointerEvents: 'none' }}
                 />
-                <Box sx={{ p: 1, textAlign: 'center' }}>
+                <Box sx={{ p: 1, textAlign: 'center', minWidth: 0 }}>
                   <Typography
                     variant="body2"
                     sx={{
@@ -420,21 +436,23 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                       minHeight: 36,
+                      fontSize: '0.8rem',
                     }}
                     title={p.name}
                   >
                     {getDisplayName(p)}
                   </Typography>
-                  <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ mt: 1 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="center" spacing={0.5} sx={{ mt: 0.75 }} useFlexGap flexWrap="nowrap">
                     <IconButton
-                      size="large"
+                      size="small"
                       onClick={(e) => removeLiso(p, e)}
                       disabled={!canRemove}
                       aria-label="Quitar uno"
                       sx={{
-                        width: 44,
-                        height: 44,
-                        border: '2px solid',
+                        minWidth: 32,
+                        width: 32,
+                        height: 32,
+                        border: '1.5px solid',
                         borderColor: canRemove ? accent : 'action.disabled',
                         color: canRemove ? accent : 'action.disabled',
                         bgcolor: canRemove ? `${accent}20` : 'transparent',
@@ -442,20 +460,21 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                         '&:disabled': { opacity: 0.5 },
                       }}
                     >
-                      <RemoveIcon sx={{ fontSize: 24 }} />
+                      <RemoveIcon sx={{ fontSize: 18 }} />
                     </IconButton>
-                    <Typography variant="body1" sx={{ minWidth: 28, textAlign: 'center', fontWeight: 700, color: selected ? accent : 'text.secondary', fontSize: '1.1rem' }}>
+                    <Typography variant="body2" sx={{ minWidth: 22, textAlign: 'center', fontWeight: 700, color: selected ? accent : 'text.secondary', fontSize: '0.9rem' }}>
                       {countThis}
                     </Typography>
                     <IconButton
-                      size="large"
+                      size="small"
                       onClick={(e) => addLiso(p, e)}
                       disabled={!canAdd}
                       aria-label="Agregar uno"
                       sx={{
-                        width: 44,
-                        height: 44,
-                        border: '2px solid',
+                        minWidth: 32,
+                        width: 32,
+                        height: 32,
+                        border: '1.5px solid',
                         borderColor: canAdd ? accent : 'action.disabled',
                         color: canAdd ? accent : 'action.disabled',
                         bgcolor: canAdd ? `${accent}20` : 'transparent',
@@ -463,10 +482,10 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                         '&:disabled': { opacity: 0.5 },
                       }}
                     >
-                      <AddIcon sx={{ fontSize: 24 }} />
+                      <AddIcon sx={{ fontSize: 18 }} />
                     </IconButton>
                   </Stack>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.25, fontSize: '0.7rem' }}>
                     {selectedLisos.length}/{pack.lisos}
                   </Typography>
                 </Box>
@@ -479,8 +498,8 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
 
     if (step === 1) {
       return (
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, px: 1 }}>
-          {estampadosList.map((p) => {
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, px: 1 }}>
+          {sortedEstampadosList.map((p) => {
             const countThis = selectedEstampados.filter((x) => x.id === p.id).length;
             const selected = countThis > 0;
             const stock = Math.max(0, p.stock ?? 0);
@@ -503,7 +522,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                   alt={p.name}
                   sx={{ aspectRatio: '1', objectFit: 'cover', pointerEvents: 'none' }}
                 />
-                <Box sx={{ p: 1, textAlign: 'center' }}>
+                <Box sx={{ p: 1, textAlign: 'center', minWidth: 0 }}>
                   <Typography
                     variant="body2"
                     sx={{
@@ -512,21 +531,23 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                       minHeight: 36,
+                      fontSize: '0.8rem',
                     }}
                     title={p.name}
                   >
                     {getDisplayName(p)}
                   </Typography>
-                  <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ mt: 1 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="center" spacing={0.5} sx={{ mt: 0.75 }} useFlexGap flexWrap="nowrap">
                     <IconButton
-                      size="large"
+                      size="small"
                       onClick={(e) => removeEstampado(p, e)}
                       disabled={!canRemove}
                       aria-label="Quitar uno"
                       sx={{
-                        width: 44,
-                        height: 44,
-                        border: '2px solid',
+                        minWidth: 32,
+                        width: 32,
+                        height: 32,
+                        border: '1.5px solid',
                         borderColor: canRemove ? accent : 'action.disabled',
                         color: canRemove ? accent : 'action.disabled',
                         bgcolor: canRemove ? `${accent}20` : 'transparent',
@@ -534,20 +555,21 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                         '&:disabled': { opacity: 0.5 },
                       }}
                     >
-                      <RemoveIcon sx={{ fontSize: 24 }} />
+                      <RemoveIcon sx={{ fontSize: 18 }} />
                     </IconButton>
-                    <Typography variant="body1" sx={{ minWidth: 28, textAlign: 'center', fontWeight: 700, color: selected ? accent : 'text.secondary', fontSize: '1.1rem' }}>
+                    <Typography variant="body2" sx={{ minWidth: 22, textAlign: 'center', fontWeight: 700, color: selected ? accent : 'text.secondary', fontSize: '0.9rem' }}>
                       {countThis}
                     </Typography>
                     <IconButton
-                      size="large"
+                      size="small"
                       onClick={(e) => addEstampado(p, e)}
                       disabled={!canAdd}
                       aria-label="Agregar uno"
                       sx={{
-                        width: 44,
-                        height: 44,
-                        border: '2px solid',
+                        minWidth: 32,
+                        width: 32,
+                        height: 32,
+                        border: '1.5px solid',
                         borderColor: canAdd ? accent : 'action.disabled',
                         color: canAdd ? accent : 'action.disabled',
                         bgcolor: canAdd ? `${accent}20` : 'transparent',
@@ -555,10 +577,10 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                         '&:disabled': { opacity: 0.5 },
                       }}
                     >
-                      <AddIcon sx={{ fontSize: 24 }} />
+                      <AddIcon sx={{ fontSize: 18 }} />
                     </IconButton>
                   </Stack>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.25, fontSize: '0.7rem' }}>
                     {selectedEstampados.length}/{pack.estampados}
                   </Typography>
                 </Box>
@@ -638,7 +660,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
           <IconButton size="small" onClick={step === 0 ? onClose : handleBack} aria-label={step === 0 ? 'Cerrar' : 'Atrás'}>
             {step === 0 ? <CloseIcon /> : <ArrowBackIosNewIcon fontSize="small" />}
           </IconButton>
-          <Typography variant="subtitle1" fontWeight={600}>
+          <Typography variant="body1" fontWeight={600}>
             {stepLabels[step]}
           </Typography>
           <Box sx={{ width: 40 }} />
