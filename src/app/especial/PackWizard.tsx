@@ -660,7 +660,7 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
           <IconButton size="small" onClick={step === 0 ? onClose : handleBack} aria-label={step === 0 ? 'Cerrar' : 'Atrás'}>
             {step === 0 ? <CloseIcon /> : <ArrowBackIosNewIcon fontSize="small" />}
           </IconButton>
-          <Typography variant="body1" fontWeight={600}>
+          <Typography variant="body1" fontWeight={600} color='black'>
             {stepLabels[step]}
           </Typography>
           <Box sx={{ width: 40 }} />
