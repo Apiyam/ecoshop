@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import MysteryBoxModal from "./_components/MysteryBoxModal";
+import Link from "next/link";
 import { ProductItem } from "@/lib/wooApi";
 import { useCart } from "@/context/CartContext";
 
@@ -196,7 +196,6 @@ const MysteryBoxNavideno = () => {
   const [selectedSizePack6, setSelectedSizePack6] = useState<string>("");
   const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
   const [selectedSizePack10, setSelectedSizePack10] = useState<string>("");
-  const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   const { addToCart } = useCart()
 
   const validateMysteryBox = (id: number) => {
@@ -391,7 +390,8 @@ const MysteryBoxNavideno = () => {
 
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
             <Button
-              onClick={() => setShowMysteryBoxModal(true)}
+              component={Link}
+              href="/especial/como-funcionan"
               variant="outlined"
               size="large"
               sx={{
@@ -402,6 +402,7 @@ const MysteryBoxNavideno = () => {
                 px: 4,
                 py: 1.5,
                 borderWidth: 2,
+                textDecoration: "none",
                 ":hover": { 
                   borderColor: red,
                   bgcolor: red,
@@ -568,7 +569,6 @@ const MysteryBoxNavideno = () => {
           </Typography>
         </Box>
       </Box>
-      <MysteryBoxModal open={showMysteryBoxModal} onClose={() => setShowMysteryBoxModal(false)} />
     </Box>
   );
 };

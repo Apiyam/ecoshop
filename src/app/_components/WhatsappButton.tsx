@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 
-const phoneNumber = '+5213315744720'
+const phoneNumber = '+5215545485352'
 const message = 'Hola, quiero más información sobre sus productos.'
 
 export default function WhatsappButton() {

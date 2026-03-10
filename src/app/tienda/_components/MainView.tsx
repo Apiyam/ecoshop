@@ -212,8 +212,8 @@ export default function MainView({ selectedProduct }: MainViewProps) {
 
     return (
         <Container sx={{ pb: { xs: 8, sm: 4 } }}>
-            <ProgressGoal onHeader />
-            <div style={{ height: '140px' }} />
+            {/* <ProgressGoal onHeader />  <div style={{ height: '140px' }} /> */}
+           
             <CategoryGrid categories={categories} onCategoryChange={(category) => {
                 setSelectedCategory(category)
                 setSelectedEstampados([])
@@ -518,7 +518,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                     </Sheet>
                 </Modal>
             }
-            <PopupModal open={showPopup} onClose={handleClosePopup} />
+           {/* <PopupModal open={showPopup} onClose={handleClosePopup} /> */}
         </Container>
     )
 }

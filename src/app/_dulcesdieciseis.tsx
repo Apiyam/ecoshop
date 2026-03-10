@@ -19,7 +19,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import SixteenDescription from "./_components/SixteenDescription";
-import MysteryBoxModal from "./_components/MysteryBoxModal";
+import Link from "next/link";
 import { ProductItem } from "@/lib/wooApi";
 import { useCart } from "@/context/CartContext";
 
@@ -140,7 +140,6 @@ const DulcesDieciseis = () => {
   const [selectedBoxPack3, setSelectedBoxPack3] = useState<string>("");
   const [selectedSizePack6, setSelectedSizePack6] = useState<string>("");
   const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
-  const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   const { addToCart, updatedCart } = useCart()
   const [addedToCart, setAddedToCart] = useState(false)
   useEffect(() => {
@@ -293,7 +292,8 @@ const DulcesDieciseis = () => {
 
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
       <Button
-        onClick={() => setShowMysteryBoxModal(true)}
+        component={Link}
+        href="/especial/como-funcionan"
             variant="contained"
             className="btn-responsive"
             size="large"
@@ -306,6 +306,7 @@ const DulcesDieciseis = () => {
               borderRadius: 3,
               px: 4,
               py: 1.5,
+              textDecoration: "none",
               ":hover": { bgcolor: purple },
             }}
           >
@@ -411,7 +412,6 @@ const DulcesDieciseis = () => {
           Ecopipo® 2025 — Celebrando contigo con dulzura y sustentabilidad.
         </Typography>
       </Box>
-      <MysteryBoxModal open={showMysteryBoxModal} onClose={() => setShowMysteryBoxModal(false)} />
     </Box>
   );
 };

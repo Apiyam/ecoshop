@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Container,
@@ -9,12 +9,11 @@ import {
   Card,
   CardContent,
   Stack,
-  Link,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
-import MysteryBoxModal from "./_components/MysteryBoxModal";
+import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE_HOVER } from "@/lib/constants";
@@ -63,7 +62,6 @@ const DulcesDieciseis = () => {
     },
   ];
 
-  const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   const { setGoalCustomPackage } = useCart()
 
 
@@ -175,7 +173,8 @@ const DulcesDieciseis = () => {
           Escoge tu paquete personalizado con descuentos
           <br /><br />
            <Button
-            onClick={() => setShowMysteryBoxModal(true)}
+            component={Link}
+            href="/especial/como-funcionan"
             variant="contained"
             className="btn-responsive"
             size="large"
@@ -189,6 +188,7 @@ const DulcesDieciseis = () => {
               px: 4,
               py: 1.5,
               minHeight: 44,
+              textDecoration: "none",
               boxShadow: "0 4px 14px rgba(115,48,128,0.35)",
               transition: "all 0.2s ease",
               "&:hover": {
@@ -275,7 +275,6 @@ const DulcesDieciseis = () => {
           Ecopipo® 2025 — Empresa 100% mexicana.
         </Typography>
       </Box>
-      <MysteryBoxModal open={showMysteryBoxModal} onClose={() => setShowMysteryBoxModal(false)} />
     </Box>
   );
 };

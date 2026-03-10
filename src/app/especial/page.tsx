@@ -8,12 +8,10 @@ import {
   Card,
   CardContent,
   Stack,
-  Link,
 } from "@mui/material";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
-import MysteryBoxModal from "../_components/MysteryBoxModal";
+import Link from "next/link";
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE_HOVER } from "@/lib/constants";
 import { PACKS } from "./types";
 import PackWizard from "./PackWizard";
@@ -22,7 +20,6 @@ const DulcesDieciseis = () => {
   const purple = BRAND_PURPLE;
   const green = BRAND_GREEN;
 
-  const [showMysteryBoxModal, setShowMysteryBoxModal] = useState<boolean>(false);
   const [wizardPack, setWizardPack] = useState<typeof PACKS[0] | null>(null);
 
 
@@ -45,107 +42,56 @@ const DulcesDieciseis = () => {
           >
             Más para tu bebé, más ahorro para ti
           </Typography>
+          <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+            <iframe
+              width="360"
+              height="203"
+              src="https://www.youtube.com/embed/dEJ3JTlPsG8?rel=0&modestbranding=1&controls=0"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{ borderRadius: 12, maxWidth: "100%" }}
+            />
+          </Box>
           <Typography
             variant="h6"
-            sx={{
-              maxWidth: 700,
-              mx: "auto",
-              opacity: 0.9,
-              lineHeight: 1.6,
-              mb: 4,
-            }}
+            sx={{ fontWeight: 600, color: purple }}
           >
-            Pack Inteligente, Tranquilidad o Libertad: elige tu pack Expo, selecciona tus pañales lisos, estampados y bolsa. Incluye filtro bambú y detergente. Precio especial en cada pack.
+            Paquetes especiales Ecopipo🤩
           </Typography>
-
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            justifyContent="center"
-            alignItems="center"
-            spacing={1}
-            sx={{ mb: 1 }}
+          <Typography
+            variant="body1"
+            sx={{ fontWeight: 400, color: "#444", marginTop: 2 }}
           >
-            <AccessTimeIcon sx={{ color: purple }} />
-            <Typography variant="h6" sx={{ fontWeight: 600, color: purple }}>
-              Elige tu pack y personaliza tus productos
-            </Typography>
-          </Stack>
-          <Box>
-          <a href="#packs-expo">
+            Todo lo que necesitas para empezar. <br /> Elige el tuyo y aprovecha la promoción de Expo Nacional.
+          </Typography>
+          <Box sx={{ textAlign: "center", marginTop: 2 }}>
           <Button
-            variant="contained"
-            className="btn-responsive"
-            size="large"
-            sx={{
-              bgcolor: green,
-              color: "white",
-              fontWeight: 600,
-              borderRadius: 2,
-              px: 4,
-              py: 1.5,
-              minHeight: 44,
-              boxShadow: "0 4px 14px rgba(137,179,41,0.35)",
-              transition: "all 0.2s ease",
-              "&:hover": {
-                bgcolor: BRAND_GREEN_HOVER,
-                transform: "translateY(-2px)",
-                boxShadow: "0 6px 18px rgba(137,179,41,0.45)",
-              },
-            }}
-          >
-            VER PACKS EXPO
-          </Button>
-          </a>
-          <Link href="/tienda" underline="none">
-          <Button
-            variant="contained"
-            className="btn-responsive"
-            size="large"
-            sx={{
-              marginLeft: "10px",
-              bgcolor: purple,
-              color: "white",
-              fontWeight: 600,
-              borderRadius: 2,
-              px: 4,
-              py: 1.5,
-              minHeight: 44,
-              boxShadow: "0 4px 14px rgba(115,48,128,0.35)",
-              transition: "all 0.2s ease",
-              "&:hover": {
-                bgcolor: BRAND_PURPLE_HOVER,
-                transform: "translateY(-2px)",
-                boxShadow: "0 6px 18px rgba(115,48,128,0.45)",
-              },
-            }}
-          >
-            TIENDA ECOPIPO
-          </Button>
-          </Link>
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Packs Expo Section */}
-      <Container sx={{ py: 10 }} id="packs-expo">
-        <Typography variant="h4" textAlign="center" sx={{ mb: 2, color: purple, fontWeight: 800 }}>
-          Escoge tu pack Expo
-        </Typography>
-        <Box sx={{ textAlign: "center", mb: 4 }}>
-          <Button
-            onClick={() => setShowMysteryBoxModal(true)}
+            component={Link}
+            href="/especial/como-funcionan"
             variant="outlined"
             size="medium"
             sx={{
               borderColor: purple,
               color: purple,
               fontWeight: 600,
+              textDecoration: "none",
               "&:hover": { borderColor: BRAND_PURPLE_HOVER, bgcolor: "rgba(115,48,128,0.04)" },
             }}
           >
             ¿Cómo funcionan los packs?
           </Button>
         </Box>
+        </Container>
+      </Box>
+
+      {/* Packs Expo Section */}
+      <Container sx={{ py: 4}} id="packs-expo">
+        <Typography variant="h4" textAlign="center" sx={{ mb: 2, color: purple, fontWeight: 800 }}>
+          Escoge tu pack Expo
+        </Typography>
+        
 
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 4 }}>
           {PACKS.map((pack) => {
@@ -173,13 +119,9 @@ const DulcesDieciseis = () => {
                 >
                   <Box
                     component="img"
-                    src="/imgs/placeholder.png"
+                    src={`/imgs/${pack.id}.jpg`}
                     alt={pack.name}
-                    onError={(e) => {
-                      const t = e.target as HTMLImageElement;
-                      t.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240"><rect fill="%23EFE9F1" width="400" height="240"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23733080" font-family="sans-serif" font-size="18">' + pack.name + '</text></svg>');
-                    }}
-                    sx={{ width: "100%", height: 200, objectFit: "cover", bgcolor: "#EFE9F1" }}
+                    sx={{ width: "100%", height: 500, objectFit: "cover", bgcolor: "#EFE9F1" }}
                   />
                   <CardContent>
                     <Typography variant="h5" sx={{ fontWeight: 700, color: accent }}>
@@ -221,20 +163,93 @@ const DulcesDieciseis = () => {
             );
           })}
         </Box>
+
+        <Typography variant="h6" sx={{ fontWeight: 600, mt: 1.5, textAlign: "center" }}>
+          Tienes dudas? Envia un mensaje a nuestro WhatsApp <Link href="https://wa.me/5215545485352" style={{ color: green }} target="_blank">CLICK AQUÍ</Link>
+        </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 2,
+          mt: 3,
+          flexWrap: "wrap",
+          flexDirection: { xs: "column", sm: "row" },
+          width: "100%",
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            width: { xs: "100%", sm: "auto" },
+            bgcolor: green,
+            color: "white",
+            fontWeight: 600,
+            borderRadius: 2,
+            minHeight: 44,
+            px: 3,
+            "&:hover": {
+              borderColor: BRAND_PURPLE,
+              color: BRAND_PURPLE_HOVER,
+              bgcolor: "#f5f5f5",
+            },
+          }}
+          href="/especial#packs-expo"
+        >
+          Ver packs expo
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
+            width: { xs: "100%", sm: "auto" },
+            bgcolor: BRAND_PURPLE,
+            color: "white",
+            fontWeight: 600,
+            borderRadius: 2,
+            minHeight: 44,
+            px: 3,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
+            "&:hover": {
+              bgcolor: BRAND_PURPLE_HOVER,
+              transform: "translateY(-2px)",
+              boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
+            },
+          }}
+          href="/tienda"
+        >
+          Tienda Ecopipo
+        </Button>
+      </Box>
       </Container>
 
 
       {/* Footer */}
-      <Box sx={{ bgcolor: purple, py: 6, textAlign: "center", color: "white" }}>
-        <CelebrationIcon sx={{ color: green, fontSize: 40 }} />
-        <Typography variant="h6" sx={{ fontWeight: 600, mt: 1 }}>
-          Paquetes personalizados, ecológicos y sustentables para tu familia
-        </Typography>
-        <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          Ecopipo® 2025 — Empresa 100% mexicana.
-        </Typography>
+      <Box
+        component="footer"
+        sx={{
+          bgcolor: purple,
+          py: 6,
+          px: 2,
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <CelebrationIcon sx={{ color: green, fontSize: 48, mb: 1.5 }} />
+          <Typography variant="h6" sx={{ fontWeight: 600, lineHeight: 1.4, maxWidth: 420, mx: "auto" }}>
+            Paquetes personalizados, ecológicos y sustentables para tu familia
+          </Typography>
+          <Typography variant="body2" sx={{ opacity: 0.9, mt: 1.5 }}>
+            Ecopipo® 2026 — Empresa 100% mexicana.
+          </Typography>
+        </Container>
       </Box>
-      <MysteryBoxModal open={showMysteryBoxModal} onClose={() => setShowMysteryBoxModal(false)} />
       {wizardPack && (
         <PackWizard
           pack={wizardPack}

@@ -73,8 +73,7 @@ export default function CategorySlider({ categories, onCategoryChange }: Categor
               <Box
                 sx={{
                   width: '100%',
-                  height: 0,
-                  paddingBottom: '100%',
+                  paddingBottom: '50%',
                   position: 'relative',
                   bgcolor: 'neutral.100',
                   overflow: 'hidden',

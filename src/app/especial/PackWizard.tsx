@@ -352,7 +352,6 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
                   alt={selectedWetbag.name}
                   sx={{ width: 56, height: 56, borderRadius: 1, objectFit: 'cover' }}
                 />
-                <Typography variant="body2">{selectedWetbag.name}</Typography>
               </Stack>
             </>
           )}

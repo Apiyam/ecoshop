@@ -60,7 +60,7 @@ export default function RootLayout({
         <CartProvider>
           <Header />
           {children}
-          <FaqPackagesButton />
+          {/* <FaqPackagesButton /> */}
           <WhatsappButton />
         </CartProvider>
         </PostHogContext>
