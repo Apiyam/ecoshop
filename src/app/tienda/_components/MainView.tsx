@@ -40,8 +40,6 @@ import { useProducts } from '@/context/ProductContext'
 import { SearchOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
-import PopupModal from '../../_components/PopupModal'
-import ProgressGoal from '@/app/_components/ProgressGoal'
 import { checkDiscount } from '@/lib/productDiscount'
 
 
@@ -68,27 +66,26 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
-    const [showPopup, setShowPopup] = useState(false)
 
     // Mostrar popup "Arma tu paquete" solo la primera vez que entra a la tienda
     useEffect(() => {
         try {
             if (typeof window !== 'undefined' && !sessionStorage.getItem('ecopipo_tienda_popup_seen')) {
-                setShowPopup(true)
+                //setShowPopup(true)
             }
         } catch {
             console.log('Error al mostrar popup')
         }
     }, [])
 
-    const handleClosePopup = () => {
+    /*const handleClosePopup = () => {
         try {
             if (typeof window !== 'undefined') sessionStorage.setItem('ecopipo_tienda_popup_seen', '1')
         } catch {
             console.log('Error al cerrar popup')
         }
         setShowPopup(false)
-    }
+    }*/
 
     useEffect(() => {
         getCategories().then((categories) => setCategories(categories))

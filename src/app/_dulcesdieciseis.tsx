@@ -8,12 +8,10 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia,
   Stack,
   Divider,
   Select,
   MenuItem,
-  Link,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
@@ -111,7 +109,6 @@ const mappBox = [{
 const DulcesDieciseis = () => {
   const purple = "#733080";
   const green = "#89b329";
-  const [mysteryItem, setMysteryItem] = useState<any>(null);
 
   useEffect(() => {
     
@@ -140,13 +137,7 @@ const DulcesDieciseis = () => {
   const [selectedBoxPack3, setSelectedBoxPack3] = useState<string>("");
   const [selectedSizePack6, setSelectedSizePack6] = useState<string>("");
   const [selectedSizePack3, setSelectedSizePack3] = useState<string>("");
-  const { addToCart, updatedCart } = useCart()
-  const [addedToCart, setAddedToCart] = useState(false)
-  useEffect(() => {
-    if (updatedCart) {
-      setAddedToCart(true)
-    }
-  }, [updatedCart])
+  const { addToCart } = useCart()
 
   const validateMysteryBox = (id: number) => {
     if(id === 1){
@@ -194,13 +185,13 @@ const DulcesDieciseis = () => {
     }
   
       addToCart({ product: product, quantity: 1 })
-      setAddedToCart(true)
+      //setAddedToCart(true)
 
 
-    setMysteryItem({
+    /*setMysteryItem({
       box: id === 1 ? selectedBoxPack6 : selectedBoxPack3,
       size: id === 1 ? selectedSizePack6 : selectedSizePack3,
-    });
+    });*/
   }
 
   return (
@@ -265,7 +256,7 @@ const DulcesDieciseis = () => {
             MYSTERY BOX ANIVERSARIO
           </Button>
           </a>
-          <Link href="/tienda" underline="none">
+          <Link href="/tienda" >
           <Button
             variant="contained"
             className="btn-responsive"

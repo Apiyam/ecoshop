@@ -133,7 +133,7 @@ const DulcesDieciseis = () => {
             QUIERO ARMAR MI PAQUETE
           </Button>
           </a>
-          <Link href="/tienda" underline="none">
+          <Link href="/tienda" >
           <Button
             variant="contained"
             className="btn-responsive"

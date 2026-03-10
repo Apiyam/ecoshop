@@ -5,7 +5,6 @@ import { CartProvider } from "../context/CartContext";
 import { Analytics } from "@vercel/analytics/next"
 import Header from "../components/Header";
 import WhatsappButton from "./_components/WhatsappButton";
-import FaqPackagesButton from "./_components/FaqPackagesButton";
 import { PostHogContext } from "../context/PostHogContext";
 
 const domain = "https://ecopipo.com/matriz";//process.env.NEXT_PUBLIC_DOMAIN as string;
