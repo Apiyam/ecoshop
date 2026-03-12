@@ -163,13 +163,13 @@
       {
         "id": 4526,
         "name": "Leggings",
-        "slug": "babero",
+        "slug": "leggings",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/leggings_6-300x300.png"
       },
       {
         "id": 4606,
         "name": "Playera Natación",
-        "slug": "babero",
+        "slug": "playera-natacion",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/play_nat.png",
         "filters": {
           "name": "Talla",
@@ -179,7 +179,7 @@
       {
         "id": 4586,
         "name": "Batita",
-        "slug": "babero",
+        "slug": "batita",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/batita.png",
         "filters": {
           "name": "Talla",
@@ -189,31 +189,31 @@
       {
         "id": 3810,
         "name": "Mochila",
-        "slug": "babero",
+        "slug": "mochila",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/mochila.png"
       },
       {
         "id": 3829,
         "name": "Lonchera",
-        "slug": "babero",
+        "slug": "lonchera",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/lonchera.png"
       },
       {
         "id": 9936,
         "name": "Sudaderas",
-        "slug": "babero",
+        "slug": "sudaderas",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/06/sudadera.png"
       },
       {
         "id": 18331,
         "name": "Pijamas Kids",
-        "slug": "babero",
+        "slug": "pijamas-kids",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2024/11/Pijama-copia.png"
       },
       {
         "id": 20061,
         "name": "Pijamas Fresh",
-        "slug": "babero",
+        "slug": "pijamas-fresh",
         "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/pijama_marca_ecopipo_estrellitas.png"
       }
     ]

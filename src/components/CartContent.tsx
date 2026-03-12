@@ -75,11 +75,40 @@ export default function CartContent({ onClose }: CartContentProps) {
 
   const goToWordpress = () => {
     setGoingToWordpress(true)
-    const data = encodeURIComponent(
-      JSON.stringify(cartItems.map((i) => ({ id: i.product.id, quantity: i.quantity })))
-    )
+
+    type ItemPayload = { id: number; quantity: number; kit?: boolean }
+    const items: ItemPayload[] = []
+
+    if (packInCart) {
+      const byId = (arr: { id: number }[]) =>
+        arr.reduce<Record<number, number>>((acc, p) => {
+          acc[p.id] = (acc[p.id] ?? 0) + 1
+          return acc
+        }, {})
+      const lisosQty = byId(packInCart.selectedLisos)
+      const estampadosQty = byId(packInCart.selectedEstampados)
+      Object.entries(lisosQty).forEach(([id, qty]) => {
+        items.push({ id: Number(id), quantity: qty, kit: true })
+      })
+      Object.entries(estampadosQty).forEach(([id, qty]) => {
+        items.push({ id: Number(id), quantity: qty, kit: true })
+      })
+      if (packInCart.selectedWetbag) {
+        items.push({ id: packInCart.selectedWetbag.id, quantity: 1, kit: true })
+      }
+      items.push({ id: 4723, quantity: 1, kit: true }) // Filtro bambú (producto enviado a WordPress)
+      items.push({ id: 4942, quantity: 1, kit: true }) // Detergente (producto enviado a WordPress)
+    }
+
+    cartItems.forEach((i) => {
+      items.push({ id: i.product.id, quantity: i.quantity })
+    })
+
+    const data = encodeURIComponent(JSON.stringify(items))
     const base = `https://ecopipo.com/matriz/?redirect=ecopipo&items=${data}`
-    const url = packInCart ? `${base}&withPackage=true` : base
+    const url = packInCart
+      ? `${base}&kitTotal=${packInCart.pack.priceDiscounted}`
+      : base
     window.location.href = url
   }
 
