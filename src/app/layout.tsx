@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
-  description: "Compra paquetes especiales Ecopipo: 6, 10, 15 o 20 piezas. Más pañales reutilizables, mejor precio. Envíos a todo México. ¡Elige tu paquete y empieza a ahorrar hoy!",
+  title: "Expo nacional 2026 - Ecopipo",
+  description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
-    description: "Compra paquetes especiales Ecopipo: 6, 10, 15 o 20 piezas. Más pañales reutilizables, mejor precio. Envíos a todo México. ¡Elige tu paquete y empieza a ahorrar hoy!",
-    images: `/imgs/ch.jpg`,
+    description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
+    images: `/imgs/expo.jpg`,
     url: domain,
     siteName: "Ecopipo",
     locale: "es_MX",
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
-    description: "Compra paquetes especiales Ecopipo: 6, 10, 15 o 20 piezas. Más pañales reutilizables, mejor precio. Envíos a todo México. ¡Elige tu paquete y empieza a ahorrar hoy!",
-    images: `/imgs/ch.jpg`,
+    description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
+    images: `/imgs/expo.jpg`,
   },
 };
 
