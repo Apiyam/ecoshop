@@ -91,7 +91,7 @@ export default function ComoFuncionanPacksPage() {
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
               component={Link}
-              href="/especial#packs-expo"
+              href="/expo-nacional#packs-expo"
               variant="contained"
               sx={{
                 bgcolor: BRAND_GREEN,

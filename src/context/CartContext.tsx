@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { ProductItem } from '../lib/wooApi'
-import type { ExpoPack } from '../app/especial/types'
+import type { ExpoPack } from '../app/expo-nacional/types'
 
 export type CartItem = {
   product: ProductItem

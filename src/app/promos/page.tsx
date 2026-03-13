@@ -370,7 +370,7 @@ const MysteryBoxNavideno = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
             <Button
               component={Link}
-              href="/especial/como-funcionan"
+              href="/expo-nacional/como-funcionan"
               variant="outlined"
               size="large"
               sx={{

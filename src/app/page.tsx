@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Container,
@@ -174,7 +174,7 @@ const DulcesDieciseis = () => {
           <br /><br />
            <Button
             component={Link}
-            href="/especial/como-funcionan"
+            href="/expo-nacional/como-funcionan"
             variant="contained"
             className="btn-responsive"
             size="large"
@@ -279,4 +279,16 @@ const DulcesDieciseis = () => {
   );
 };
 
-export default DulcesDieciseis;
+
+export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/expo-nacional');
+  }, [router]);
+
+  return null;
+}
+
+
+//export default DulcesDieciseis;

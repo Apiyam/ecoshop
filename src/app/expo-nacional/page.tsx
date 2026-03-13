@@ -46,8 +46,8 @@ const DulcesDieciseis = () => {
             <iframe
               width="360"
               height="203"
-              src="https://www.youtube.com/embed/dEJ3JTlPsG8?rel=0&modestbranding=1&controls=0"
-              title="YouTube video player"
+              src="https://www.youtube.com/embed/CxC8gIuPOOA?rel=0&modestbranding=1&controls=0"
+              title="Ecopipo - Expo Nacional"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
@@ -69,7 +69,7 @@ const DulcesDieciseis = () => {
           <Box sx={{ textAlign: "center", marginTop: 2 }}>
           <Button
             component={Link}
-            href="/especial/como-funcionan"
+            href="/expo-nacional/como-funcionan"
             variant="outlined"
             size="medium"
             sx={{
@@ -195,7 +195,7 @@ const DulcesDieciseis = () => {
               bgcolor: "#f5f5f5",
             },
           }}
-          href="/especial#packs-expo"
+          href="/expo-nacional#packs-expo"
         >
           Ver packs expo
         </Button>
