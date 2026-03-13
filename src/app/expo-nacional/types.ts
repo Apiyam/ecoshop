@@ -1,4 +1,4 @@
-export type ExpoPackId = 'esencial' | 'inteligente' | 'libertad';
+export type ExpoPackId = 'esencial' | 'inteligente' | 'lib';
 
 export type ExpoPack = {
   id: ExpoPackId;
@@ -34,7 +34,7 @@ export const PACKS: ExpoPack[] = [
     color: 'purple',
   },
   {
-    id: 'libertad',
+    id: 'lib',
     name: 'Pack Libertad',
     lisos: 8,
     estampados: 12,

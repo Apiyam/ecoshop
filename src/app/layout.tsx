@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
+    title: "Expo nacional 2026, grande ofertas y promociones - Ecopipo",
     description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
     images: `/imgs/expo.jpg`,
     url: domain,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Paquetes Ecopipo 6, 10, 15 y 20 piezas – Ahorra comprando al por mayor",
+    title: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
     description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
     images: `/imgs/expo.jpg`,
   },
