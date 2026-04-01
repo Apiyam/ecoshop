@@ -215,12 +215,12 @@ export default function Header() {
             <>
               
                 {products.map((product) => (
-                  <ListItem sx={{ pl: 4 }}>
-                  <ListItemButton key={product.name} component="a" href={product.href} onClick={() => setOpenMobileMenu(false)}>
-                    {product.name}
-                  </ListItemButton>
-                </ListItem>
-              ))}
+                  <ListItem key={product.href} sx={{ pl: 4 }}>
+                    <ListItemButton component="a" href={product.href} onClick={() => setOpenMobileMenu(false)}>
+                      {product.name}
+                    </ListItemButton>
+                  </ListItem>
+                ))}
 
 
 
@@ -233,7 +233,7 @@ export default function Header() {
       <Snackbar
         open={!!addedToCartMessage}
         autoHideDuration={3500}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         sx={{ mt: 2 }}
       >
         <Box

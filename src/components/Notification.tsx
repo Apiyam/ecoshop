@@ -31,7 +31,7 @@ export default function Notification({ message, open, onClose }: NotificationPro
           width: '200px',
           textAlign: 'center',
           position: 'relative',
-          top: '10px',
+          top: '80px',
           right: '10px',
         },
       }}

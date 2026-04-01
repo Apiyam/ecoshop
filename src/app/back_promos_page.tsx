@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Container,
@@ -18,7 +18,7 @@ import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE_HOVER } from "@/lib/constants";
 
-const HomePage = () => {
+const DulcesDieciseis = () => {
   const purple = BRAND_PURPLE;
   const green = BRAND_GREEN;
   const router = useRouter();
@@ -171,6 +171,35 @@ const HomePage = () => {
           sx={{ mb: 6, color: purple, fontWeight: 800 }}
         >
           Escoge tu paquete personalizado con descuentos
+          <br /><br />
+           <Button
+            component={Link}
+            href="/expo-nacional/como-funcionan"
+            variant="contained"
+            className="btn-responsive"
+            size="large"
+            sx={{
+              marginLeft: "10px",
+              marginBottom: "10px",
+              bgcolor: purple,
+              color: "white",
+              fontWeight: 600,
+              borderRadius: 2,
+              px: 4,
+              py: 1.5,
+              minHeight: 44,
+              textDecoration: "none",
+              boxShadow: "0 4px 14px rgba(115,48,128,0.35)",
+              transition: "all 0.2s ease",
+              "&:hover": {
+                bgcolor: BRAND_PURPLE_HOVER,
+                transform: "translateY(-2px)",
+                boxShadow: "0 6px 18px rgba(115,48,128,0.45)",
+              },
+            }}
+          >
+            ¿Cómo funciona mi paquete personalizado?
+          </Button>
         </Typography>
         
 
@@ -250,4 +279,16 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+
+export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/expo-nacional');
+  }, [router]);
+
+  return null;
+}
+
+
+//export default DulcesDieciseis;

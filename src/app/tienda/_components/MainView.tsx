@@ -41,6 +41,7 @@ import { SearchOutlined } from '@mui/icons-material'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { checkDiscount } from '@/lib/productDiscount'
+import ProgressGoal from '@/app/_components/ProgressGoal'
 
 
 interface MainViewProps {
@@ -209,7 +210,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
 
     return (
         <Container sx={{ pb: { xs: 8, sm: 4 } }}>
-            {/* <ProgressGoal onHeader />  <div style={{ height: '140px' }} /> */}
+            <ProgressGoal onHeader /> <div style={{ height: '140px' }} /> 
            
             <CategoryGrid categories={categories} onCategoryChange={(category) => {
                 setSelectedCategory(category)
