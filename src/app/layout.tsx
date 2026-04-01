@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import Header from "../components/Header";
 import WhatsappButton from "./_components/WhatsappButton";
 import { PostHogContext } from "../context/PostHogContext";
+import FaqPackagesButton from "./_components/FaqPackagesButton";
 
 const domain = "https://ecopipo.com/matriz";//process.env.NEXT_PUBLIC_DOMAIN as string;
 
@@ -20,8 +21,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Expo nacional 2026 - Ecopipo",
-  description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
+  title: "Arma tu paquete 6, 10, 15 o 20 piezas con descuentos | Ecopipo",
+  description:
+    "Crea tu paquete personalizado en Ecopipo: elige productos y suma 6, 10, 15 o 20 piezas para desbloquear descuentos progresivos. Más piezas, más ahorro en pañales y productos ecológicos.",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -32,8 +34,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Expo nacional 2026, grande ofertas y promociones - Ecopipo",
-    description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
+    title: "Paquetes personalizados de 6 a 20 piezas con descuentos | Ecopipo",
+    description:
+      "Arma tu paquete eligiendo lo que necesitas: 6, 10, 15 o 20 piezas con descuentos que aumentan según el tamaño del paquete. Productos ecológicos Ecopipo con ahorro real.",
     images: `/imgs/expo.jpg`,
     url: domain,
     siteName: "Ecopipo",
@@ -42,8 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
-    description: "Expo nacional 2026 - Aprovecha las mejores ofertas y promociones del año en paquetes especiales Ecopipo",
+    title: "Paquetes de 6, 10, 15 y 20 piezas con descuentos | Ecopipo",
+    description:
+      "Crea tu paquete personalizado: suma 6, 10, 15 o 20 piezas y obtén descuentos progresivos en la tienda Ecopipo.",
     images: `/imgs/expo.jpg`,
   },
 };
@@ -59,7 +63,7 @@ export default function RootLayout({
         <CartProvider>
           <Header />
           {children}
-          {/* <FaqPackagesButton /> */}
+          <FaqPackagesButton />
           <WhatsappButton />
         </CartProvider>
         </PostHogContext>

@@ -80,7 +80,7 @@ export default function FaqPackagesButton() {
           sx={{
             width: '100%',
             maxWidth: isMobile ? '100%' : 520,
-            maxHeight: '90vh',
+            maxHeight: '80vh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
