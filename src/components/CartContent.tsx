@@ -22,9 +22,9 @@ import { useCart } from '../context/CartContext'
 import { ProductItem } from '../lib/wooApi'
 import ConfirmationModal from './ConfirmationModal'
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
-import { PACK_SELECTION_STORAGE_KEY } from '@/app/expo-nacional/types'
-import type { ExpoPack } from '@/app/expo-nacional/types'
-import PackWizard from '@/app/expo-nacional/PackWizard'
+import { PACK_SELECTION_STORAGE_KEY } from '@/app/back-expo-nacional/types'
+import type { ExpoPack } from '@/app/back-expo-nacional/types'
+import PackWizard from '@/app/back-expo-nacional/PackWizard'
 
 type CartContentProps = {
   onClose: () => void
