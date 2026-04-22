@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arma tu paquete 6, 10, 15 o 20 piezas con descuentos | Ecopipo",
+  title: "Paquetes especiales con descuentos | Ecopipo",
   description:
     "Crea tu paquete personalizado en Ecopipo: elige productos y suma 6, 10, 15 o 20 piezas para desbloquear descuentos progresivos. Más piezas, más ahorro en pañales y productos ecológicos.",
   icons: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Paquetes personalizados de 6 a 20 piezas con descuentos | Ecopipo",
     description:
       "Arma tu paquete eligiendo lo que necesitas: 6, 10, 15 o 20 piezas con descuentos que aumentan según el tamaño del paquete. Productos ecológicos Ecopipo con ahorro real.",
-    images: `/imgs/expo.jpg`,
+    images: `/imgs/ecopipo2.png`,
     url: domain,
     siteName: "Ecopipo",
     locale: "es_MX",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: "Paquetes de 6, 10, 15 y 20 piezas con descuentos | Ecopipo",
     description:
       "Crea tu paquete personalizado: suma 6, 10, 15 o 20 piezas y obtén descuentos progresivos en la tienda Ecopipo.",
-    images: `/imgs/expo.jpg`,
+    images: `/imgs/ecopipo2.png`,
   },
 };
 
