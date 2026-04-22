@@ -1,4 +1,5 @@
-export type ExpoPackId = 'esencial' | 'inteligente' | 'lib';
+//export type ExpoPackId = 'esencial' | 'inteligente' | 'lib';
+export type ExpoPackId = 'pack1' | 'pack2' | 'pack3';
 
 export type ExpoPack = {
   id: ExpoPackId;
@@ -14,27 +15,27 @@ export type ExpoPack = {
 
 export const PACKS: ExpoPack[] = [
   {
-    id: 'esencial',
+    id: 'pack1',
     name: 'Pack Esencial',
     lisos: 4,
     estampados: 4,
     wetbag: 0,
     priceOriginal: 3614,
-    priceDiscounted: 3200,
+    priceDiscounted: 3324,
     color: 'green',
   },
   {
-    id: 'inteligente',
+    id: 'pack2',
     name: 'Pack Inteligente',
     lisos: 5,
     estampados: 10,
     wetbag: 1,
     priceOriginal: 6720,
-    priceDiscounted: 5670,
+    priceDiscounted: 6048,
     color: 'purple',
   },
   {
-    id: 'lib',
+    id: 'pack3',
     name: 'Pack Libertad',
     lisos: 8,
     estampados: 12,
