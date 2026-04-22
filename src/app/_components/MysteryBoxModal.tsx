@@ -11,6 +11,7 @@ import {
   Stack,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useRouter } from "next/navigation";
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_PURPLE_HOVER, BRAND_GREEN_HOVER } from "@/lib/constants";
 
 type MysteryBoxModalProps = {
@@ -18,12 +19,11 @@ type MysteryBoxModalProps = {
   onClose: () => void;
 };
 
-const PACKS_SECTION_ID = "packs-expo";
-
 const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
+  const router = useRouter();
   const handleVerPacks = () => {
     onClose();
-    document.getElementById(PACKS_SECTION_ID)?.scrollIntoView({ behavior: "smooth" });
+    router.push("/packs#packs-pre-elaborados");
   };
   return (
     <Modal
@@ -77,7 +77,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
               textAlign: "center",
             }}
           >
-            ¿Cómo funcionan los packs Expo?
+            ¿Cómo funcionan los packs pre elaborados?
           </Typography>
           <Typography
             id="modal-paquetes-desc"
@@ -99,7 +99,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
                   Elige tu pack
                 </Typography>
                 <Typography component="span" sx={{ color: "#555", lineHeight: 1.7, fontSize: "0.95rem", display: "block" }}>
-                  Pack Inteligente (4 lisos + 4 estampados), Pack Tranquilidad (5 lisos + 10 estampados + bolsa) o Pack Libertad (8 lisos + 12 estampados + bolsa). Todos incluyen filtro bambú y detergente.
+                  Pack Esencial (4 lisos + 4 estampados), Pack Inteligente (5 lisos + 10 estampados + bolsa) o Pack Libertad (8 lisos + 12 estampados + bolsa). Todos incluyen filtro bambú y detergente.
                 </Typography>
               </Box>
             </Box>
@@ -129,7 +129,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
                   Bolsa y resumen
                 </Typography>
                 <Typography sx={{ color: "#555", lineHeight: 1.7, fontSize: "0.95rem" }}>
-                  En Pack Tranquilidad y Libertad elige tu bolsa impermeable (wetbag). Revisa tu resumen y al dar «Pagar» se agrega todo al carrito al precio del pack.
+                  En Pack Inteligente y Libertad elige tu bolsa impermeable (wetbag). Revisa tu resumen y al dar «Pagar» se agrega todo al carrito al precio del pack.
                 </Typography>
               </Box>
             </Box>
