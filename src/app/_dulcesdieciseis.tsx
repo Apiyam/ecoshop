@@ -284,7 +284,7 @@ const DulcesDieciseis = () => {
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
       <Button
         component={Link}
-        href="/expo-nacional/como-funcionan"
+        href="/piposale/como-funcionan"
             variant="contained"
             className="btn-responsive"
             size="large"

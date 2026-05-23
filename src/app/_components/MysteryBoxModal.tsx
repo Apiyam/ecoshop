@@ -23,7 +23,7 @@ const MysteryBoxModal = ({ open, onClose }: MysteryBoxModalProps) => {
   const router = useRouter();
   const handleVerPacks = () => {
     onClose();
-    router.push("/packs#packs-pre-elaborados");
+    router.push("/piposale#packs-piposale");
   };
   return (
     <Modal

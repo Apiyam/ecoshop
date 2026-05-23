@@ -47,7 +47,7 @@ const DulcesDieciseis = () => {
               width="360"
               height="203"
               src="https://www.youtube.com/embed/CxC8gIuPOOA?rel=0&modestbranding=1&controls=0"
-              title="Ecopipo - Expo Nacional"
+              title="Ecopipo - Pipo Sale"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
@@ -64,12 +64,12 @@ const DulcesDieciseis = () => {
             variant="body1"
             sx={{ fontWeight: 400, color: "#444", marginTop: 2 }}
           >
-            Todo lo que necesitas para empezar. <br /> Elige el tuyo y aprovecha la promoción de Expo Nacional.
+            Todo lo que necesitas para empezar. <br /> Elige el tuyo y aprovecha los precios de Pipo Sale.
           </Typography>
           <Box sx={{ textAlign: "center", marginTop: 2 }}>
           <Button
             component={Link}
-            href="/expo-nacional/como-funcionan"
+            href="/piposale/como-funcionan"
             variant="outlined"
             size="medium"
             sx={{
@@ -86,10 +86,10 @@ const DulcesDieciseis = () => {
         </Container>
       </Box>
 
-      {/* Packs Expo Section */}
-      <Container sx={{ py: 4}} id="packs-expo">
+      {/* Packs Pipo Sale */}
+      <Container sx={{ py: 4}} id="packs-piposale">
         <Typography variant="h4" textAlign="center" sx={{ mb: 2, color: purple, fontWeight: 800 }}>
-          Escoge tu pack Expo
+          Escoge tu pack Pipo Sale
         </Typography>
         
 
@@ -195,9 +195,9 @@ const DulcesDieciseis = () => {
               bgcolor: "#f5f5f5",
             },
           }}
-          href="/expo-nacional#packs-expo"
+          href="#packs-piposale"
         >
-          Ver packs expo
+          Ver packs Pipo Sale
         </Button>
         <Button
           variant="contained"

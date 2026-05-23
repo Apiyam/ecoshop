@@ -29,7 +29,7 @@ export default function ComoFuncionanPacksPage() {
               textAlign: "center",
             }}
           >
-            ¿Cómo funcionan los packs Expo?
+            ¿Cómo funcionan los packs Pipo Sale?
           </Typography>
           <Typography
             variant="body1"
@@ -50,7 +50,7 @@ export default function ComoFuncionanPacksPage() {
                   Elige tu pack
                 </Typography>
                 <Typography component="span" sx={{ color: "#555", lineHeight: 1.7, fontSize: "0.95rem", display: "block" }}>
-                  Pack Inteligente (4 lisos + 4 estampados), Pack Tranquilidad (5 lisos + 10 estampados + bolsa) o Pack Libertad (8 lisos + 12 estampados + bolsa). Todos incluyen filtro bambú y detergente.
+                  Pack Esencial (4 lisos + 4 estampados), Pack Inteligente (5 lisos + 10 estampados + bolsa) o Pack Libertad (8 lisos + 12 estampados + bolsa). Todos incluyen filtro bambú y detergente.
                 </Typography>
               </Box>
             </Box>
@@ -80,7 +80,7 @@ export default function ComoFuncionanPacksPage() {
                   Bolsa y resumen
                 </Typography>
                 <Typography sx={{ color: "#555", lineHeight: 1.7, fontSize: "0.95rem" }}>
-                  En Pack Tranquilidad y Libertad elige tu bolsa impermeable (wetbag). Revisa tu resumen y al dar «Pagar» se agrega todo al carrito al precio del pack.
+                  En Pack Inteligente y Libertad elige tu bolsa impermeable (wetbag). Revisa tu resumen y al dar «Pagar» se agrega todo al carrito al precio del pack.
                 </Typography>
               </Box>
             </Box>
@@ -91,7 +91,7 @@ export default function ComoFuncionanPacksPage() {
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
               component={Link}
-              href="/expo-nacional#packs-expo"
+              href="/piposale#packs-piposale"
               variant="contained"
               sx={{
                 bgcolor: BRAND_GREEN,

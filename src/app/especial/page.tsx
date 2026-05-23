@@ -174,7 +174,7 @@ const DulcesDieciseis = () => {
           <br /><br />
            <Button
             component={Link}
-            href="/expo-nacional/como-funcionan"
+            href="/piposale/como-funcionan"
             variant="contained"
             className="btn-responsive"
             size="large"
@@ -284,7 +284,7 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/expo-nacional');
+    router.replace('/piposale');
   }, [router]);
 
   return null;
