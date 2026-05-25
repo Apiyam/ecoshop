@@ -21,9 +21,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paquetes especiales con descuentos | Ecopipo",
+  title: "Piposale 2026 | Ecopipo",
   description:
-    "Crea tu paquete personalizado en Ecopipo: elige productos y suma 6, 10, 15 o 20 piezas para desbloquear descuentos progresivos. Más piezas, más ahorro en pañales y productos ecológicos.",
+    "Paquetes especiales Ecopipo para Pipo Sale 2026, ahorra mas con nuestros packs",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Paquetes personalizados de 6 a 20 piezas con descuentos | Ecopipo",
+    title: "Piposale 2026 | Ecopipo",
     description:
-      "Arma tu paquete eligiendo lo que necesitas: 6, 10, 15 o 20 piezas con descuentos que aumentan según el tamaño del paquete. Productos ecológicos Ecopipo con ahorro real.",
-    images: `/imgs/ecopipo2.png`,
+      "Paquetes especiales Ecopipo para Pipo Sale 2026, ahorra mas con nuestros packs",
+    images: `/imgs/piposale.jpg`,
     url: domain,
     siteName: "Ecopipo",
     locale: "es_MX",
@@ -45,10 +45,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Paquetes de 6, 10, 15 y 20 piezas con descuentos | Ecopipo",
+    title: "Piposale 2026 | Ecopipo",
     description:
-      "Crea tu paquete personalizado: suma 6, 10, 15 o 20 piezas y obtén descuentos progresivos en la tienda Ecopipo.",
-    images: `/imgs/ecopipo2.png`,
+      "Paquetes especiales Ecopipo para Pipo Sale 2026, ahorra mas con nuestros packs",
+    images: `/imgs/piposale.jpg`,
   },
 };
 

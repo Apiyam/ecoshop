@@ -21,7 +21,7 @@ export const PACKS: ExpoPack[] = [
     estampados: 4,
     wetbag: 0,
     priceOriginal: 3614,
-    priceDiscounted: 3324,
+    priceDiscounted: 3200,
     color: 'green',
   },
   {
@@ -31,7 +31,7 @@ export const PACKS: ExpoPack[] = [
     estampados: 10,
     wetbag: 1,
     priceOriginal: 6720,
-    priceDiscounted: 6048,
+    priceDiscounted: 5670,
     color: 'purple',
   },
   {

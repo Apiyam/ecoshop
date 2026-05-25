@@ -70,7 +70,9 @@ const HomePage = () => {
       {/* Hero Section  
         
        */}
-       <img src="/imgs/piposale.jpg" alt="Ecopipo" width={"100%"} />
+       <a href="/piposale">
+        <img src="/imgs/piposale.jpg" alt="Ecopipo" width={"100%"} />
+       </a>
      <Box
         sx={{
           bgcolor: "#EFE9F1", py: 5, textAlign: "center"
