@@ -43,16 +43,18 @@ const DulcesDieciseis = () => {
             Más para tu bebé, más ahorro para ti
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-            <iframe
-              width="360"
-              height="203"
-              src="https://www.youtube.com/embed/CxC8gIuPOOA?rel=0&modestbranding=1&controls=0"
+            <video
+              width={360}
+              height={203}
+              controls
+              playsInline
+              preload="metadata"
               title="Ecopipo - Pipo Sale"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              style={{ borderRadius: 12, maxWidth: "100%" }}
-            />
+              style={{ borderRadius: 12, maxWidth: "100%", height: "auto" }}
+            >
+              <source src="/imgs/video.mp4" type="video/mp4" />
+              Tu navegador no admite reproducción de video HTML5.
+            </video>
           </Box>
           <Typography
             variant="h6"

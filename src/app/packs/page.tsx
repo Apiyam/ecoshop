@@ -168,7 +168,7 @@ const DulcesDieciseis = () => {
                 >
                   <Box
                     component="img"
-                    src={`/imgs/${pack.id}.jpg`}
+                    src={`/imgs/pipo${pack.id}.jpg`}
                     alt={pack.name}
                     sx={{ width: "100%", height: 500, objectFit: "cover", bgcolor: "#EFE9F1" }}
                   />
