@@ -68,11 +68,11 @@ const HomePage = () => {
   return (
     <Box sx={{ bgcolor: "#F8F8F8", minHeight: "100vh", color: "#333", pb: { xs: 6, sm: 0 } }}>
       {/* Hero Section  
-        
-       */}
-       <a href="/piposale">
+        <a href="/piposale">
         <img src="/imgs/piposale.jpg" alt="Ecopipo" width={"100%"} />
        </a>
+       */}
+       
      <Box
         sx={{
           bgcolor: "#EFE9F1", py: 5, textAlign: "center"
