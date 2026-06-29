@@ -2,6 +2,7 @@ import { Card, Typography, AspectRatio, Chip, Box } from '@mui/joy'
 import { ProductItem } from '../lib/wooApi'
 import ProductActions from './ProductActions'
 import { BRAND_GREEN } from '@/lib/constants'
+import { isPreventaProduct } from '@/lib/productAvailability'
 import { useRouter } from 'next/navigation'
 
 /** Nombre corto para variaciones: quita el nombre del padre/categoría para no repetir "Pañal Liso..." en cada card */
@@ -26,6 +27,17 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
   const { name, images, public_price, stock, description } = product
   const router = useRouter()
   const displayName = getShortDisplayName(product)
+  const preventa = isPreventaProduct(product)
+
+  const stockChip = preventa ? (
+    <Chip variant="soft" color="warning" size="sm">
+      Preventa
+    </Chip>
+  ) : (
+    <Chip variant="solid" color={stock > 0 ? 'success' : 'danger'} size="sm">
+      {stock} {stock === 1 ? 'disponible' : 'disponibles'}
+    </Chip>
+  )
 
   const goToDetailPage = () => {
     if (typeof window !== 'undefined') {
@@ -89,14 +101,9 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
           {description.slice(0, 250)}...
         </Typography>
       )}
-      <Chip
-        variant="solid"
-        color={stock > 0 ? 'success' : 'danger'}
-        size="sm"
-        sx={{ mb: 1 }}
-      >
-        {stock} {stock === 1 ? 'disponible' : 'disponibles'}
-      </Chip>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', mb: 1 }}>
+        {stockChip}
+      </Box>
 
       {/* Precios con descuento */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -164,9 +171,9 @@ export default function ProductCard({ product, viewMode, discount, simple }: Pro
         <Typography level="title-sm" sx={{ mb: 0.5, px: 0.5 }} noWrap title={name}>
           {displayName}
         </Typography>
-        <Chip variant="solid" color={stock > 0 ? 'success' : 'danger'} size="sm" sx={{ mb: 0.5 }}>
-          {stock} {stock === 1 ? 'disponible' : 'disponibles'}
-        </Chip>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', mb: 0.5 }}>
+          {stockChip}
+        </Box>
         <AspectRatio ratio="1" sx={{ borderRadius: 'md', overflow: 'hidden', bgcolor: 'neutral.100' }}>
           <img
             src={images}

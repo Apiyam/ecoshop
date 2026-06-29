@@ -42,6 +42,7 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { checkDiscount } from '@/lib/productDiscount'
 import ProgressGoal from '@/app/_components/ProgressGoal'
+import { matchesStockFilter } from '@/lib/productAvailability'
 
 
 interface MainViewProps {
@@ -95,7 +96,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
     useEffect(() => {
         if (debouncedSearchValue) {
            const searchResults = products?.filter((product: ProductItem) => 
-                product.name.toLowerCase().includes(debouncedSearchValue.toLowerCase()) && product.stock > 0
+                product.name.toLowerCase().includes(debouncedSearchValue.toLowerCase()) && matchesStockFilter(product, true)
             )
             setSearchResults(searchResults)
         }
@@ -145,7 +146,7 @@ export default function MainView({ selectedProduct }: MainViewProps) {
             }
             const filteredProducts = products?.filter((product: ProductItem) =>
                 stringsToFilter.some(str => product.categories.toLowerCase().includes(str.toLowerCase()))
-                && (isInStock ? product.stock > 0 : product.stock === 0)) || []
+                && matchesStockFilter(product, isInStock)) || []
             setFilteredProducts(filteredProducts)
             setIsLoading(false)
         }
@@ -161,21 +162,21 @@ export default function MainView({ selectedProduct }: MainViewProps) {
                 if (selectedChildren.noParent) {
                     filtered = products?.filter((product: ProductItem) =>
                         product.name.toLowerCase().includes(name?.toLowerCase() || '')
-                        && (isInStock ? product.stock > 0 : product.stock === 0)) || []
+                        && matchesStockFilter(product, isInStock)) || []
                 } else {
                     filtered = products?.filter((product: ProductItem) =>
                         selectedChildren.id === product.parent
-                        && (isInStock ? product.stock > 0 : product.stock === 0)) || []
+                        && matchesStockFilter(product, isInStock)) || []
                 }
             } else {
                 if (selectedChildren.noParent) {
                     filtered = products?.filter((product: ProductItem) =>
                         product.name.toLowerCase().includes(name?.toLowerCase() || '')
-                        && (isInStock ? product.stock > 0 : product.stock === 0)) || []
+                        && matchesStockFilter(product, isInStock)) || []
                 } else {
                     filtered = products?.filter((product: ProductItem) =>
                         product.name.toLowerCase().includes(name?.toLowerCase() || '')
-                        && (isInStock ? product.stock > 0 : product.stock === 0)) || []
+                        && matchesStockFilter(product, isInStock)) || []
                 }
 
                 console.log(filtered+"aaa")

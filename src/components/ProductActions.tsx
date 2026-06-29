@@ -6,6 +6,7 @@ import QuantitySelector from './QuantitySelector'
 import { useCart } from '../context/CartContext'
 import { useEffect, useState } from 'react'
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
+import { isProductPurchasable } from '@/lib/productAvailability'
 
 type ProductActionsProps = {
   onViewDetails: () => void
@@ -68,7 +69,7 @@ export default function ProductActions({ onViewDetails, product, overrideActions
         aria-label="Añadir al carrito"
         variant="solid"
         color="neutral"
-        disabled={product.stock === 0 || product.stock === null}
+        disabled={!isProductPurchasable(product)}
         onClick={addOne}
         sx={{
           width: 36,

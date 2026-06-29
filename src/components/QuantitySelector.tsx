@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext"
 import { ProductItem } from "../lib/wooApi"
 import Notification from "./Notification"
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE } from "@/lib/constants"
+import { getEffectiveMaxQuantity, isProductPurchasable } from "@/lib/productAvailability"
 
 type QuantitySelectorProps = {
     product: ProductItem
@@ -30,8 +31,10 @@ type QuantitySelectorProps = {
           })
     }
 
+    const maxQuantity = getEffectiveMaxQuantity(product)
+
     const handleIncrease = () => {
-      if (quantity < product.stock) {
+      if (quantity < maxQuantity) {
         setQuantity((prev) => prev + 1)
         if(simple){
             delayedAddToCart(quantity+1)
@@ -98,7 +101,7 @@ type QuantitySelectorProps = {
             size="sm"
             variant="soft"
             onClick={handleIncrease}
-            disabled={quantity >= product.stock}
+            disabled={quantity >= maxQuantity}
             sx={{
               minWidth: 44,
               minHeight: 44,
@@ -117,7 +120,7 @@ type QuantitySelectorProps = {
           )}
           <Button
             fullWidth
-            disabled={product.stock === 0 || product.stock === null}
+            disabled={!isProductPurchasable(product)}
             onClick={() => {
               addToCart({
                 product: product,

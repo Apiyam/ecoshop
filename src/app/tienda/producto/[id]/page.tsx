@@ -17,6 +17,7 @@ import { BRAND_PURPLE } from '@/lib/constants'
 import LoadingIndicator from '@/components/LoadingIndicator'
 import QuantitySelector from '@/components/QuantitySelector'
 import { checkDiscount } from '@/lib/productDiscount'
+import { isPreventaProduct } from '@/lib/productAvailability'
 
 function ProductDetailContent() {
   const params = useParams()
@@ -87,9 +88,17 @@ function ProductDetailContent() {
           <Typography level="h3" sx={{ mb: 1 }}>
             {name}
           </Typography>
-          <Chip color={stock === 0 || stock === null ? 'danger' : 'success'} sx={{ mb: 2 }}>
-            {stock} {stock === 1 ? 'disponible' : 'disponibles'}
-          </Chip>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+            {isPreventaProduct(product) ? (
+              <Chip color="warning" variant="soft">
+                Preventa
+              </Chip>
+            ) : (
+              <Chip color={stock === 0 || stock === null ? 'danger' : 'success'}>
+                {stock} {stock === 1 ? 'disponible' : 'disponibles'}
+              </Chip>
+            )}
+          </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
             {discount > 0 && (
