@@ -155,6 +155,12 @@
     "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Outfit.png",
     "children": [
       {
+        "id": 32335,
+        "name": "Traje Acuático",
+        "slug": "traje-acuatico",
+        "image": "https://ecopipo.com/matriz/wp-content/uploads/2026/06/traje-acuat-1.jpeg"
+      },
+      {
         "id": 3568,
         "name": "Babero",
         "slug": "babero",

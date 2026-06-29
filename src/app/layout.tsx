@@ -21,9 +21,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Piposale 2026 | Ecopipo",
+  title: "Paquetes especiales con descuentos | Ecopipo",
   description:
-    "Paquetes especiales Ecopipo para Pipo Sale 2026, ahorra mas con nuestros packs",
+    "Promociones y venta en línea Ecopipo: arma tu paquete personalizado, elige packs con ahorro y descubre productos ecológicos para tu familia.",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Piposale 2026 | Ecopipo",
+    title: "Promociones y paquetes con descuento | Ecopipo",
     description:
-      "Paquetes especiales Ecopipo para Pipo Sale 2026, ahorra mas con nuestros packs",
-    images: `/imgs/piposale.jpg`,
+      "Compra en Ecopipo con promociones activas: paquetes personalizados de 6 a 20 piezas, packs especiales y productos sustentables con ahorro real.",
+    images: `/imgs/ecopipo2.png`,
     url: domain,
     siteName: "Ecopipo",
     locale: "es_MX",
@@ -45,10 +45,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Piposale 2026 | Ecopipo",
+    title: "Promociones y paquetes con descuento | Ecopipo",
     description:
-      "Paquetes especiales Ecopipo para Pipo Sale 2026, ahorra mas con nuestros packs",
-    images: `/imgs/piposale.jpg`,
+      "Promociones Ecopipo: paquetes personalizados, packs con descuento y tienda en línea de productos ecológicos para toda la familia.",
+    images: `/imgs/ecopipo2.png`,
   },
 };
 
