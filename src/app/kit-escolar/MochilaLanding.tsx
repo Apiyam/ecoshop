@@ -206,14 +206,14 @@ export default function MochilaLanding() {
   const goToPay = () => {
     if (!canPay) return
     setPaying(true)
-    const items: { id: number; quantity: number; kit: boolean }[] = []
+    const items: { id: number; quantity: number }[] = []
     if (includeMochila && selectedMochila) {
-      items.push({ id: selectedMochila.id, quantity: 1, kit: true })
+      items.push({ id: selectedMochila.id, quantity: 1 })
     }
     if (includeLonchera && selectedLonchera) {
-      items.push({ id: selectedLonchera.id, quantity: 1, kit: true })
+      items.push({ id: selectedLonchera.id, quantity: 1 })
     }
-    const url = `${CHECKOUT_BASE}&items=${encodeURIComponent(JSON.stringify(items))}&kitTotal=${total}`
+    const url = `${CHECKOUT_BASE}&items=${encodeURIComponent(JSON.stringify(items))}&promoTotal=${total}`
     window.location.href = url
   }
 
