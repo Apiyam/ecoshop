@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Chip,
@@ -16,6 +19,7 @@ import SavingsIcon from '@mui/icons-material/Savings'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import CelebrationIcon from '@mui/icons-material/Celebration'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Link from 'next/link'
 import { getCategories, getProducts, ProductItem } from '@/lib/wooApi'
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
@@ -30,6 +34,25 @@ const IMG_MOCHILA = 'https://ecopipo.com/matriz/wp-content/uploads/2024/06/mochi
 const IMG_LONCHERA = 'https://ecopipo.com/matriz/wp-content/uploads/2024/06/lonchera.png'
 const IMG_PLACEHOLDER =
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU34ZGC6H9BGPDorU8aNG2P8ark14cj0DqOA&'
+
+const PRODUCT_INFO = {
+  mochila: {
+    title: 'Conoce la mochila',
+    description:
+      'Elaborada con la calidad que nos caracteriza, la Mochila es excelente para niños y niñas que van al preescolar por su amplitud, también la puedes utilizar como pañalera.',
+    care: 'Límpiala con un paño húmedo por fuera y con un paño seco por dentro.',
+    extras: 'Está hecha en México, es 100% poliéster y pintada con tintas a base de agua y libres de plomo.',
+    specs: ['Alto 35 cm', 'Ancho 27 cm', 'Fuelle 10 cm', 'Hecha en México', '100% poliéster'],
+  },
+  lonchera: {
+    title: 'Conoce la lonchera',
+    description:
+      'Elaborada con la calidad que nos caracteriza, la Lonchera es excelente para llevar comida ya sea fría o caliente por largo tiempo gracias a su forro térmico. Ideal para edad preescolar, primaria e incluso llevarla a la oficina, combínala con el outfit Ecopipo de tu bebé.',
+    care: 'La puedes limpiar con un paño húmedo por fuera y con un paño seco por dentro.',
+    extras: 'Está hecha en México.',
+    specs: ['Alto 25 cm', 'Ancho 20 cm', 'Fuelle 15 cm', 'Forro térmico', 'Hecha en México'],
+  },
+} as const
 
 function money(n: number) {
   return n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 })
@@ -63,6 +86,7 @@ export default function MochilaLanding() {
   const [loncheraParentId, setLoncheraParentId] = useState(FALLBACK_LONCHERA_ID)
   const [selectedMochila, setSelectedMochila] = useState<ProductItem | null>(null)
   const [selectedLonchera, setSelectedLonchera] = useState<ProductItem | null>(null)
+  const [includeMochila, setIncludeMochila] = useState(true)
   const [includeLonchera, setIncludeLonchera] = useState(false)
   const [paying, setPaying] = useState(false)
 
@@ -106,12 +130,18 @@ export default function MochilaLanding() {
     () => products.filter((p) => p.parent === loncheraParentId),
     [products, loncheraParentId]
   )
+  const mochilasInStock = mochilas.filter(isInStock)
   const loncherasInStock = loncheras.filter(isInStock)
+  const canAddMochila = mochilasInStock.length > 0
   const canAddLonchera = loncherasInStock.length > 0
+  const isCombo = includeMochila && includeLonchera
+  const isLoncheraOnly = includeLonchera && !includeMochila
 
-  const total = includeLonchera && selectedLonchera ? PRICE_COMBO : PRICE_MOCHILA
+  const total = isCombo ? PRICE_COMBO : includeLonchera ? PRICE_LONCHERA : PRICE_MOCHILA
   const savings = PRICE_MOCHILA + PRICE_LONCHERA - PRICE_COMBO
-  const canPay = !!selectedMochila && isInStock(selectedMochila) && (!includeLonchera || (!!selectedLonchera && isInStock(selectedLonchera)))
+  const mochilaReady = !includeMochila || (!!selectedMochila && isInStock(selectedMochila))
+  const loncheraReady = !includeLonchera || (!!selectedLonchera && isInStock(selectedLonchera))
+  const canPay = (includeMochila || includeLonchera) && mochilaReady && loncheraReady
 
   const scrollTo = (id: string) => {
     requestAnimationFrame(() => {
@@ -119,36 +149,67 @@ export default function MochilaLanding() {
     })
   }
 
-  const enableLonchera = () => {
-    if (!canAddLonchera) return
+  const pickLonchera = () => {
     const match = selectedMochila
       ? loncherasInStock.find((l) => getDesignName(l) === getDesignName(selectedMochila))
       : null
-    setSelectedLonchera(match ?? loncherasInStock[0])
+    setSelectedLonchera((current) => current && isInStock(current) ? current : (match ?? loncherasInStock[0] ?? null))
+  }
+
+  const pickMochila = () => {
+    const match = selectedLonchera
+      ? mochilasInStock.find((m) => getDesignName(m) === getDesignName(selectedLonchera))
+      : null
+    setSelectedMochila((current) => current && isInStock(current) ? current : (match ?? mochilasInStock[0] ?? null))
+  }
+
+  const enableLonchera = () => {
+    if (!canAddLonchera) return
+    pickLonchera()
     setIncludeLonchera(true)
   }
 
+  const enableMochila = () => {
+    if (!canAddMochila) return
+    pickMochila()
+    setIncludeMochila(true)
+  }
+
   const disableLonchera = () => {
+    if (!includeMochila) return
     setIncludeLonchera(false)
-    setSelectedLonchera(null)
+  }
+
+  const disableMochila = () => {
+    if (!includeLonchera) return
+    setIncludeMochila(false)
   }
 
   const chooseMochilaOnly = () => {
-    disableLonchera()
+    enableMochila()
+    setIncludeLonchera(false)
     scrollTo('elige-mochila')
   }
 
-  const addLoncheraAndGo = () => {
+  const chooseLoncheraOnly = () => {
+    enableLonchera()
+    setIncludeMochila(false)
+    scrollTo('elige-lonchera')
+  }
+
+  const chooseCombo = () => {
+    enableMochila()
     enableLonchera()
     scrollTo('elige-lonchera')
   }
 
   const goToPay = () => {
-    if (!canPay || !selectedMochila) return
+    if (!canPay) return
     setPaying(true)
-    const items: { id: number; quantity: number; kit: boolean }[] = [
-      { id: selectedMochila.id, quantity: 1, kit: true },
-    ]
+    const items: { id: number; quantity: number; kit: boolean }[] = []
+    if (includeMochila && selectedMochila) {
+      items.push({ id: selectedMochila.id, quantity: 1, kit: true })
+    }
     if (includeLonchera && selectedLonchera) {
       items.push({ id: selectedLonchera.id, quantity: 1, kit: true })
     }
@@ -196,7 +257,7 @@ export default function MochilaLanding() {
                 lineHeight: 1.15,
               }}
             >
-              Mochila Ecopipo a {money(PRICE_MOCHILA)}
+              Arma tu kit escolar
             </Typography>
             <Typography
               sx={{
@@ -208,9 +269,7 @@ export default function MochilaLanding() {
               ya con envío incluido
             </Typography>
             <Typography sx={{ maxWidth: 560, color: '#444', lineHeight: 1.6 }}>
-              Elige el diseño que más te guste. Si quieres, agrega la lonchera y las dos llegan a casa por{' '}
-              <Box component="strong" sx={{ color: BRAND_PURPLE }}>{money(PRICE_COMBO)}</Box>
-              {' '}con envío incluido.
+              Elige solo la mochila, solo la lonchera o las dos con precio especial. En los tres casos pagas un solo total, con envío incluido.
             </Typography>
           </Stack>
 
@@ -223,65 +282,44 @@ export default function MochilaLanding() {
               gap: { xs: 2, sm: 4 },
             }}
           >
-            <PreviewCard
-              title="Mochila"
-              design={selectedMochila ? getDesignName(selectedMochila) : 'Elige un diseño'}
-              image={getProductImage(selectedMochila, IMG_MOCHILA)}
-              price={PRICE_MOCHILA}
-              featured
-              onClick={() => scrollTo('elige-mochila')}
-            />
+            {includeMochila && selectedMochila ? (
+              <PreviewCard
+                title="Mochila"
+                design={getDesignName(selectedMochila)}
+                image={getProductImage(selectedMochila, IMG_MOCHILA)}
+                price={PRICE_MOCHILA}
+                featured={!isLoncheraOnly}
+                onClick={() => scrollTo('elige-mochila')}
+              />
+            ) : (
+              <AddSlot
+                label={canAddMochila ? 'Agrega la mochila' : 'Mochila agotada'}
+                hint={`A ${money(PRICE_MOCHILA)}`}
+                disabled={!canAddMochila}
+                featured={!isLoncheraOnly}
+                onClick={() => {
+                  enableMochila()
+                  scrollTo('elige-mochila')
+                }}
+              />
+            )}
             {includeLonchera && selectedLonchera ? (
               <PreviewCard
                 title="Lonchera"
                 design={getDesignName(selectedLonchera)}
                 image={getProductImage(selectedLonchera, IMG_LONCHERA)}
                 price={PRICE_LONCHERA}
+                featured={isLoncheraOnly}
                 onClick={() => scrollTo('elige-lonchera')}
               />
             ) : (
-              <Box
-                component="button"
-                type="button"
+              <AddSlot
+                label={canAddLonchera ? 'Agrega la lonchera' : 'Lonchera agotada'}
+                hint={includeMochila ? `Combo ${money(PRICE_COMBO)}` : `A ${money(PRICE_LONCHERA)}`}
                 disabled={!canAddLonchera}
-                onClick={addLoncheraAndGo}
-                sx={{
-                  width: { xs: 120, sm: 160 },
-                  height: { xs: 150, sm: 200 },
-                  borderRadius: 3,
-                  border: '2px dashed',
-                  borderColor: canAddLonchera ? BRAND_PURPLE : 'rgba(115,48,128,0.2)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: BRAND_PURPLE,
-                  bgcolor: 'rgba(115,48,128,0.04)',
-                  px: 1,
-                  textAlign: 'center',
-                  cursor: canAddLonchera ? 'pointer' : 'not-allowed',
-                  appearance: 'none',
-                  font: 'inherit',
-                  opacity: canAddLonchera ? 1 : 0.55,
-                  transition: 'transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease',
-                  '&:hover': canAddLonchera
-                    ? {
-                        transform: 'translateY(-3px)',
-                        bgcolor: 'rgba(137,179,41,0.12)',
-                        borderColor: BRAND_GREEN,
-                        boxShadow: '0 8px 18px rgba(137,179,41,0.2)',
-                      }
-                    : {},
-                }}
-              >
-                <AddIcon />
-                <Typography variant="caption" sx={{ fontWeight: 700, mt: 0.5 }}>
-                  {canAddLonchera ? 'Agrega la lonchera' : 'Lonchera agotada'}
-                </Typography>
-                <Typography variant="caption" sx={{ color: '#666' }}>
-                  Combo {money(PRICE_COMBO)}
-                </Typography>
-              </Box>
+                featured={isLoncheraOnly}
+                onClick={chooseCombo}
+              />
             )}
           </Box>
 
@@ -294,23 +332,24 @@ export default function MochilaLanding() {
             <PricePill
               label="Mochila"
               price={PRICE_MOCHILA}
-              selected={!includeLonchera}
+              selected={includeMochila && !includeLonchera}
+              disabled={!canAddMochila}
               onClick={chooseMochilaOnly}
             />
             <PricePill
               label="Lonchera"
               price={PRICE_LONCHERA}
-              selected={includeLonchera}
+              selected={isLoncheraOnly}
               disabled={!canAddLonchera}
-              onClick={addLoncheraAndGo}
+              onClick={chooseLoncheraOnly}
             />
             <PricePill
               label="Las dos"
               price={PRICE_COMBO}
               highlight
-              selected={includeLonchera}
-              disabled={!canAddLonchera}
-              onClick={addLoncheraAndGo}
+              selected={isCombo}
+              disabled={!canAddMochila || !canAddLonchera}
+              onClick={chooseCombo}
             />
           </Stack>
         </Container>
@@ -328,23 +367,85 @@ export default function MochilaLanding() {
           <TrustItem icon={<SavingsIcon />} text={`Ahorra ${money(savings)} al llevar las dos`} />
         </Stack>
 
-        <Box id="elige-mochila" sx={{ scrollMarginTop: 88 }}>
-        <SectionTitle step="1" title="Elige el diseño de tu mochila" />
-        <Typography sx={{ color: '#555', mb: 2 }}>
-          {money(PRICE_MOCHILA)} con envío incluido. Ese es el total para recibirla en casa.
-        </Typography>
-        <DesignGrid
-          products={mochilas}
-          selectedId={selectedMochila?.id}
-          fallbackImage={IMG_MOCHILA}
-          onSelect={setSelectedMochila}
-        />
+        <Box
+          id="elige-mochila"
+          sx={{
+            scrollMarginTop: 88,
+            p: { xs: 2, sm: 3 },
+            borderRadius: 4,
+            bgcolor: includeMochila ? '#F3F7E8' : 'white',
+            border: '2px solid',
+            borderColor: includeMochila ? BRAND_GREEN : 'rgba(115,48,128,0.12)',
+            boxShadow: includeMochila ? '0 8px 24px rgba(137,179,41,0.18)' : '0 4px 16px rgba(115,48,128,0.06)',
+          }}
+        >
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'center' }} justifyContent="space-between">
+            <Box>
+              <SectionTitle step="1" title={includeMochila ? 'Elige el diseño de tu mochila' : '¿Quieres la mochila?'} compact />
+              <Typography sx={{ color: '#444', mt: 0.5 }}>
+                Sola cuesta {money(PRICE_MOCHILA)} con envío incluido. Con la lonchera, las dos salen en{' '}
+                <Box component="strong" sx={{ color: BRAND_PURPLE }}>{money(PRICE_COMBO)}</Box>
+                {' '}con envío incluido.
+              </Typography>
+            </Box>
+            {includeMochila ? (
+              <Button
+                variant="outlined"
+                startIcon={<CloseIcon />}
+                disabled={!includeLonchera}
+                onClick={disableMochila}
+                sx={{
+                  borderColor: BRAND_PURPLE,
+                  color: BRAND_PURPLE,
+                  fontWeight: 700,
+                  minHeight: 44,
+                  whiteSpace: 'nowrap',
+                  '&:hover': { borderColor: BRAND_PURPLE_HOVER, bgcolor: 'rgba(115,48,128,0.06)' },
+                }}
+              >
+                Quitar mochila
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                disabled={!canAddMochila}
+                onClick={enableMochila}
+                sx={{
+                  bgcolor: BRAND_GREEN,
+                  fontWeight: 700,
+                  minHeight: 44,
+                  whiteSpace: 'nowrap',
+                  boxShadow: '0 4px 14px rgba(137,179,41,0.35)',
+                  '&:hover': { bgcolor: BRAND_GREEN_HOVER },
+                  '&:disabled': { bgcolor: '#c5c5c5', color: 'white' },
+                }}
+              >
+                {canAddMochila ? 'Agregar mochila' : 'Mochila agotada'}
+              </Button>
+            )}
+          </Stack>
+          <ProductInfo info={PRODUCT_INFO.mochila} />
+          {includeMochila && (
+            <Box sx={{ mt: 2 }}>
+              <DesignGrid
+                products={mochilas}
+                selectedId={selectedMochila?.id}
+                fallbackImage={IMG_MOCHILA}
+                onSelect={(p) => {
+                  if (!isInStock(p)) return
+                  setSelectedMochila(p)
+                  setIncludeMochila(true)
+                }}
+              />
+            </Box>
+          )}
         </Box>
 
         <Box
           id="elige-lonchera"
           sx={{
-            mt: 5,
+            mt: 3,
             scrollMarginTop: 88,
             p: { xs: 2, sm: 3 },
             borderRadius: 4,
@@ -356,7 +457,7 @@ export default function MochilaLanding() {
         >
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'center' }} justifyContent="space-between">
             <Box>
-              <SectionTitle step="2" title="¿También quieres la lonchera?" compact />
+              <SectionTitle step="2" title={includeLonchera ? 'Elige el diseño de tu lonchera' : '¿Quieres la lonchera?'} compact />
               <Typography sx={{ color: '#444', mt: 0.5 }}>
                 Sola cuesta {money(PRICE_LONCHERA)} con envío incluido. Junto con la mochila, las dos salen en{' '}
                 <Box component="strong" sx={{ color: BRAND_PURPLE }}>{money(PRICE_COMBO)}</Box>
@@ -367,6 +468,7 @@ export default function MochilaLanding() {
               <Button
                 variant="outlined"
                 startIcon={<CloseIcon />}
+                disabled={!includeMochila}
                 onClick={disableLonchera}
                 sx={{
                   borderColor: BRAND_PURPLE,
@@ -400,17 +502,17 @@ export default function MochilaLanding() {
             )}
           </Stack>
 
+          <ProductInfo info={PRODUCT_INFO.lonchera} />
           {includeLonchera && (
-            <Box sx={{ mt: 3 }}>
-              <Typography sx={{ fontWeight: 700, mb: 1.5, color: BRAND_PURPLE }}>
-                Elige el diseño de tu lonchera
-              </Typography>
+            <Box sx={{ mt: 2 }}>
               <DesignGrid
                 products={loncheras}
                 selectedId={selectedLonchera?.id}
                 fallbackImage={IMG_LONCHERA}
                 onSelect={(p) => {
-                  if (isInStock(p)) setSelectedLonchera(p)
+                  if (!isInStock(p)) return
+                  setSelectedLonchera(p)
+                  setIncludeLonchera(true)
                 }}
               />
             </Box>
@@ -437,11 +539,13 @@ export default function MochilaLanding() {
             con envío incluido
           </Typography>
           <Typography sx={{ color: '#666', mt: 1, fontSize: '0.95rem' }}>
-            {includeLonchera && selectedLonchera
-              ? `Mochila ${getDesignName(selectedMochila!)} + Lonchera ${getDesignName(selectedLonchera)}`
-              : selectedMochila
-                ? `Mochila ${getDesignName(selectedMochila)}`
-                : 'Elige un diseño para continuar'}
+            {isCombo && selectedMochila && selectedLonchera
+              ? `Mochila ${getDesignName(selectedMochila)} + Lonchera ${getDesignName(selectedLonchera)}`
+              : includeLonchera && selectedLonchera
+                ? `Lonchera ${getDesignName(selectedLonchera)}`
+                : includeMochila && selectedMochila
+                  ? `Mochila ${getDesignName(selectedMochila)}`
+                  : 'Elige un diseño para continuar'}
           </Typography>
           <Button
             fullWidth
@@ -496,18 +600,28 @@ export default function MochilaLanding() {
       >
         <Container maxWidth="md" sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box
-              component="img"
-              src={getProductImage(selectedMochila, IMG_MOCHILA)}
-              alt="Mochila"
-              sx={{ width: 48, height: 48, borderRadius: 1.5, objectFit: 'cover', border: '2px solid white', boxShadow: 1 }}
-            />
+            {includeMochila && selectedMochila && (
+              <Box
+                component="img"
+                src={getProductImage(selectedMochila, IMG_MOCHILA)}
+                alt="Mochila"
+                sx={{ width: 48, height: 48, borderRadius: 1.5, objectFit: 'cover', border: '2px solid white', boxShadow: 1 }}
+              />
+            )}
             {includeLonchera && selectedLonchera && (
               <Box
                 component="img"
                 src={getProductImage(selectedLonchera, IMG_LONCHERA)}
                 alt="Lonchera"
-                sx={{ width: 48, height: 48, borderRadius: 1.5, objectFit: 'cover', border: '2px solid white', boxShadow: 1, ml: -1.5 }}
+                sx={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 1.5,
+                  objectFit: 'cover',
+                  border: '2px solid white',
+                  boxShadow: 1,
+                  ml: includeMochila ? -1.5 : 0,
+                }}
               />
             )}
           </Box>
@@ -779,6 +893,117 @@ function SectionTitle({ step, title, compact }: { step: string; title: string; c
         {title}
       </Typography>
     </Stack>
+  )
+}
+
+function ProductInfo({ info }: { info: (typeof PRODUCT_INFO)[keyof typeof PRODUCT_INFO] }) {
+  return (
+    <Accordion
+      disableGutters
+      elevation={0}
+      sx={{
+        mt: 2,
+        bgcolor: 'rgba(255,255,255,0.72)',
+        borderRadius: '12px !important',
+        border: '1px solid rgba(115,48,128,0.12)',
+        '&:before': { display: 'none' },
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon sx={{ color: BRAND_PURPLE }} />}
+        sx={{
+          minHeight: 48,
+          px: 1.5,
+          '& .MuiAccordionSummary-content': { my: 1 },
+        }}
+      >
+        <Typography sx={{ fontWeight: 700, color: BRAND_PURPLE }}>{info.title}</Typography>
+      </AccordionSummary>
+      <AccordionDetails sx={{ px: 1.5, pb: 2, pt: 0 }}>
+        <Typography sx={{ color: '#444', lineHeight: 1.65, mb: 1.5 }}>
+          {info.description}
+        </Typography>
+        <Typography sx={{ color: '#555', lineHeight: 1.6, mb: 0.75 }}>
+          {info.care}
+        </Typography>
+        <Typography sx={{ color: '#555', lineHeight: 1.6, mb: 1.5 }}>
+          {info.extras}
+        </Typography>
+        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+          {info.specs.map((spec) => (
+            <Chip
+              key={spec}
+              label={spec}
+              size="small"
+              sx={{
+                bgcolor: 'rgba(115,48,128,0.08)',
+                color: BRAND_PURPLE,
+                fontWeight: 700,
+              }}
+            />
+          ))}
+        </Stack>
+      </AccordionDetails>
+    </Accordion>
+  )
+}
+
+function AddSlot({
+  label,
+  hint,
+  disabled,
+  featured,
+  onClick,
+}: {
+  label: string
+  hint: string
+  disabled?: boolean
+  featured?: boolean
+  onClick: () => void
+}) {
+  return (
+    <Box
+      component="button"
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      sx={{
+        width: featured ? { xs: 180, sm: 240 } : { xs: 120, sm: 160 },
+        height: featured ? { xs: 210, sm: 280 } : { xs: 150, sm: 200 },
+        borderRadius: 3,
+        border: '2px dashed',
+        borderColor: disabled ? 'rgba(115,48,128,0.2)' : BRAND_PURPLE,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: BRAND_PURPLE,
+        bgcolor: 'rgba(115,48,128,0.04)',
+        px: 1,
+        textAlign: 'center',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        appearance: 'none',
+        font: 'inherit',
+        opacity: disabled ? 0.55 : 1,
+        transition: 'transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease',
+        '&:hover': disabled
+          ? {}
+          : {
+              transform: 'translateY(-3px)',
+              bgcolor: 'rgba(137,179,41,0.12)',
+              borderColor: BRAND_GREEN,
+              boxShadow: '0 8px 18px rgba(137,179,41,0.2)',
+            },
+      }}
+    >
+      <AddIcon />
+      <Typography variant="caption" sx={{ fontWeight: 700, mt: 0.5 }}>
+        {label}
+      </Typography>
+      <Typography variant="caption" sx={{ color: '#666' }}>
+        {hint}
+      </Typography>
+    </Box>
   )
 }
 
