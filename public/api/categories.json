@@ -310,7 +310,7 @@
     "name": "Adultos",
     "slug": "adultos",
     "show": false,
-    "discount": 70,
+    "discount": 0,
     "image": "https://ecopipo.com/matriz/wp-content/uploads/2025/01/Adulto.png",
     "children": [
       {

@@ -60,10 +60,10 @@ export default function CartContent({ onClose }: CartContentProps) {
     let discount = currentDiscount
     if (product.name.includes('Tanga')) discount = 50
     if (product.name.includes('Mystery')) discount = 0
-    if (product.name.includes('Leggings')) discount = 70
-    if (product.name.includes('Pañoleta')) discount = 70
-    if (product.name.includes('Mochila')) discount = 40
-    if (product.name.includes('Lonchera')) discount = 35
+    if (product.name.includes('Leggings')) discount = 0
+    if (product.name.includes('Pañoleta')) discount = 0
+    if (product.name.includes('Mochila')) discount = 0
+    if (product.name.includes('Lonchera')) discount = 0
     return parseFloat(product.public_price) * (1 - discount / 100)
   }
 
