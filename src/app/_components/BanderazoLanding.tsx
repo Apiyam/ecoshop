@@ -561,6 +561,7 @@ function PatrioticBanner({ isEcopipo }: { isEcopipo: boolean }) {
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
           height: { xs: 156, sm: 176, md: 192 },
           bgcolor: isEcopipo ? '#B281DF' : '#FF85D4',
           backgroundImage: isEcopipo
@@ -570,16 +571,15 @@ function PatrioticBanner({ isEcopipo }: { isEcopipo: boolean }) {
       >
         <Box
           component="img"
-          src={isEcopipo ? '/imgs/banderazo-patrio-ecopipo.jpg' : '/imgs/banderazo-patrio-lubella.jpg'}
+          src={isEcopipo ? '/imgs/banderazo-patrio-pipo.png' : '/imgs/banderazo-patrio-lubella.jpg'}
           alt={isEcopipo ? 'Pipo en el Banderazo Patrio 2026' : 'Banderazo Patrio Lubella 2026'}
           sx={{
             height: '100%',
             width: 'auto',
-            maxWidth: { xs: '78%', sm: '62%', md: '54%' },
+            maxWidth: isEcopipo ? { xs: 180, sm: 210, md: 230 } : { xs: '78%', sm: '62%', md: '54%' },
             objectFit: 'contain',
-            objectPosition: 'left center',
+            objectPosition: 'center',
             display: 'block',
-            flexShrink: 0,
           }}
         />
         <Chip
