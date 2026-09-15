@@ -1,0 +1,41 @@
+{
+  "campaigns": {
+    "banderazo-patrio-ecopipo": {
+      "brand": "ecopipo",
+      "title": "Banderazo Patrio Ecopipo 2026",
+      "promoPanalPercent": 20,
+      "promoPanalMin": 3,
+      "giftFiltroMin": 6,
+      "giftFiltroId": 4723,
+      "filtroPack": {
+        "id": 4723,
+        "qty": 3,
+        "regularTotal": 567,
+        "promoTotal": 499
+      },
+      "prints": ["Muñequitas", "Juguetitos", "Apapacho", "Monarca", "Girasoles", "Zarigüeya"],
+      "promoParentIds": [6031],
+      "volumeTiers": [
+        { "min": 6, "max": 9, "discount": 5 },
+        { "min": 10, "max": 14, "discount": 8 },
+        { "min": 15, "max": 19, "discount": 10 },
+        { "min": 20, "max": null, "discount": 12 }
+      ]
+    },
+    "banderazo-patrio-lubella": {
+      "brand": "lubella",
+      "title": "Banderazo Patrio Lubella 2026",
+      "promoPercent": 15,
+      "promoMin": 5,
+      "groups": ["Toallas", "Pañoletas", "Protectores de lactancia", "Desmaquillantes"],
+      "parentIds": [4115, 4176, 4236, 4277],
+      "simpleIds": [4272, 4273],
+      "volumeTiers": [
+        { "min": 6, "max": 9, "discount": 5 },
+        { "min": 10, "max": 14, "discount": 8 },
+        { "min": 15, "max": 19, "discount": 10 },
+        { "min": 20, "max": null, "discount": 12 }
+      ]
+    }
+  }
+}
