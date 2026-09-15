@@ -117,6 +117,15 @@ export function getShortName(product: ProductItem) {
 export function productImage(product: ProductItem | null, fallback = '') {
   const img = product?.images
   if (!img || img === 'False' || img === 'false') return fallback
+  const n = img.toLowerCase()
+  if (
+    n.includes('placeholder') ||
+    n.includes('woocommerce-placeholder') ||
+    n.includes('encrypted-tbn') ||
+    n.includes('ecopipo2')
+  ) {
+    return fallback
+  }
   return img
 }
 

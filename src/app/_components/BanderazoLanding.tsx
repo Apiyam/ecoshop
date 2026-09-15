@@ -20,8 +20,6 @@ import {
 import { useTheme } from '@mui/material/styles'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import FlagIcon from '@mui/icons-material/Flag'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
 import CloseIcon from '@mui/icons-material/Close'
 import ExploreIcon from '@mui/icons-material/Explore'
@@ -43,12 +41,9 @@ import {
   FILTRO_PACK_REGULAR,
   GIFT_FILTRO_MIN,
   LUBELLA_MIN,
-  LUBELLA_PERCENT,
   PREMIUM_ESTAMPADO_PARENT,
   PREMIUM_LISO_PARENT,
   PROMO_PANAL_MIN,
-  PROMO_PANAL_PERCENT,
-  VOLUME_TIERS,
   buildPayload,
   checkoutUrl,
   getShortName,
@@ -69,7 +64,8 @@ const ECOPIPO_PURPLE = '#733080'
 const INK = '#1A120C'
 const INK_SOFT = '#3A2A22'
 
-const IMG_FALLBACK = '/imgs/ecopipo2.png'
+const IMG_FALLBACK = '/imgs/pads.png'
+const LUBELLA_CATS = ['Protectores de lactancia', 'Desmaquillantes', 'Pañoletas', 'Toallas'] as const
 
 function money(n: number, digits = 2) {
   return n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: digits })
@@ -94,6 +90,7 @@ export default function BanderazoLanding({ campaign }: Props) {
   const [paying, setPaying] = useState(false)
   const [exploreOpen, setExploreOpen] = useState(false)
   const [exploreQuery, setExploreQuery] = useState('')
+  const [lubellaCat, setLubellaCat] = useState<(typeof LUBELLA_CATS)[number]>('Protectores de lactancia')
 
   useEffect(() => {
     getProducts()
@@ -130,6 +127,14 @@ export default function BanderazoLanding({ campaign }: Props) {
         .sort((a, b) => lubellaGroup(a).localeCompare(lubellaGroup(b), 'es') || getShortName(a).localeCompare(getShortName(b), 'es')),
     [products]
   )
+
+  useEffect(() => {
+    const available = LUBELLA_CATS.filter((g) => lubella.some((p) => lubellaGroup(p) === g))
+    if (available.length && !available.includes(lubellaCat)) {
+      setLubellaCat(available[0])
+    }
+  }, [lubella, lubellaCat])
+
   const filtroBebe = products.find((p) => p.id === FILTRO_BEBE_ID) ?? null
   const extrasElegidos = otrosPanales.reduce((n, p) => n + (qty[p.id] || 0), 0)
   const extrasFiltrados = useMemo(() => {
@@ -201,7 +206,7 @@ export default function BanderazoLanding({ campaign }: Props) {
     <Box sx={{ bgcolor: '#FFF8F0', minHeight: '100vh', pb: { xs: 22, sm: 14 } }}>
       <PatrioticBanner isEcopipo={isEcopipo} />
 
-      <Container maxWidth="md" sx={{ mt: { xs: -2, sm: -2.5 }, position: 'relative', zIndex: 2 }}>
+      <Container maxWidth="md" sx={{ mt: 2.5, position: 'relative', zIndex: 2 }}>
         <Box
           sx={{
             display: 'grid',
@@ -421,19 +426,38 @@ export default function BanderazoLanding({ campaign }: Props) {
         {!isEcopipo && (
           <>
             <SectionTitle color={LUBELLA_PINK} kicker="La mesa está puesta" title={`15% desde ${LUBELLA_MIN} piezas`} />
-            <Typography sx={{ mb: 3, color: INK, fontWeight: 700, fontSize: '1.05rem' }}>
-              Junta cinco de la selección y Lubella te premia. Combina toallas, pañoletas, protectores y desmaquillantes como quieras.
+            <Typography sx={{ mb: 2, color: INK, fontWeight: 700, fontSize: '1.05rem' }}>
+              Junta cinco de la selección y Lubella te premia. Elige una categoría y arma tu mix.
             </Typography>
-            {['Toallas', 'Pañoletas', 'Protectores de lactancia', 'Desmaquillantes'].map((group) => {
-              const list = lubella.filter((p) => lubellaGroup(p) === group)
-              if (!list.length) return null
-              return (
-                <Box key={group} sx={{ mb: 4 }}>
-                  <Typography sx={{ fontWeight: 800, color: LUBELLA_PINK, mb: 1.5 }}>{group}</Typography>
-                  <ProductGrid products={list} qty={qty} setLine={setLine} accent={LUBELLA_PINK} badge="−15%" />
-                </Box>
-              )
-            })}
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 2.5 }}>
+              {LUBELLA_CATS.map((group) => {
+                const count = lubella.filter((p) => lubellaGroup(p) === group).length
+                if (!count) return null
+                const active = lubellaCat === group
+                return (
+                  <Chip
+                    key={group}
+                    clickable
+                    label={group}
+                    onClick={() => setLubellaCat(group)}
+                    sx={{
+                      fontWeight: 800,
+                      bgcolor: active ? LUBELLA_PINK : '#fff',
+                      color: active ? '#fff' : INK,
+                      border: `2px solid ${LUBELLA_PINK}`,
+                      '&:hover': { bgcolor: active ? LUBELLA_PINK : '#ffe6f3' },
+                    }}
+                  />
+                )
+              })}
+            </Stack>
+            <ProductGrid
+              products={lubella.filter((p) => lubellaGroup(p) === lubellaCat)}
+              qty={qty}
+              setLine={setLine}
+              accent={LUBELLA_PINK}
+              badge="−15%"
+            />
           </>
         )}
 
@@ -446,8 +470,6 @@ export default function BanderazoLanding({ campaign }: Props) {
           paying={paying}
           onPay={goPay}
         />
-
-        <Rules isEcopipo={isEcopipo} />
 
         <Box sx={{ textAlign: 'center', mt: 4 }}>
           <Button
@@ -503,105 +525,18 @@ export default function BanderazoLanding({ campaign }: Props) {
   )
 }
 
-function PapelPicado({ festive }: { festive: 'ecopipo' | 'lubella' }) {
-  const colors =
-    festive === 'ecopipo'
-      ? [ECOPIPO_PURPLE, '#F4E8C1', FLAG_RED, FLAG_GREEN, GOLD, ECOPIPO_PURPLE]
-      : [LUBELLA_PINK, '#fff', FLAG_GREEN, GOLD, FLAG_RED, LUBELLA_PINK]
-  return (
-    <Box
-      aria-hidden
-      sx={{
-        display: 'flex',
-        width: '100%',
-        overflow: 'hidden',
-        height: { xs: 28, sm: 34 },
-        bgcolor: festive === 'ecopipo' ? ECOPIPO_PURPLE : LUBELLA_PINK,
-      }}
-    >
-      {Array.from({ length: 24 }).map((_, i) => {
-        const c = colors[i % colors.length]
-        return (
-          <Box
-            key={i}
-            component="svg"
-            viewBox="0 0 40 48"
-            preserveAspectRatio="none"
-            sx={{
-              flex: '1 0 0',
-              minWidth: 28,
-              height: '100%',
-              animation: `banderazoSwing 2.4s ease-in-out ${i * 0.08}s infinite`,
-              '@keyframes banderazoSwing': {
-                '0%, 100%': { transform: 'rotate(0deg)' },
-                '50%': { transform: 'rotate(3deg)' },
-              },
-              transformOrigin: 'top center',
-            }}
-          >
-            <path
-              d="M2 0h36v28c-6 8-10 16-18 20C12 44 8 36 2 28V0z"
-              fill={c}
-            />
-            <circle cx="20" cy="16" r="4" fill="rgba(0,0,0,0.18)" />
-            <path d="M12 10h16M12 22h16" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
-          </Box>
-        )
-      })}
-    </Box>
-  )
-}
-
 function PatrioticBanner({ isEcopipo }: { isEcopipo: boolean }) {
   return (
-    <Box sx={{ position: 'relative', overflow: 'hidden', boxShadow: '0 16px 40px rgba(115,48,128,0.28)' }}>
-      <PapelPicado festive={isEcopipo ? 'ecopipo' : 'lubella'} />
+    <Box sx={{ bgcolor: isEcopipo ? FLAG_GREEN : '#F7C6DE' }}>
       <Box
+        component="img"
+        src={isEcopipo ? '/imgs/banderazo-ecopipo.jpg' : '/imgs/banderazo-lubella.jpg'}
+        alt={isEcopipo ? 'Promo Patria Ecopipo' : 'Promo Patria Lubella'}
         sx={{
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: { xs: 156, sm: 176, md: 192 },
-          bgcolor: isEcopipo ? '#B281DF' : '#FF85D4',
-          backgroundImage: isEcopipo
-            ? 'radial-gradient(circle at 80% 30%, rgba(255,255,255,0.18), transparent 42%)'
-            : 'radial-gradient(circle at 70% 40%, rgba(255,255,255,0.2), transparent 46%)',
-        }}
-      >
-        <Box
-          component="img"
-          src={isEcopipo ? '/imgs/banderazo-patrio-pipo.png' : '/imgs/banderazo-patrio-lubella.jpg'}
-          alt={isEcopipo ? 'Pipo en el Banderazo Patrio 2026' : 'Banderazo Patrio Lubella 2026'}
-          sx={{
-            height: '100%',
-            width: 'auto',
-            maxWidth: isEcopipo ? { xs: 180, sm: 210, md: 230 } : { xs: '78%', sm: '62%', md: '54%' },
-            objectFit: 'contain',
-            objectPosition: 'center',
-            display: 'block',
-          }}
-        />
-        <Chip
-          icon={<FlagIcon sx={{ color: '#fff !important' }} />}
-          label="Solo clientas"
-          sx={{
-            position: 'absolute',
-            bottom: 10,
-            right: 12,
-            height: 28,
-            bgcolor: FLAG_RED,
-            color: '#fff',
-            fontWeight: 800,
-            fontSize: 12,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.22)',
-          }}
-        />
-      </Box>
-      <Box
-        sx={{
-          height: 6,
-          background: `linear-gradient(90deg, ${FLAG_GREEN} 0 33%, #fff 33% 67%, ${FLAG_RED} 67% 100%)`,
+          width: '100%',
+          height: 'auto',
+          display: 'block',
+          objectFit: 'contain',
         }}
       />
     </Box>
@@ -700,6 +635,10 @@ function ProductGrid({
               component="img"
               src={productImage(p, IMG_FALLBACK)}
               alt={p.name}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = IMG_FALLBACK
+              }}
               sx={{ width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block' }}
             />
             <Box sx={{ p: 1.25 }}>
@@ -737,11 +676,17 @@ function QuoteCard({
     <Box sx={{ mt: 5, p: 3, borderRadius: 4, bgcolor: '#fff', boxShadow: '0 8px 28px rgba(206,17,38,0.1)' }}>
       <Typography sx={{ fontWeight: 900, color: accent, mb: 1, fontSize: '1.35rem' }}>Tu cuenta patriota</Typography>
       <Typography sx={{ color: INK, fontWeight: 700, mb: 2, fontSize: '1.02rem' }}>
-        {payload.meta.volumePieces === 0
-          ? 'Empieza a llenar tu canasta: el ahorro se ve aquí al instante.'
-          : payload.meta.volumeDiscount > 0
-            ? `${payload.meta.volumePieces} piezas en el pedido · ${payload.meta.volumeDiscount}% extra en lo que no va en la promo.`
-            : `${payload.meta.volumePieces} piezas. Desde 6 el pedido se pone más sabroso.`}
+        {isEcopipo
+          ? payload.meta.volumePieces === 0
+            ? 'Empieza a llenar tu canasta: el ahorro se ve aquí al instante.'
+            : payload.meta.volumeDiscount > 0
+              ? `${payload.meta.volumePieces} piezas en tu pedido.`
+              : `${payload.meta.volumePieces} piezas. Desde 6 el pedido se pone más sabroso.`
+          : payload.meta.lubellaCount >= LUBELLA_MIN
+            ? 'Ya tienes el 15%. Podrás agregar más productos y seguir aprovechando el descuento.'
+            : payload.meta.lubellaCount >= 1
+              ? 'Te falta poco para el 15%.'
+              : 'Empieza a llenar tu canasta: el 15% se activa con 5 piezas.'}
       </Typography>
       {isEcopipo && 'giftFiltro' in quote && quote.giftFiltro && (
         <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2, color: FLAG_GREEN }}>
@@ -761,28 +706,6 @@ function QuoteCard({
       >
         {paying ? 'Te llevamos a pagar...' : `Pagar ${money(payload.meta.expectedTotal)}`}
       </Button>
-    </Box>
-  )
-}
-
-function Rules({ isEcopipo }: { isEcopipo: boolean }) {
-  return (
-    <Box sx={{ mt: 4, p: 3, borderRadius: 4, bgcolor: '#fff', border: `2px solid ${GOLD}` }}>
-      <Typography sx={{ fontWeight: 900, mb: 1.5, color: INK, fontSize: '1.2rem' }}>
-        La fiesta del ahorro
-      </Typography>
-      <Stack spacing={1}>
-        {VOLUME_TIERS.map((t) => (
-          <Stack key={t.min} direction="row" spacing={1} alignItems="center">
-            <CheckCircleIcon sx={{ color: FLAG_GREEN, fontSize: 20 }} />
-            <Typography sx={{ color: INK, fontWeight: 700 }}>
-              {t.discount}% si llevas {t.min}
-              {t.max === Infinity ? ' o más' : ` a ${t.max}`} piezas
-            </Typography>
-          </Stack>
-        ))}
-      </Stack>
-      
     </Box>
   )
 }
