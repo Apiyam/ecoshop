@@ -1,5 +1,6 @@
-import BanderazoLanding from '@/app/_components/BanderazoLanding'
+import { permanentRedirect } from 'next/navigation'
 
+/** Campaña pausada. El landing sigue en BanderazoLanding.tsx */
 export default function BanderazoEcopipoPage() {
-  return <BanderazoLanding campaign="banderazo-patrio-ecopipo" />
+  permanentRedirect('https://ecopipo.promo')
 }

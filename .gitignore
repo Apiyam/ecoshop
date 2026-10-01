@@ -44,3 +44,7 @@ woocommerce-kit-escolar-snippet.php
 woocommerce-kit-escolar-snippet.php
 *.php
 a.json
+/_test_plugin
+/mp-shipping-checkout
+/test
+test.zip
