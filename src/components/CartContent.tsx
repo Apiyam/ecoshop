@@ -158,18 +158,15 @@ export default function CartContent({ onClose }: CartContentProps) {
             <Chip size="sm" color="primary" variant="soft">Aniversario</Chip>
             <Typography sx={{ ml: 'auto' }}>{money(aniversarioInCart.price)}</Typography>
           </Box>
-          <Typography sx={{ fontSize: 13, color: 'neutral.600', mb: 1 }}>
-            Las piezas que elegiste viajan en $0. Este importe es el cargo del pack.
-          </Typography>
           <Stack spacing={0.5} sx={{ mb: 1.5 }}>
             {aniversarioInCart.lines.map((line) => (
               <Typography key={`${line.role}-${line.id}`} sx={{ fontSize: 14 }}>
-                {line.quantity} × {line.name} · $0
+                {line.quantity} × {line.name}
               </Typography>
             ))}
             {aniversarioInCart.fixed.map((line) => (
               <Typography key={`fijo-${line.id}`} sx={{ fontSize: 14 }}>
-                {line.quantity} × {line.name} · $0
+                {line.quantity} × {line.name}
               </Typography>
             ))}
             {aniversarioInCart.surprises.map((gift) => (

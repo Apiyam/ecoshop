@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Aniversario 17 Ecopipo y Lubella',
   description:
-    'Paquetes de aniversario con precio cerrado: Mystery Box, Esencial, Inteligente y Libertad. En Lubella, toallas, Pack 17 y calzones.',
+    'Paquetes de aniversario: Mystery Box, Esencial, Inteligente y Libertad. En Lubella, toallas, Pack 17 y calzones.',
   openGraph: {
     title: 'Aniversario 17 Ecopipo y Lubella',
     description:

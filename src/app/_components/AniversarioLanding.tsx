@@ -123,7 +123,7 @@ export default function AniversarioLanding() {
         </Container>
       </Box>
 
-      <Box sx={{ position: 'sticky', top: 72, zIndex: 20, bgcolor: 'rgba(255,246,238,0.96)', backdropFilter: 'blur(8px)', py: 1.25, borderBottom: '1px solid rgba(36,24,32,0.06)' }}>
+      <Box sx={{ py: 2 }}>
         <Container maxWidth="md">
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.25}>
             <Button
@@ -144,7 +144,7 @@ export default function AniversarioLanding() {
                 '&:hover': { bgcolor: brand === 'ecopipo' ? BRAND_PURPLE_HOVER : '#f8f1fa' },
               }}
             >
-              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="" sx={{ height: 36, bgcolor: '#fff', borderRadius: '10px', px: 0.75 }} />
+              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="" sx={{ height: 36, bgcolor: '#fff', border: '2px solid #fff', borderRadius: '10px', px: 0.75 }} />
               Ver promos Ecopipo
             </Button>
             <Button
@@ -165,7 +165,7 @@ export default function AniversarioLanding() {
                 '&:hover': { bgcolor: brand === 'lubella' ? LUBELLA_DEEP : '#fff5fa' },
               }}
             >
-              <Box component="img" src="/imgs/logo.png" alt="" sx={{ height: 32, bgcolor: '#fff', borderRadius: '10px', px: 0.75 }} />
+              <Box component="img" src="/imgs/logo.png" alt="" sx={{ height: 32, bgcolor: '#fff', border: '2px solid #fff', borderRadius: '10px', px: 0.75 }} />
               Ver promos Lubella
             </Button>
           </Stack>
@@ -176,7 +176,7 @@ export default function AniversarioLanding() {
         {brand === 'ecopipo' ? (
           <Stack spacing={2.5}>
             <Box sx={{ bgcolor: '#fff', borderRadius: '28px', p: { xs: 2, sm: 3 }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '160px 1fr' }, gap: 2, alignItems: 'center', boxShadow: '0 12px 32px rgba(77,33,88,0.06)' }}>
-              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="Ecopipo" sx={{ width: 140, mx: 'auto' }} />
+              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="Ecopipo" sx={{ width: 140, mx: 'auto', bgcolor: '#fff', border: '4px solid #fff', borderRadius: '16px', p: 1 }} />
               <Stack spacing={1.25}>
                 <Typography sx={{ fontWeight: 800, color: BRAND_PURPLE, letterSpacing: '0.08em', fontSize: 13 }}>DISEÑOS SORPRESA</Typography>
                 <Typography component="h2" sx={{ fontWeight: 900, fontSize: 28, lineHeight: 1.05 }}>Mystery Box 6 + 4</Typography>
@@ -251,7 +251,7 @@ export default function AniversarioLanding() {
                   <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, boxShadow: '0 12px 32px rgba(142,36,88,0.06)' }}>
                     <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
                       {pack.photos.map((src) => (
-                        <Box key={src} component="img" src={src} alt="" sx={{ width: '100%', aspectRatio: '1', objectFit: 'contain', bgcolor: '#fff7fb', borderRadius: '16px' }} />
+                        <Box key={src} component="img" src={src} alt="" sx={{ width: '100%', aspectRatio: '1', objectFit: 'contain', bgcolor: '#fff', border: '4px solid #fff', borderRadius: '16px', boxShadow: '0 8px 20px rgba(36,24,32,0.08)' }} />
                       ))}
                     </Box>
                     <Typography component="h3" sx={{ fontWeight: 900, fontSize: 22 }}>{pack.name}</Typography>
@@ -334,7 +334,7 @@ export default function AniversarioLanding() {
                 },
               ].map((pack) => (
                 <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, boxShadow: '0 12px 32px rgba(142,36,88,0.06)' }}>
-                  <Box component="img" src="/imgs/calzon.png" alt="Calzón Lubella" sx={{ width: '100%', maxHeight: 220, objectFit: 'contain' }} />
+                  <Box component="img" src="/imgs/calzon.png" alt="Calzón Lubella" sx={{ width: '100%', maxHeight: 220, objectFit: 'contain', bgcolor: '#fff', border: '4px solid #fff', borderRadius: '16px', boxShadow: '0 8px 20px rgba(36,24,32,0.08)' }} />
                   <Typography sx={{ fontWeight: 800, color: LUBELLA }}>{pack.note}</Typography>
                   <Typography component="h3" sx={{ fontWeight: 900, fontSize: 24 }}>{pack.name}</Typography>
                   <Typography sx={{ color: '#7a6a74', textDecoration: 'line-through' }}>De {money(pack.was)}</Typography>

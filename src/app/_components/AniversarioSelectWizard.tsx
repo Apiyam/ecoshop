@@ -142,7 +142,7 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
                 </Box>
               ))}
               <Typography sx={{ fontSize: 13, color: '#666' }}>
-                Los regalos de diseño sorpresa los agrega la tienda. En el checkout cada pieza queda en $0 y este precio entra como un solo cargo.
+                Los regalos de diseño sorpresa los elige la tienda.
               </Typography>
               <Button
                 variant="contained"
@@ -163,7 +163,14 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
                       component="img"
                       src={product.images || '/imgs/pads.png'}
                       alt={shortName(product)}
-                      sx={{ width: '100%', aspectRatio: '1', objectFit: 'cover', bgcolor: '#fafafa' }}
+                      sx={{
+                        width: '100%',
+                        aspectRatio: '1',
+                        objectFit: 'contain',
+                        bgcolor: '#fff',
+                        border: '4px solid #fff',
+                        boxSizing: 'border-box',
+                      }}
                     />
                     <Box sx={{ p: 0.75, textAlign: 'center' }}>
                       <Typography sx={{ fontSize: 12, minHeight: 32, lineHeight: 1.2 }}>{shortName(product)}</Typography>
