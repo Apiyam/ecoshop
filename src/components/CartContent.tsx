@@ -23,6 +23,8 @@ import { ProductItem } from '../lib/wooApi'
 import ConfirmationModal from './ConfirmationModal'
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
 import { PACK_SELECTION_STORAGE_KEY } from '@/app/back-expo-nacional/types'
+import { aniversarioCheckoutUrl, money } from '@/lib/aniversario'
+import { useRouter } from 'next/navigation'
 import type { ExpoPack } from '@/app/back-expo-nacional/types'
 import PackWizard from '@/app/back-expo-nacional/PackWizard'
 
@@ -40,7 +42,8 @@ function getDisplayName(p: ProductItem): string {
 }
 
 export default function CartContent({ onClose }: CartContentProps) {
-  const { cartItems, packInCart, removeFromCart, removePackFromCart, clearCart, currentDiscount } = useCart()
+  const { cartItems, packInCart, aniversarioInCart, setAniversarioInCart, removeFromCart, removePackFromCart, clearCart, currentDiscount } = useCart()
+  const router = useRouter()
   const [clearCartModal, setClearCartModal] = useState(false)
   const [removePackModal, setRemovePackModal] = useState(false)
   const [packDetailsOpen, setPackDetailsOpen] = useState(false)
@@ -70,7 +73,8 @@ export default function CartContent({ onClose }: CartContentProps) {
   const getTotal = () => {
     const itemsTotal = cartItems.reduce((acc, item) => acc + getDiscountedPrice(item.product) * item.quantity, 0)
     const packTotal = packInCart ? packInCart.pack.priceDiscounted : 0
-    return itemsTotal + packTotal
+    const anivTotal = aniversarioInCart ? aniversarioInCart.price : 0
+    return itemsTotal + packTotal + anivTotal
   }
 
   const goToWordpress = () => {
@@ -104,6 +108,13 @@ export default function CartContent({ onClose }: CartContentProps) {
       items.push({ id: i.product.id, quantity: i.quantity })
     })
 
+    if (aniversarioInCart) {
+      let url = aniversarioCheckoutUrl(aniversarioInCart, items)
+      if (packInCart) url += `&kitTotal=${packInCart.pack.priceDiscounted}`
+      window.location.href = url
+      return
+    }
+
     const data = encodeURIComponent(JSON.stringify(items))
     const base = `https://ecopipo.com/matriz/?redirect=ecopipo&items=${data}`
     const url = packInCart
@@ -112,7 +123,7 @@ export default function CartContent({ onClose }: CartContentProps) {
     window.location.href = url
   }
 
-  const hasAnything = cartItems.length > 0 || !!packInCart
+  const hasAnything = cartItems.length > 0 || !!packInCart || !!aniversarioInCart
 
   const handleEditarPack = () => {
     if (!packInCart) return
@@ -131,6 +142,58 @@ export default function CartContent({ onClose }: CartContentProps) {
       <Typography level="h4" m={0}>
         Carrito de compras Ecopipo
       </Typography>
+      {aniversarioInCart && (
+        <Box
+          sx={{
+            mb: 2,
+            p: 2,
+            borderRadius: 'md',
+            border: '1px solid',
+            borderColor: 'neutral.outlinedBorder',
+            bgcolor: 'neutral.softBg',
+          }}
+        >
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, mb: 1 }}>
+            <Typography fontWeight="lg">{aniversarioInCart.name}</Typography>
+            <Chip size="sm" color="primary" variant="soft">Aniversario</Chip>
+            <Typography sx={{ ml: 'auto' }}>{money(aniversarioInCart.price)}</Typography>
+          </Box>
+          <Typography sx={{ fontSize: 13, color: 'neutral.600', mb: 1 }}>
+            Las piezas que elegiste viajan en $0. Este importe es el cargo del pack.
+          </Typography>
+          <Stack spacing={0.5} sx={{ mb: 1.5 }}>
+            {aniversarioInCart.lines.map((line) => (
+              <Typography key={`${line.role}-${line.id}`} sx={{ fontSize: 14 }}>
+                {line.quantity} × {line.name} · $0
+              </Typography>
+            ))}
+            {aniversarioInCart.fixed.map((line) => (
+              <Typography key={`fijo-${line.id}`} sx={{ fontSize: 14 }}>
+                {line.quantity} × {line.name} · $0
+              </Typography>
+            ))}
+            {aniversarioInCart.surprises.map((gift) => (
+              <Typography key={gift.label} sx={{ fontSize: 14 }}>
+                {gift.label}
+              </Typography>
+            ))}
+          </Stack>
+          <Grid container spacing={1} direction="row" justifyContent="flex-end">
+            <Button size="sm" variant="outlined" startDecorator={<Edit />} onClick={() => router.push('/aniversario')}>
+              Cambiar
+            </Button>
+            <Button
+              size="sm"
+              variant="outlined"
+              color="danger"
+              startDecorator={<RemoveShoppingCart />}
+              onClick={() => setAniversarioInCart(null)}
+            >
+              Quitar pack
+            </Button>
+          </Grid>
+        </Box>
+      )}
       {packInCart && (
         <Box
           sx={{

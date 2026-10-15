@@ -80,11 +80,17 @@ type PackWizardProps = {
   open: boolean;
   onClose: () => void;
   onComplete?: () => void;
+  /** Si viene, no usa el carrito de packs Expo: el aniversario arma su propio cobro. */
+  onPay?: (selection: {
+    lisos: ProductItem[];
+    estampados: ProductItem[];
+    wetbag: ProductItem | null;
+  }) => void;
 };
 
 type StepIndex = 0 | 1 | 2 | 3;
 
-export default function PackWizard({ pack, open, onClose, onComplete }: PackWizardProps) {
+export default function PackWizard({ pack, open, onClose, onComplete, onPay }: PackWizardProps) {
   const { setPackInCart } = useCart();
   const router = useRouter();
   const [products, setProducts] = useState<ProductItem[]>([]);
@@ -252,17 +258,26 @@ export default function PackWizard({ pack, open, onClose, onComplete }: PackWiza
   };
 
   const handlePagar = () => {
-    setPackInCart({
-      pack,
-      selectedLisos: [...selectedLisos],
-      selectedEstampados: [...selectedEstampados],
-      selectedWetbag,
-    });
+    const selection = {
+      lisos: [...selectedLisos],
+      estampados: [...selectedEstampados],
+      wetbag: selectedWetbag,
+    };
     try {
       sessionStorage.removeItem(PACK_SELECTION_STORAGE_KEY(pack.id));
     } catch {}
     onComplete?.();
     onClose();
+    if (onPay) {
+      onPay(selection);
+      return;
+    }
+    setPackInCart({
+      pack,
+      selectedLisos: selection.lisos,
+      selectedEstampados: selection.estampados,
+      selectedWetbag: selection.wetbag,
+    });
     router.push('/carrito');
   };
 

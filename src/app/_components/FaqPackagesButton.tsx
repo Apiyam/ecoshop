@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import CloseIcon from '@mui/icons-material/Close'
+import { usePathname } from 'next/navigation'
 import { BRAND_PURPLE, BRAND_GREEN, BRAND_PURPLE_HOVER, BRAND_GREEN_HOVER } from '@/lib/constants'
 
 const faqItems = [
@@ -35,6 +36,8 @@ export default function FaqPackagesButton() {
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const pathname = usePathname()
+  if (pathname?.startsWith('/aniversario')) return null
 
   return (
     <>
