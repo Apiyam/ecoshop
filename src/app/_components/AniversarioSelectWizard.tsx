@@ -36,6 +36,8 @@ type Props = {
   onPay: (picked: Record<string, ProductItem[]>) => void
 }
 
+const ink = { color: '#111 !important', fontWeight: '700 !important' }
+
 function shortName(product: ProductItem) {
   let name = product.name.replace(/6 Meses - 6 Años/gi, '').trim()
   const parent = (product.parent_name || '').replace(/^Privado:\s*/i, '').trim()
@@ -103,6 +105,7 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
       <Box
         sx={{
           bgcolor: '#fff',
+          color: '#111',
           borderRadius: 3,
           maxWidth: 480,
           width: '100%',
@@ -114,10 +117,10 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 1.5, borderBottom: '1px solid #eee' }}>
-          <IconButton onClick={step === 0 ? onClose : () => setStep((value) => value - 1)} aria-label={step === 0 ? 'Cerrar' : 'Atrás'}>
+          <IconButton onClick={step === 0 ? onClose : () => setStep((value) => value - 1)} aria-label={step === 0 ? 'Cerrar' : 'Atrás'} sx={{ color: '#111' }}>
             {step === 0 ? <CloseIcon /> : <ArrowBackIosNewIcon fontSize="small" />}
           </IconButton>
-          <Typography sx={{ fontWeight: 800, textAlign: 'center' }}>{isSummary ? 'Resumen' : slot?.title}</Typography>
+          <Typography sx={{ ...ink, textAlign: 'center' }}>{isSummary ? 'Resumen' : slot?.title}</Typography>
           <Box sx={{ width: 40 }} />
         </Stack>
         <Box sx={{ overflow: 'auto', flex: 1, py: 2, px: 1 }}>
@@ -126,22 +129,22 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
               <CircularProgress sx={{ color: accent }} />
             </Box>
           ) : error ? (
-            <Typography sx={{ textAlign: 'center', px: 2 }}>{error}</Typography>
+            <Typography sx={{ ...ink, textAlign: 'center', px: 2 }}>{error}</Typography>
           ) : isSummary ? (
             <Stack spacing={1.5} sx={{ px: 1.5 }}>
-              <Typography sx={{ fontWeight: 900, fontSize: 22 }}>{title}</Typography>
-              <Typography sx={{ fontWeight: 900, fontSize: 32, color: accent }}>{money(price)}</Typography>
+              <Typography sx={{ ...ink, fontSize: 22 }}>{title}</Typography>
+              <Typography sx={{ fontWeight: '900 !important', fontSize: 32, color: `${accent} !important` }}>{money(price)}</Typography>
               {slots.map((item) => (
                 <Box key={item.key}>
-                  <Typography sx={{ fontWeight: 800, mb: 0.5 }}>{item.title}</Typography>
+                  <Typography sx={{ ...ink, mb: 0.5 }}>{item.title}</Typography>
                   {(picked[item.key] || []).map((product, index) => (
-                    <Typography key={`${product.id}-${index}`} sx={{ fontSize: 14, color: '#444' }}>
+                    <Typography key={`${product.id}-${index}`} sx={{ ...ink, fontSize: 14 }}>
                       {shortName(product)}
                     </Typography>
                   ))}
                 </Box>
               ))}
-              <Typography sx={{ fontSize: 13, color: '#666' }}>
+              <Typography sx={{ ...ink, fontSize: 13 }}>
                 Los regalos de diseño sorpresa los elige la tienda.
               </Typography>
               <Button
@@ -173,17 +176,17 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
                       }}
                     />
                     <Box sx={{ p: 0.75, textAlign: 'center' }}>
-                      <Typography sx={{ fontSize: 12, minHeight: 32, lineHeight: 1.2 }}>{shortName(product)}</Typography>
+                      <Typography sx={{ ...ink, fontSize: 12, minHeight: 32, lineHeight: 1.2 }}>{shortName(product)}</Typography>
                       <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-                        <IconButton size="small" disabled={!countThis} onClick={() => remove(product)} aria-label="Quitar">
+                        <IconButton size="small" disabled={!countThis} onClick={() => remove(product)} aria-label="Quitar" sx={{ color: '#111' }}>
                           <RemoveIcon fontSize="small" />
                         </IconButton>
-                        <Typography sx={{ fontWeight: 800, minWidth: 16 }}>{countThis}</Typography>
-                        <IconButton size="small" disabled={!canAdd} onClick={() => add(product)} aria-label="Sumar">
+                        <Typography sx={{ ...ink, minWidth: 16 }}>{countThis}</Typography>
+                        <IconButton size="small" disabled={!canAdd} onClick={() => add(product)} aria-label="Sumar" sx={{ color: '#111' }}>
                           <AddIcon fontSize="small" />
                         </IconButton>
                       </Stack>
-                      <Typography sx={{ fontSize: 11, color: '#777' }}>
+                      <Typography sx={{ ...ink, fontSize: 12 }}>
                         {current.length}/{slot?.count}
                       </Typography>
                     </Box>
@@ -191,7 +194,7 @@ export default function AniversarioSelectWizard({ open, title, price, accent, sl
                 )
               })}
               {!options.length && (
-                <Typography sx={{ gridColumn: '1 / -1', textAlign: 'center', py: 4 }}>No hay piezas con existencia en este grupo.</Typography>
+                <Typography sx={{ ...ink, gridColumn: '1 / -1', textAlign: 'center', py: 4 }}>No hay piezas con existencia en este grupo.</Typography>
               )}
             </Box>
           )}

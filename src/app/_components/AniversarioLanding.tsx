@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Box, Button, Container, Stack, Typography } from '@mui/material'
+import { useState, type ReactNode } from 'react'
+import { Box, Button, Container, Dialog, DialogContent, Stack, Typography } from '@mui/material'
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
 import { useRouter } from 'next/navigation'
 import PackWizard from '@/app/packs/PackWizard'
@@ -18,12 +18,29 @@ import {
   towelCart,
 } from '@/lib/aniversario'
 import AniversarioSelectWizard, { SelectSlot } from './AniversarioSelectWizard'
-import Link from 'next/link'
 
 const INK = '#241820'
 const CREAM = '#FFF6EE'
 const LUBELLA = '#E23B86'
 const LUBELLA_DEEP = '#8E2458'
+
+const ART = {
+  logo: '/aniversario/web/logo.webp',
+  mysteryBadge: '/aniversario/web/mystery-badge.webp',
+  mystery: '/aniversario/web/mystery.webp',
+  comparativa: '/aniversario/web/comparativa.webp',
+  pack1: '/aniversario/web/esencial.webp',
+  pack2: '/aniversario/web/inteligente.webp',
+  pack3: '/aniversario/web/libertad.webp',
+}
+
+const STARS = [
+  { top: '14%', left: '7%', size: 16, color: '#F5C518' },
+  { top: '28%', left: '90%', size: 22, color: '#E23B86' },
+  { top: '70%', left: '6%', size: 12, color: '#89b329' },
+  { top: '78%', left: '88%', size: 18, color: '#F5C518' },
+  { top: '8%', left: '72%', size: 10, color: '#733080' },
+]
 
 type Brand = 'ecopipo' | 'lubella'
 
@@ -34,6 +51,55 @@ type LubellaFlow = {
   title: string
   price: number
   slots: SelectSlot[]
+}
+
+function buySx(bg: string, hover: string) {
+  return {
+    width: '100%',
+    minHeight: 64,
+    borderRadius: '999px',
+    textTransform: 'none' as const,
+    fontWeight: 900,
+    fontSize: { xs: 18, sm: 20 },
+    color: '#fff',
+    bgcolor: bg,
+    border: '3px solid #fff',
+    boxShadow: 'none',
+    '&:hover': { bgcolor: hover, boxShadow: 'none' },
+  }
+}
+
+const HOW_STEPS = [
+  ['Elige tu pack', 'Mystery Box, Esencial, Inteligente o Libertad. En Lubella, toallas o calzones.'],
+  ['Elige tus piezas', 'En los packs de pañal tú eliges lisos y estampados. En toallas y calzones, el estampado y la talla.'],
+  ['La sorpresa la arma la tienda', 'El diseño de regalo no se elige. Llega al azar.'],
+  ['Pagas el pack', 'Las piezas quedan en el pedido y el precio que ves es el del pack completo.'],
+]
+
+function ArtFrame({ src, alt, children }: { src: string; alt: string; children?: ReactNode }) {
+  return (
+    <Box
+      sx={{
+        bgcolor: '#fff',
+        borderRadius: '32px',
+        p: { xs: 1.25, sm: 1.5 },
+        pb: children ? { xs: 2.25, sm: 2.5 } : { xs: 1.25, sm: 1.5 },
+        boxShadow: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1.25,
+        height: '100%',
+      }}
+    >
+      <Box
+        component="img"
+        src={src}
+        alt={alt}
+        sx={{ width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
+      />
+      {children}
+    </Box>
+  )
 }
 
 function Includes({ items }: { items: string[] }) {
@@ -56,6 +122,7 @@ export default function AniversarioLanding() {
   const [packWizard, setPackWizard] = useState<ExpoPack | null>(null)
   const [lubellaFlow, setLubellaFlow] = useState<LubellaFlow | null>(null)
   const [pack17, setPack17] = useState({ moderado: false, abundante: false })
+  const [howOpen, setHowOpen] = useState(false)
 
   const saveAndGo = (cart: Parameters<typeof setAniversarioInCart>[0]) => {
     if (!cart) return
@@ -94,28 +161,58 @@ export default function AniversarioLanding() {
     <Box sx={{ bgcolor: CREAM, color: INK, minHeight: '100vh', pb: 8 }}>
       <Box
         sx={{
+          position: 'relative',
+          overflow: 'hidden',
           background:
-            'radial-gradient(circle at 10% 20%, rgba(137,179,41,0.35), transparent 32%), radial-gradient(circle at 90% 0%, rgba(226,59,134,0.3), transparent 36%), linear-gradient(165deg, #4d2158 0%, #733080 55%, #9a3d78 100%)',
-          color: '#fff',
-          pt: { xs: 4, md: 6 },
-          pb: { xs: 4, md: 5 },
+            'radial-gradient(circle at 12% 18%, #ffe7a3 0, transparent 26%), radial-gradient(circle at 88% 8%, #f7c3e4 0, transparent 30%), radial-gradient(circle at 50% 120%, #d7f3a4 0, transparent 42%), linear-gradient(180deg, #f4e4ff 0%, #fff6ee 100%)',
+          pt: { xs: 3, md: 4 },
+          pb: { xs: 2, md: 3 },
         }}
       >
-        <Container maxWidth="md">
-          <Typography sx={{ textAlign: 'center', fontWeight: 800, letterSpacing: '0.16em', fontSize: 12 }}>
-            ANIVERSARIO 17
-          </Typography>
-          <Typography component="h1" sx={{ textAlign: 'center', fontWeight: 900, fontSize: { xs: 34, sm: 48 }, lineHeight: 0.95, letterSpacing: '-0.04em', mt: 1 }}>
+        <Box aria-hidden sx={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+          {STARS.map((star) => (
+            <Box
+              key={`${star.top}-${star.left}`}
+              sx={{
+                position: 'absolute',
+                top: star.top,
+                left: star.left,
+                width: star.size,
+                height: star.size,
+                bgcolor: star.color,
+                clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
+              }}
+            />
+          ))}
+        </Box>
+        <Container maxWidth="md" sx={{ position: 'relative' }}>
+          <Box
+            component="img"
+            src={ART.logo}
+            alt="17 Aniversario Ecopipo"
+            sx={{
+              width: { xs: 230, sm: 320 },
+              height: 'auto',
+              display: 'block',
+              mx: 'auto',
+              animation: 'anivFloat 3.6s ease-in-out infinite',
+              '@keyframes anivFloat': {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-8px)' },
+              },
+            }}
+          />
+          <Box component="img" src={ART.mysteryBadge} alt="Mystery Box" sx={{ width: { xs: 168, sm: 210 }, height: 'auto', display: 'block', mx: 'auto', mt: 0.5 }} />
+          <Typography component="h1" sx={{ textAlign: 'center', fontWeight: 900, fontSize: { xs: 28, sm: 40 }, lineHeight: 1.02, letterSpacing: '-0.03em', mt: 1.5, color: BRAND_PURPLE }}>
             Arma tu pack y llévatelo a este precio
           </Typography>
-          <Typography sx={{ textAlign: 'center', mt: 1.5, fontSize: 17, maxWidth: 520, mx: 'auto' }}>
+          <Typography sx={{ textAlign: 'center', mt: 1, fontSize: 17, maxWidth: 480, mx: 'auto', color: '#5c4d57' }}>
             Eliges las piezas. El regalo de diseño sorpresa lo arma la tienda.
           </Typography>
           <Box sx={{ textAlign: 'center', mt: 2 }}>
             <Button
-              component={Link}
-              href="/packs/como-funcionan"
-              sx={{ color: '#fff', borderColor: '#fff', border: '1px solid #fff', borderRadius: '999px', textTransform: 'none', fontWeight: 700, px: 2 }}
+              onClick={() => setHowOpen(true)}
+              sx={{ color: BRAND_PURPLE, border: `2px solid ${BRAND_PURPLE}`, borderRadius: '999px', textTransform: 'none', fontWeight: 800, px: 2.5, bgcolor: '#fff', boxShadow: 'none' }}
             >
               Cómo funcionan los packs
             </Button>
@@ -131,20 +228,20 @@ export default function AniversarioLanding() {
               aria-pressed={brand === 'ecopipo'}
               sx={{
                 flex: 1,
-                minHeight: 76,
-                borderRadius: '20px',
+                minHeight: 88,
+                borderRadius: '22px',
                 textTransform: 'none',
                 fontWeight: 900,
-                fontSize: 18,
+                fontSize: 20,
                 gap: 1.25,
                 color: brand === 'ecopipo' ? '#fff' : BRAND_PURPLE,
                 bgcolor: brand === 'ecopipo' ? BRAND_PURPLE : '#fff',
-                border: `3px solid ${BRAND_PURPLE}`,
-                boxShadow: brand === 'ecopipo' ? '0 10px 24px rgba(115,48,128,0.35)' : '0 4px 0 #d7c3dc',
-                '&:hover': { bgcolor: brand === 'ecopipo' ? BRAND_PURPLE_HOVER : '#f8f1fa' },
+                border: `4px solid ${brand === 'ecopipo' ? '#fff' : BRAND_PURPLE}`,
+                boxShadow: 'none',
+                '&:hover': { bgcolor: brand === 'ecopipo' ? BRAND_PURPLE_HOVER : '#f8f1fa', boxShadow: 'none' },
               }}
             >
-              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="" sx={{ height: 36, bgcolor: '#fff', border: '2px solid #fff', borderRadius: '10px', px: 0.75 }} />
+              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="" sx={{ height: 40, width: 'auto' }} />
               Ver promos Ecopipo
             </Button>
             <Button
@@ -152,20 +249,20 @@ export default function AniversarioLanding() {
               aria-pressed={brand === 'lubella'}
               sx={{
                 flex: 1,
-                minHeight: 76,
-                borderRadius: '20px',
+                minHeight: 88,
+                borderRadius: '22px',
                 textTransform: 'none',
                 fontWeight: 900,
-                fontSize: 18,
+                fontSize: 20,
                 gap: 1.25,
                 color: brand === 'lubella' ? '#fff' : LUBELLA_DEEP,
                 bgcolor: brand === 'lubella' ? LUBELLA : '#fff',
-                border: `3px solid ${LUBELLA}`,
-                boxShadow: brand === 'lubella' ? '0 10px 24px rgba(226,59,134,0.35)' : '0 4px 0 #f3c2d8',
-                '&:hover': { bgcolor: brand === 'lubella' ? LUBELLA_DEEP : '#fff5fa' },
+                border: `4px solid ${brand === 'lubella' ? '#fff' : LUBELLA}`,
+                boxShadow: 'none',
+                '&:hover': { bgcolor: brand === 'lubella' ? LUBELLA_DEEP : '#fff5fa', boxShadow: 'none' },
               }}
             >
-              <Box component="img" src="/imgs/logo.png" alt="" sx={{ height: 32, bgcolor: '#fff', border: '2px solid #fff', borderRadius: '10px', px: 0.75 }} />
+              <Box component="img" src="/imgs/logo.png" alt="" sx={{ height: 36, width: 'auto' }} />
               Ver promos Lubella
             </Button>
           </Stack>
@@ -174,84 +271,57 @@ export default function AniversarioLanding() {
 
       <Container maxWidth="lg" sx={{ pt: 3 }}>
         {brand === 'ecopipo' ? (
-          <Stack spacing={2.5}>
-            <Box sx={{ bgcolor: '#fff', borderRadius: '28px', p: { xs: 2, sm: 3 }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '160px 1fr' }, gap: 2, alignItems: 'center', boxShadow: '0 12px 32px rgba(77,33,88,0.06)' }}>
-              <Box component="img" src="/imgs/Ecopipo-llsm.png" alt="Ecopipo" sx={{ width: 140, mx: 'auto', bgcolor: '#fff', border: '4px solid #fff', borderRadius: '16px', p: 1 }} />
-              <Stack spacing={1.25}>
-                <Typography sx={{ fontWeight: 800, color: BRAND_PURPLE, letterSpacing: '0.08em', fontSize: 13 }}>DISEÑOS SORPRESA</Typography>
-                <Typography component="h2" sx={{ fontWeight: 900, fontSize: 28, lineHeight: 1.05 }}>Mystery Box 6 + 4</Typography>
-                <Typography sx={{ color: '#7a6a74', textDecoration: 'line-through' }}>De {money(3340)}</Typography>
-                <Typography sx={{ fontWeight: 900, fontSize: 40, color: BRAND_PURPLE, lineHeight: 1 }}>{money(2460)}</Typography>
-                <Includes
-                  items={[
-                    '6 pañales premium estampados completos',
-                    '4 pañales premium estampados sin absorbente',
-                    'No eliges el diseño: llega al azar',
-                  ]}
-                />
+          <Stack spacing={3}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(280px, 420px) minmax(0, 1fr)' }, gap: 2, alignItems: 'start' }}>
+              <ArtFrame src={ART.mystery} alt="Mystery Box: 10 pañales sorpresa, de $3,340 a $2,460">
                 <Button
                   variant="contained"
                   onClick={() => saveAndGo(mysteryCart())}
-                  sx={{ alignSelf: 'flex-start', minHeight: 48, px: 3, borderRadius: '999px', textTransform: 'none', fontWeight: 800, bgcolor: BRAND_GREEN, '&:hover': { bgcolor: BRAND_GREEN_HOVER } }}
+                  sx={buySx(BRAND_GREEN, BRAND_GREEN_HOVER)}
                 >
-                  La quiero
+                  La quiero · {money(2460)}
                 </Button>
-              </Stack>
+              </ArtFrame>
+              <ArtFrame src={ART.comparativa} alt="Comparativa Mystery Box y Pack Esencial" />
             </Box>
 
-            <Typography sx={{ fontWeight: 800, color: '#5c4d57' }}>
-              En estos tres eliges modelo de lisos y estampados. El regalo sin absorbente es sorpresa.
+            <Typography sx={{ fontWeight: 800, color: '#5c4d57', textAlign: 'center', fontSize: 18 }}>
+              En estos tres eliges lisos y estampados. El pañal sin absorbente es sorpresa.
             </Typography>
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 2 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 2, alignItems: 'start' }}>
               {ANIV_ECOPIPO_PACKS.map((pack) => (
-                <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, boxShadow: '0 12px 32px rgba(77,33,88,0.06)' }}>
-                  <Typography component="h3" sx={{ fontWeight: 900, fontSize: 26 }}>{pack.name}</Typography>
-                  <Typography sx={{ color: '#7a6a74', textDecoration: 'line-through' }}>De {money(pack.priceOriginal)}</Typography>
-                  <Typography sx={{ fontWeight: 900, fontSize: 36, color: pack.color === 'green' ? BRAND_GREEN : BRAND_PURPLE, lineHeight: 1 }}>
-                    {money(pack.priceDiscounted)}
-                  </Typography>
-                  <Includes
-                    items={[
-                      `${pack.lisos} pañales premium lisos`,
-                      `${pack.estampados} pañales premium estampados`,
-                      pack.wetbag ? '1 bolsa impermeable, tú eliges el estampado' : 'Sin bolsa',
-                      '1 filtro de bambú y 1 detergente',
-                      `De regalo: ${pack.id === 'pack1' ? 1 : pack.id === 'pack2' ? 2 : 3} estampado sin absorbente, sorpresa`,
-                    ]}
-                  />
+                <ArtFrame key={pack.id} src={ART[pack.id]} alt={`Pack ${pack.name}, de ${money(pack.priceOriginal)} a ${money(pack.priceDiscounted)}`}>
                   <Button
                     variant="contained"
                     onClick={() => setPackWizard(pack)}
-                    sx={{
-                      mt: 'auto',
-                      minHeight: 48,
-                      borderRadius: '999px',
-                      textTransform: 'none',
-                      fontWeight: 800,
-                      bgcolor: pack.color === 'green' ? BRAND_GREEN : BRAND_PURPLE,
-                      '&:hover': { bgcolor: pack.color === 'green' ? BRAND_GREEN_HOVER : BRAND_PURPLE_HOVER },
-                    }}
+                    sx={buySx(
+                      pack.color === 'green' ? BRAND_GREEN : BRAND_PURPLE,
+                      pack.color === 'green' ? BRAND_GREEN_HOVER : BRAND_PURPLE_HOVER
+                    )}
                   >
                     Armar {pack.name}
                   </Button>
-                </Box>
+                </ArtFrame>
               ))}
             </Box>
           </Stack>
         ) : (
           <Stack spacing={2.5}>
-            <Typography sx={{ color: '#5c4d57' }}>
-              Eliges el estampado de Regular, Teen y Nocturna. Pantiprotector, panti y pañoleta llegan al azar.
-            </Typography>
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
+              <Box component="img" src={ART.logo} alt="" sx={{ width: 108, height: 'auto' }} />
+              <Typography sx={{ color: '#5c4d57', maxWidth: 420 }}>
+                Eliges el estampado de Regular, Teen y Nocturna. Pantiprotector, panti y pañoleta llegan al azar.
+              </Typography>
+            </Stack>
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
               {towels.map((pack) => {
                 const upgraded = pack17[pack.id]
                 const price = upgraded ? pack.up : pack.base
                 return (
-                  <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, boxShadow: '0 12px 32px rgba(142,36,88,0.06)' }}>
+                  <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
                     <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
                       {pack.photos.map((src) => (
-                        <Box key={src} component="img" src={src} alt="" sx={{ width: '100%', aspectRatio: '1', objectFit: 'contain', bgcolor: '#fff', border: '4px solid #fff', borderRadius: '16px', boxShadow: '0 8px 20px rgba(36,24,32,0.08)' }} />
+                        <Box key={src} component="img" src={src} alt="" sx={{ width: '100%', aspectRatio: '1', objectFit: 'contain', borderRadius: '16px' }} />
                       ))}
                     </Box>
                     <Typography component="h3" sx={{ fontWeight: 900, fontSize: 22 }}>{pack.name}</Typography>
@@ -261,15 +331,17 @@ export default function AniversarioLanding() {
                       onClick={() => setPack17((prev) => ({ ...prev, [pack.id]: !prev[pack.id] }))}
                       aria-pressed={upgraded}
                       sx={{
-                        minHeight: 48,
+                        minHeight: 56,
                         borderRadius: '16px',
                         textTransform: 'none',
-                        fontWeight: 800,
+                        fontWeight: 900,
+                        fontSize: 16,
                         justifyContent: 'flex-start',
                         color: upgraded ? '#fff' : LUBELLA_DEEP,
                         bgcolor: upgraded ? LUBELLA : '#fff',
-                        border: `2px solid ${LUBELLA}`,
-                        '&:hover': { bgcolor: upgraded ? LUBELLA : '#fff5fa' },
+                        border: `3px solid ${LUBELLA}`,
+                        boxShadow: 'none',
+                        '&:hover': { bgcolor: upgraded ? LUBELLA : '#fff5fa', boxShadow: 'none' },
                       }}
                     >
                       {upgraded ? 'Pack 17 incluido · $499' : 'Sumar Pack 17 por $499'}
@@ -296,7 +368,7 @@ export default function AniversarioLanding() {
                           ],
                         })
                       }
-                      sx={{ mt: 'auto', minHeight: 48, borderRadius: '999px', textTransform: 'none', fontWeight: 800, bgcolor: LUBELLA, '&:hover': { bgcolor: LUBELLA_DEEP } }}
+                      sx={{ mt: 'auto', ...buySx(LUBELLA, LUBELLA_DEEP) }}
                     >
                       Armar este pack
                     </Button>
@@ -333,8 +405,8 @@ export default function AniversarioLanding() {
                   ],
                 },
               ].map((pack) => (
-                <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, boxShadow: '0 12px 32px rgba(142,36,88,0.06)' }}>
-                  <Box component="img" src="/imgs/calzon.png" alt="Calzón Lubella" sx={{ width: '100%', maxHeight: 220, objectFit: 'contain', bgcolor: '#fff', border: '4px solid #fff', borderRadius: '16px', boxShadow: '0 8px 20px rgba(36,24,32,0.08)' }} />
+                <Box key={pack.id} sx={{ bgcolor: '#fff', borderRadius: '28px', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+                  <Box component="img" src="/imgs/calzon.png" alt="Calzón Lubella" sx={{ width: '100%', maxHeight: 220, objectFit: 'contain', borderRadius: '16px' }} />
                   <Typography sx={{ fontWeight: 800, color: LUBELLA }}>{pack.note}</Typography>
                   <Typography component="h3" sx={{ fontWeight: 900, fontSize: 24 }}>{pack.name}</Typography>
                   <Typography sx={{ color: '#7a6a74', textDecoration: 'line-through' }}>De {money(pack.was)}</Typography>
@@ -351,7 +423,7 @@ export default function AniversarioLanding() {
                         slots: pack.slots,
                       })
                     }
-                    sx={{ mt: 'auto', minHeight: 48, borderRadius: '999px', textTransform: 'none', fontWeight: 800, bgcolor: LUBELLA, '&:hover': { bgcolor: LUBELLA_DEEP } }}
+                    sx={{ mt: 'auto', ...buySx(LUBELLA, LUBELLA_DEEP) }}
                   >
                     Armar {pack.name}
                   </Button>
@@ -412,6 +484,41 @@ export default function AniversarioLanding() {
           }}
         />
       )}
+
+      <Dialog
+        open={howOpen}
+        onClose={() => setHowOpen(false)}
+        fullWidth
+        maxWidth="sm"
+        sx={{ zIndex: 11000 }}
+      >
+        <DialogContent sx={{ px: { xs: 2.5, sm: 4 }, py: 3 }}>
+          <Typography component="h2" sx={{ fontWeight: 900, color: BRAND_PURPLE, fontSize: 26, textAlign: 'center', lineHeight: 1.15 }}>
+            Cómo funcionan los packs
+          </Typography>
+          <Stack component="ol" spacing={2} sx={{ listStyle: 'none', m: 0, mt: 2.5, p: 0 }}>
+            {HOW_STEPS.map(([title, body], index) => (
+              <Stack key={title} component="li" direction="row" spacing={1.5} alignItems="flex-start">
+                <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: BRAND_PURPLE, color: '#fff', fontWeight: 900, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                  {index + 1}
+                </Box>
+                <Box>
+                  <Typography sx={{ fontWeight: 800, color: BRAND_PURPLE }}>{title}</Typography>
+                  <Typography sx={{ color: '#5c4d57', lineHeight: 1.45 }}>{body}</Typography>
+                </Box>
+              </Stack>
+            ))}
+          </Stack>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => setHowOpen(false)}
+            sx={{ ...buySx(BRAND_GREEN, BRAND_GREEN_HOVER), mt: 3 }}
+          >
+            Entendido, ver packs
+          </Button>
+        </DialogContent>
+      </Dialog>
     </Box>
   )
 }
