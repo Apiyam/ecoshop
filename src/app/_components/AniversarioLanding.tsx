@@ -386,6 +386,30 @@ export default function AniversarioLanding() {
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
               {[
                 {
+                  id: 'normal-prueba',
+                  name: 'Tiro bikini · Prueba',
+                  note: '2 por este precio',
+                  was: 909,
+                  price: 799,
+                  items: ['1 Ligero o Moderado', '1 Moderado o Abundante'],
+                  slots: [
+                    { key: 'ligero', title: 'Elige 1 Ligero o Moderado', count: 1, parents: [PARENT.CALZON_BIKINI_LIGERO] },
+                    { key: 'abundante', title: 'Elige 1 Moderado o Abundante', count: 1, parents: [PARENT.CALZON_BIKINI_ABUNDANTE] },
+                  ],
+                },
+                {
+                  id: 'normal-completo',
+                  name: 'Tiro bikini · Completo',
+                  note: 'Compra 4 y el 5.º va incluido',
+                  was: 2228,
+                  price: 1818,
+                  items: ['3 Ligero o Moderado, uno va incluido', '2 Moderado o Abundante'],
+                  slots: [
+                    { key: 'ligero', title: 'Elige 3 Ligero o Moderado', count: 3, parents: [PARENT.CALZON_BIKINI_LIGERO] },
+                    { key: 'abundante', title: 'Elige 2 Moderado o Abundante', count: 2, parents: [PARENT.CALZON_BIKINI_ABUNDANTE] },
+                  ],
+                },
+                {
                   id: 'bikini-prueba',
                   name: 'Tiro bikini teen · Prueba',
                   note: '2 por este precio',

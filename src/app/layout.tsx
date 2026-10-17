@@ -20,10 +20,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const aniversarioOg = {
+  url: "/aniversario/og.jpg",
+  width: 1200,
+  height: 630,
+  alt: "17 Aniversario Ecopipo y Lubella",
+};
+
 export const metadata: Metadata = {
-  title: "Paquetes especiales con descuentos | Ecopipo",
+  title: "Aniversario 17 | Ecopipo y Lubella",
   description:
-    "Promociones y venta en línea Ecopipo: arma tu paquete personalizado, elige packs con ahorro y descubre productos ecológicos para tu familia.",
+    "Arma tu pack de aniversario: Esencial, Inteligente, Libertad y Mystery Box. En Lubella, toallas, Pack 17 y calzones.",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -34,21 +41,21 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Promociones y paquetes con descuento | Ecopipo",
+    title: "Aniversario 17 | Ecopipo y Lubella",
     description:
-      "Compra en Ecopipo con promociones activas: paquetes personalizados de 6 a 20 piezas, packs especiales y productos sustentables con ahorro real.",
-    images: `/imgs/ecopipo2.png`,
-    url: domain,
+      "Arma tu pack de aniversario: Esencial, Inteligente, Libertad y Mystery Box. En Lubella, toallas, Pack 17 y calzones.",
+    images: [aniversarioOg],
+    url: "/aniversario",
     siteName: "Ecopipo",
     locale: "es_MX",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Promociones y paquetes con descuento | Ecopipo",
+    title: "Aniversario 17 | Ecopipo y Lubella",
     description:
-      "Promociones Ecopipo: paquetes personalizados, packs con descuento y tienda en línea de productos ecológicos para toda la familia.",
-    images: `/imgs/ecopipo2.png`,
+      "Arma tu pack de aniversario: Esencial, Inteligente, Libertad y Mystery Box. En Lubella, toallas, Pack 17 y calzones.",
+    images: ["/aniversario/og.jpg"],
   },
 };
 

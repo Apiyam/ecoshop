@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/',
+        destination: '/aniversario',
+        permanent: false,
+      },
+      {
         source: '/banderazo-patrio-ecopipo',
         destination: 'https://ecopipo.promo',
         permanent: true,
