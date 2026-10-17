@@ -28,7 +28,6 @@ const ART = {
   logo: '/aniversario/web/logo.webp',
   mysteryBadge: '/aniversario/web/mystery-badge.webp',
   mystery: '/aniversario/web/mystery.webp',
-  comparativa: '/aniversario/web/comparativa.webp',
   pack1: '/aniversario/web/esencial.webp',
   pack2: '/aniversario/web/inteligente.webp',
   pack3: '/aniversario/web/libertad.webp',
@@ -46,10 +45,11 @@ type Brand = 'ecopipo' | 'lubella'
 
 type LubellaFlow = {
   kind: 'toalla' | 'calzon'
-  id: 'moderado' | 'abundante' | 'prueba' | 'completo'
+  id: string
   withPack17?: boolean
   title: string
   price: number
+  was: number
   slots: SelectSlot[]
 }
 
@@ -202,7 +202,6 @@ export default function AniversarioLanding() {
               },
             }}
           />
-          <Box component="img" src={ART.mysteryBadge} alt="Mystery Box" sx={{ width: { xs: 168, sm: 210 }, height: 'auto', display: 'block', mx: 'auto', mt: 0.5 }} />
           <Typography component="h1" sx={{ textAlign: 'center', fontWeight: 900, fontSize: { xs: 28, sm: 40 }, lineHeight: 1.02, letterSpacing: '-0.03em', mt: 1.5, color: BRAND_PURPLE }}>
             Arma tu pack y llévatelo a este precio
           </Typography>
@@ -272,20 +271,7 @@ export default function AniversarioLanding() {
       <Container maxWidth="lg" sx={{ pt: 3 }}>
         {brand === 'ecopipo' ? (
           <Stack spacing={3}>
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(280px, 420px) minmax(0, 1fr)' }, gap: 2, alignItems: 'start' }}>
-              <ArtFrame src={ART.mystery} alt="Mystery Box: 10 pañales sorpresa, de $3,340 a $2,460">
-                <Button
-                  variant="contained"
-                  onClick={() => saveAndGo(mysteryCart())}
-                  sx={buySx(BRAND_GREEN, BRAND_GREEN_HOVER)}
-                >
-                  La quiero · {money(2460)}
-                </Button>
-              </ArtFrame>
-              <ArtFrame src={ART.comparativa} alt="Comparativa Mystery Box y Pack Esencial" />
-            </Box>
-
-            <Typography sx={{ fontWeight: 800, color: '#5c4d57', textAlign: 'center', fontSize: 18 }}>
+            <Typography sx={{ fontWeight: 800, color: '#111', textAlign: 'center', fontSize: 18 }}>
               En estos tres eliges lisos y estampados. El pañal sin absorbente es sorpresa.
             </Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 2, alignItems: 'start' }}>
@@ -304,6 +290,24 @@ export default function AniversarioLanding() {
                 </ArtFrame>
               ))}
             </Box>
+
+            <Stack spacing={1.5} sx={{ alignItems: 'center', pt: { xs: 1, md: 3 } }}>
+              <Typography sx={{ fontWeight: 900, color: '#111', textAlign: 'center', fontSize: { xs: 26, sm: 34 }, lineHeight: 1.15, maxWidth: 640 }}>
+                Y si eres más de sorpresas ¡Déjate sorprender con la Mystery Box!
+              </Typography>
+              <Box component="img" src={ART.mysteryBadge} alt="Mystery Box" sx={{ width: { xs: 200, sm: 260 }, height: 'auto' }} />
+              <Box sx={{ width: '100%', maxWidth: 440 }}>
+                <ArtFrame src={ART.mystery} alt="Mystery Box: 10 pañales sorpresa, de $3,340 a $2,460">
+                  <Button
+                    variant="contained"
+                    onClick={() => saveAndGo(mysteryCart())}
+                    sx={buySx(BRAND_GREEN, BRAND_GREEN_HOVER)}
+                  >
+                    La quiero · {money(2460)}
+                  </Button>
+                </ArtFrame>
+              </Box>
+            </Stack>
           </Stack>
         ) : (
           <Stack spacing={2.5}>
@@ -362,6 +366,7 @@ export default function AniversarioLanding() {
                           withPack17: upgraded,
                           title: upgraded ? `${pack.name} + Pack 17` : pack.name,
                           price,
+                          was: upgraded ? (pack.id === 'moderado' ? 2420 : 2474) : pack.baseWas,
                           slots: [
                             { key: 'day', title: `Elige ${pack.day} Regular o Teen`, count: pack.day, parents: [PARENT.TOALLA_REGULAR, PARENT.TOALLA_TEEN] },
                             { key: 'night', title: `Elige ${pack.night} Nocturnas`, count: pack.night, parents: [PARENT.TOALLA_NOCTURNA] },
@@ -377,31 +382,53 @@ export default function AniversarioLanding() {
               })}
             </Box>
 
-            <Typography component="h2" sx={{ fontWeight: 900, fontSize: 28 }}>Calzones</Typography>
+            <Typography component="h2" sx={{ fontWeight: 900, fontSize: 28, color: '#111' }}>Calzones</Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
               {[
                 {
-                  id: 'prueba' as const,
-                  name: 'Pack prueba',
-                  note: '2 calzones',
-                  was: 909,
-                  price: 799,
-                  items: ['1 Ligero o Moderado', '1 Moderado o Abundante'],
+                  id: 'bikini-prueba',
+                  name: 'Tiro bikini teen · Prueba',
+                  note: '2 por este precio',
+                  was: 806,
+                  price: 709,
+                  items: ['1 Ligero o Moderado teen', '1 Moderado o Abundante teen'],
                   slots: [
-                    { key: 'ligero', title: 'Elige 1 Ligero o Moderado', count: 1, parents: [...PARENT.CALZON_LIGERO] },
-                    { key: 'abundante', title: 'Elige 1 Moderado o Abundante', count: 1, parents: [...PARENT.CALZON_ABUNDANTE] },
+                    { key: 'ligero', title: 'Elige 1 Ligero o Moderado teen', count: 1, parents: [PARENT.CALZON_TEEN_LIGERO] },
+                    { key: 'abundante', title: 'Elige 1 Moderado o Abundante teen', count: 1, parents: [PARENT.CALZON_TEEN_ABUNDANTE] },
                   ],
                 },
                 {
-                  id: 'completo' as const,
-                  name: 'Pack completo',
-                  note: 'El quinto va en el precio',
-                  was: 2228,
-                  price: 1818,
-                  items: ['3 Ligero o Moderado, uno es el de regalo', '2 Moderado o Abundante'],
+                  id: 'bikini-completo',
+                  name: 'Tiro bikini teen · Completo',
+                  note: 'Compra 4 y el 5.º va incluido',
+                  was: 2011,
+                  price: 1612,
+                  items: ['3 Ligero o Moderado teen, uno va incluido', '2 Moderado o Abundante teen'],
                   slots: [
-                    { key: 'ligero', title: 'Elige 3 Ligero o Moderado', count: 3, parents: [...PARENT.CALZON_LIGERO] },
-                    { key: 'abundante', title: 'Elige 2 Moderado o Abundante', count: 2, parents: [...PARENT.CALZON_ABUNDANTE] },
+                    { key: 'ligero', title: 'Elige 3 Ligero o Moderado teen', count: 3, parents: [PARENT.CALZON_TEEN_LIGERO] },
+                    { key: 'abundante', title: 'Elige 2 Moderado o Abundante teen', count: 2, parents: [PARENT.CALZON_TEEN_ABUNDANTE] },
+                  ],
+                },
+                {
+                  id: 'alto-prueba',
+                  name: 'Tiro alto · Prueba',
+                  note: '2 por este precio',
+                  was: 998,
+                  price: 879,
+                  items: ['2 calzones tiro alto moderado o abundante'],
+                  slots: [
+                    { key: 'alto', title: 'Elige 2 tiro alto', count: 2, parents: [PARENT.CALZON_TIRO_ALTO] },
+                  ],
+                },
+                {
+                  id: 'alto-completo',
+                  name: 'Tiro alto · Completo',
+                  note: 'Compra 4 y el 5.º va incluido',
+                  was: 2495,
+                  price: 1996,
+                  items: ['5 calzones tiro alto, uno va incluido'],
+                  slots: [
+                    { key: 'alto', title: 'Elige 5 tiro alto', count: 5, parents: [PARENT.CALZON_TIRO_ALTO] },
                   ],
                 },
               ].map((pack) => (
@@ -420,6 +447,7 @@ export default function AniversarioLanding() {
                         id: pack.id,
                         title: pack.name,
                         price: pack.price,
+                        was: pack.was,
                         slots: pack.slots,
                       })
                     }
@@ -472,12 +500,14 @@ export default function AniversarioLanding() {
               )
               return
             }
-            if (lubellaFlow.id === 'prueba' || lubellaFlow.id === 'completo') {
+            if (lubellaFlow.kind === 'calzon') {
               saveAndGo(
                 calzonCart({
                   id: lubellaFlow.id,
-                  ligero: picked.ligero || [],
-                  abundante: picked.abundante || [],
+                  name: lubellaFlow.title,
+                  price: lubellaFlow.price,
+                  was: lubellaFlow.was,
+                  lines: Object.values(picked).flat(),
                 })
               )
             }

@@ -20,6 +20,9 @@ export const PARENT = {
   PANOLETA: 4277,
   CALZON_LIGERO: [17201, 17217],
   CALZON_ABUNDANTE: [17211, 17219],
+  CALZON_TEEN_LIGERO: 17217,
+  CALZON_TEEN_ABUNDANTE: 17219,
+  CALZON_TIRO_ALTO: 25846,
 } as const
 
 export type AniversarioLine = {
@@ -223,17 +226,18 @@ export function towelCart(input: {
 }
 
 export function calzonCart(input: {
-  id: 'prueba' | 'completo'
-  ligero: { id: number; name: string; images?: string }[]
-  abundante: { id: number; name: string; images?: string }[]
+  id: string
+  name: string
+  price: number
+  was: number
+  lines: { id: number; name: string; images?: string }[]
 }): AniversarioInCart {
-  const completo = input.id === 'completo'
   return {
-    offerId: completo ? 'calzon-completo' : 'calzon-prueba',
-    name: completo ? 'Aniversario · Calzones completos' : 'Aniversario · Calzones prueba',
-    price: completo ? 1818 : 799,
-    was: completo ? 2228 : 909,
-    lines: [...linesFromProducts(input.ligero, 'calzon'), ...linesFromProducts(input.abundante, 'calzon')],
+    offerId: input.id,
+    name: input.name,
+    price: input.price,
+    was: input.was,
+    lines: linesFromProducts(input.lines, 'calzon'),
     fixed: [],
     surprises: [],
   }
