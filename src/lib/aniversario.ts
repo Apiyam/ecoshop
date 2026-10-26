@@ -200,9 +200,12 @@ export const FILTROS_4X3 = {
   was: 756,
   qty: 4,
   until: '2026-11-02',
+  /** Oculta en la landing hasta que se reactive. */
+  visible: false,
 } as const
 
 export function filtros4x3Activa(hoy = new Date()) {
+  if (!FILTROS_4X3.visible) return false
   const fin = new Date(`${FILTROS_4X3.until}T23:59:59`)
   return hoy.getTime() <= fin.getTime()
 }
