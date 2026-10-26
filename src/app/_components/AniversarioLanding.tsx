@@ -34,8 +34,7 @@ const ART = {
   pack1: '/aniversario/web/esencial.webp',
   pack2: '/aniversario/web/inteligente.webp',
   pack3: '/aniversario/web/libertad.webp',
-  /** Sustituir cuando llegue el arte final. */
-  filtros4x3: '/aniversario/web/filtros-4x3-placeholder.svg',
+  filtros4x3: '/aniversario/web/filtros-4x3.webp',
 }
 
 const STARS = [
