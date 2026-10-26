@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="1100" viewBox="0 0 880 1100" role="img" aria-label="Filtros de bambú 4x3">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4e4ff"/>
+      <stop offset="55%" stop-color="#fff6ee"/>
+      <stop offset="100%" stop-color="#e8f5c8"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="1100" fill="url(#bg)"/>
+  <rect x="48" y="48" width="784" height="1004" rx="40" fill="#ffffff" stroke="#733080" stroke-width="6"/>
+  <text x="440" y="220" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" fill="#733080">FILTROS DE BAMBÚ</text>
+  <text x="440" y="320" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="96" font-weight="900" fill="#89b329">¡4×3!</text>
+  <text x="440" y="400" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#241820">Compra 3 y llévate 1 GRATIS</text>
+  <text x="440" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#8a7a84" text-decoration="line-through">Antes $756</text>
+  <text x="440" y="600" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="900" fill="#733080">AHORA $567</text>
+  <text x="440" y="700" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#5c4d57">Hasta el 2 de noviembre</text>
+  <rect x="220" y="780" width="440" height="160" rx="24" fill="#f4e4ff"/>
+  <text x="440" y="855" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#733080">Imagen pendiente</text>
+  <text x="440" y="895" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#8a7a84">Placeholder temporal</text>
+</svg>

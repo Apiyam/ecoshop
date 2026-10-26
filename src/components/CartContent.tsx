@@ -61,7 +61,7 @@ export default function CartContent({ onClose }: CartContentProps) {
 
   const getDiscountedPrice = (product: ProductItem) => {
     let discount = currentDiscount
-    if (product.name.includes('Tanga')) discount = 50
+    // Sin descuentos fijos por producto (pañoletas, panties, etc.).
     if (product.name.includes('Mystery')) discount = 0
     if (product.name.includes('Leggings')) discount = 0
     if (product.name.includes('Pañoleta')) discount = 0

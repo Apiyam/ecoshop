@@ -193,6 +193,39 @@ export function mysteryCart(): AniversarioInCart {
   }
 }
 
+/** 4 filtros por el precio de 3. Vigente hasta el 2 de noviembre 2026. */
+export const FILTROS_4X3 = {
+  offerId: 'filtros-4x3',
+  price: 567,
+  was: 756,
+  qty: 4,
+  until: '2026-11-02',
+} as const
+
+export function filtros4x3Activa(hoy = new Date()) {
+  const fin = new Date(`${FILTROS_4X3.until}T23:59:59`)
+  return hoy.getTime() <= fin.getTime()
+}
+
+export function filtros4x3Cart(): AniversarioInCart {
+  return {
+    offerId: FILTROS_4X3.offerId,
+    name: 'Filtros de bambú · 4×3',
+    price: FILTROS_4X3.price,
+    was: FILTROS_4X3.was,
+    lines: [
+      {
+        id: FILTRO_BEBE_ID,
+        quantity: FILTROS_4X3.qty,
+        name: 'Filtro de bambú bebé',
+        role: 'filtro',
+      },
+    ],
+    fixed: [],
+    surprises: [],
+  }
+}
+
 export function towelCart(input: {
   id: 'moderado' | 'abundante'
   withPack17: boolean

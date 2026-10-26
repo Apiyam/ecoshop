@@ -10,9 +10,12 @@ import { useCart } from '@/context/CartContext'
 import { BRAND_GREEN, BRAND_GREEN_HOVER, BRAND_PURPLE, BRAND_PURPLE_HOVER } from '@/lib/constants'
 import {
   ANIV_ECOPIPO_PACKS,
+  FILTROS_4X3,
   PARENT,
   calzonCart,
   ecopipoPackCart,
+  filtros4x3Activa,
+  filtros4x3Cart,
   money,
   mysteryCart,
   towelCart,
@@ -31,6 +34,8 @@ const ART = {
   pack1: '/aniversario/web/esencial.webp',
   pack2: '/aniversario/web/inteligente.webp',
   pack3: '/aniversario/web/libertad.webp',
+  /** Sustituir cuando llegue el arte final. */
+  filtros4x3: '/aniversario/web/filtros-4x3-placeholder.svg',
 }
 
 const STARS = [
@@ -290,6 +295,34 @@ export default function AniversarioLanding() {
                 </ArtFrame>
               ))}
             </Box>
+
+            {filtros4x3Activa() && (
+              <Stack spacing={1.5} sx={{ alignItems: 'center', pt: { xs: 1, md: 2 } }}>
+                <Typography sx={{ fontWeight: 900, color: BRAND_PURPLE, textAlign: 'center', fontSize: { xs: 26, sm: 34 }, lineHeight: 1.1 }}>
+                  Filtros de bambú
+                </Typography>
+                <Typography sx={{ fontWeight: 900, color: '#111', textAlign: 'center', fontSize: { xs: 22, sm: 28 }, lineHeight: 1.2 }}>
+                  ¡4×3! Compra 3 y llévate 1 gratis
+                </Typography>
+                <Typography sx={{ color: '#5c4d57', textAlign: 'center', fontSize: 16 }}>
+                  Antes {money(FILTROS_4X3.was)} · Ahora {money(FILTROS_4X3.price)} · Hasta el 2 de noviembre
+                </Typography>
+                <Box sx={{ width: '100%', maxWidth: 440 }}>
+                  <ArtFrame
+                    src={ART.filtros4x3}
+                    alt={`Filtros de bambú 4x3, de ${money(FILTROS_4X3.was)} a ${money(FILTROS_4X3.price)}`}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => saveAndGo(filtros4x3Cart())}
+                      sx={buySx(BRAND_PURPLE, BRAND_PURPLE_HOVER)}
+                    >
+                      Quiero 4 filtros · {money(FILTROS_4X3.price)}
+                    </Button>
+                  </ArtFrame>
+                </Box>
+              </Stack>
+            )}
 
             <Stack spacing={1.5} sx={{ alignItems: 'center', pt: { xs: 1, md: 3 } }}>
               <Typography sx={{ fontWeight: 900, color: '#111', textAlign: 'center', fontSize: { xs: 26, sm: 34 }, lineHeight: 1.15, maxWidth: 640 }}>
