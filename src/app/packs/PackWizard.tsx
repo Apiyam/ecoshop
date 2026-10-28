@@ -107,8 +107,9 @@ export default function PackWizard({ pack, open, onClose, onComplete, onPay }: P
     ? ['Elige tus lisos', 'Elige tus estampados', 'Elige tu bolsa impermeable', 'Resumen']
     : ['Elige tus lisos', 'Elige tus estampados', 'Resumen'];
 
-  const lisosList = products.filter((p) => p.parent === PARENT_IDS.LISOS && (p.stock ?? 0) > 0);
-  const estampadosList = products.filter((p) => p.parent === PARENT_IDS.ESTAMPADOS && (p.stock ?? 0) > 0);
+  // Pañales: mínimo 2 en stock (colchón). Bolsa: basta con 1.
+  const lisosList = products.filter((p) => p.parent === PARENT_IDS.LISOS && (p.stock ?? 0) >= 2);
+  const estampadosList = products.filter((p) => p.parent === PARENT_IDS.ESTAMPADOS && (p.stock ?? 0) >= 2);
   const wetbagList = products.filter((p) => p.parent === PARENT_IDS.WETBAG && (p.stock ?? 0) > 0);
 
   const sortedLisosList = useMemo(() => sortPañalesByModelAndType(lisosList, getDisplayName), [lisosList]);

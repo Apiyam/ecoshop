@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { ProductItem } from '../lib/wooApi'
 import type { ExpoPack } from '../app/back-expo-nacional/types'
 import type { AniversarioInCart } from '../lib/aniversario'
-import { ANIVERSARIO_STORAGE_KEY } from '../lib/aniversario'
+import { ANIVERSARIO_STORAGE_KEY, mergeAniversarioPacks, parseAniversarioStorage } from '../lib/aniversario'
 
 export type CartItem = {
   product: ProductItem
@@ -32,7 +32,11 @@ type CartContextType = {
   setPackInCart: (data: PackInCart) => void
   removePackFromCart: () => void
   aniversarioInCart: AniversarioInCart | null
+  aniversarioPacks: AniversarioInCart[]
   setAniversarioInCart: (data: AniversarioInCart | null) => void
+  addAniversarioPack: (data: AniversarioInCart) => void
+  removeAniversarioPack: (offerId: string) => void
+  clearAniversarioPacks: () => void
   updatedCart: boolean
   shouldDisplayCart: boolean
   addedToCartMessage: { kind: 'added'; name: string } | { kind: 'updated'; name: string; quantity: number } | null
@@ -66,7 +70,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [goalCustomPackage, setGoalCustomPackage] = useState(0)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [packInCart, setPackInCartState] = useState<PackInCart | null>(null)
-  const [aniversarioInCart, setAniversarioState] = useState<AniversarioInCart | null>(null)
+  const [aniversarioPacks, setAniversarioPacksState] = useState<AniversarioInCart[]>([])
+  const aniversarioInCart = aniversarioPacks[0] ?? null
   const [updatedCart, setUpdatedCart] = useState(false)
   const [totalItems, setTotalItems] = useState(0)
   const [shouldDisplayCart, setShouldDisplayCart] = useState(false)
@@ -92,23 +97,48 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       setPackInCartState(null)
     }
     try {
-      const rawAniv = localStorage.getItem(ANIVERSARIO_STORAGE_KEY)
-      if (rawAniv) setAniversarioState(JSON.parse(rawAniv))
+      setAniversarioPacksState(parseAniversarioStorage(localStorage.getItem(ANIVERSARIO_STORAGE_KEY)))
     } catch {
-      setAniversarioState(null)
+      setAniversarioPacksState([])
     }
   }, [])
 
-  const setAniversarioInCart = (data: AniversarioInCart | null) => {
-    setAniversarioState(data)
-    if (data) localStorage.setItem(ANIVERSARIO_STORAGE_KEY, JSON.stringify(data))
+  const persistAniversario = (packs: AniversarioInCart[]) => {
+    setAniversarioPacksState(packs)
+    if (packs.length) localStorage.setItem(ANIVERSARIO_STORAGE_KEY, JSON.stringify(packs))
     else localStorage.removeItem(ANIVERSARIO_STORAGE_KEY)
+  }
+
+  const setAniversarioInCart = (data: AniversarioInCart | null) => {
+    persistAniversario(data ? [data] : [])
+  }
+
+  const addAniversarioPack = (data: AniversarioInCart) => {
+    setAniversarioPacksState((prev) => {
+      const next = mergeAniversarioPacks(prev, data)
+      if (next.length) localStorage.setItem(ANIVERSARIO_STORAGE_KEY, JSON.stringify(next))
+      else localStorage.removeItem(ANIVERSARIO_STORAGE_KEY)
+      return next
+    })
+  }
+
+  const removeAniversarioPack = (offerId: string) => {
+    setAniversarioPacksState((prev) => {
+      const next = prev.filter((pack) => pack.offerId !== offerId)
+      if (next.length) localStorage.setItem(ANIVERSARIO_STORAGE_KEY, JSON.stringify(next))
+      else localStorage.removeItem(ANIVERSARIO_STORAGE_KEY)
+      return next
+    })
+  }
+
+  const clearAniversarioPacks = () => {
+    persistAniversario([])
   }
 
   useEffect(() => {
     const qty = cartItems.reduce((acc, item) => acc + item.quantity, 0)
-    setTotalItems(qty + (aniversarioInCart ? 1 : 0))
-  }, [cartItems, aniversarioInCart])
+    setTotalItems(qty + aniversarioPacks.length)
+  }, [cartItems, aniversarioPacks])
 
   const setPackInCart = (data: PackInCart) => {
     setPackInCartState(data)
@@ -163,7 +193,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCartItems([])
     setTotalItems(0)
     removePackFromCart()
-    setAniversarioInCart(null)
+    clearAniversarioPacks()
     localStorage.removeItem('lubella_cart')
   }
 
@@ -176,7 +206,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         setPackInCart,
         removePackFromCart,
         aniversarioInCart,
+        aniversarioPacks,
         setAniversarioInCart,
+        addAniversarioPack,
+        removeAniversarioPack,
+        clearAniversarioPacks,
         goalCustomPackage,
         setGoalCustomPackage,
         addToCart,

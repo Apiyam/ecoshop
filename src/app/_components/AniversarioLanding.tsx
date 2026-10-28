@@ -121,16 +121,16 @@ function Includes({ items }: { items: string[] }) {
 
 export default function AniversarioLanding() {
   const router = useRouter()
-  const { setAniversarioInCart } = useCart()
+  const { addAniversarioPack } = useCart()
   const [brand, setBrand] = useState<Brand>('ecopipo')
   const [packWizard, setPackWizard] = useState<ExpoPack | null>(null)
   const [lubellaFlow, setLubellaFlow] = useState<LubellaFlow | null>(null)
   const [pack17, setPack17] = useState({ moderado: false, abundante: false })
   const [howOpen, setHowOpen] = useState(false)
 
-  const saveAndGo = (cart: Parameters<typeof setAniversarioInCart>[0]) => {
+  const saveAndGo = (cart: Parameters<typeof addAniversarioPack>[0]) => {
     if (!cart) return
-    setAniversarioInCart(cart)
+    addAniversarioPack(cart)
     setPackWizard(null)
     setLubellaFlow(null)
     router.push('/carrito')

@@ -42,7 +42,17 @@ function getDisplayName(p: ProductItem): string {
 }
 
 export default function CartContent({ onClose }: CartContentProps) {
-  const { cartItems, packInCart, aniversarioInCart, setAniversarioInCart, removeFromCart, removePackFromCart, clearCart, currentDiscount } = useCart()
+  const {
+    cartItems,
+    packInCart,
+    aniversarioPacks,
+    removeAniversarioPack,
+    clearAniversarioPacks,
+    removeFromCart,
+    removePackFromCart,
+    clearCart,
+    currentDiscount,
+  } = useCart()
   const router = useRouter()
   const [clearCartModal, setClearCartModal] = useState(false)
   const [removePackModal, setRemovePackModal] = useState(false)
@@ -73,7 +83,7 @@ export default function CartContent({ onClose }: CartContentProps) {
   const getTotal = () => {
     const itemsTotal = cartItems.reduce((acc, item) => acc + getDiscountedPrice(item.product) * item.quantity, 0)
     const packTotal = packInCart ? packInCart.pack.priceDiscounted : 0
-    const anivTotal = aniversarioInCart ? aniversarioInCart.price : 0
+    const anivTotal = aniversarioPacks.reduce((acc, pack) => acc + pack.price, 0)
     return itemsTotal + packTotal + anivTotal
   }
 
@@ -108,8 +118,8 @@ export default function CartContent({ onClose }: CartContentProps) {
       items.push({ id: i.product.id, quantity: i.quantity })
     })
 
-    if (aniversarioInCart) {
-      let url = aniversarioCheckoutUrl(aniversarioInCart, items)
+    if (aniversarioPacks.length) {
+      let url = aniversarioCheckoutUrl(aniversarioPacks, items)
       if (packInCart) url += `&kitTotal=${packInCart.pack.priceDiscounted}`
       window.location.href = url
       return
@@ -123,7 +133,7 @@ export default function CartContent({ onClose }: CartContentProps) {
     window.location.href = url
   }
 
-  const hasAnything = cartItems.length > 0 || !!packInCart || !!aniversarioInCart
+  const hasAnything = cartItems.length > 0 || !!packInCart || aniversarioPacks.length > 0
 
   const handleEditarPack = () => {
     if (!packInCart) return
@@ -142,8 +152,9 @@ export default function CartContent({ onClose }: CartContentProps) {
       <Typography level="h4" m={0}>
         Carrito de compras Ecopipo
       </Typography>
-      {aniversarioInCart && (
+      {aniversarioPacks.map((anivPack) => (
         <Box
+          key={anivPack.offerId}
           sx={{
             mb: 2,
             p: 2,
@@ -154,23 +165,23 @@ export default function CartContent({ onClose }: CartContentProps) {
           }}
         >
           <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, mb: 1 }}>
-            <Typography fontWeight="lg">{aniversarioInCart.name}</Typography>
+            <Typography fontWeight="lg">{anivPack.name}</Typography>
             <Chip size="sm" color="primary" variant="soft">Aniversario</Chip>
-            <Typography sx={{ ml: 'auto' }}>{money(aniversarioInCart.price)}</Typography>
+            <Typography sx={{ ml: 'auto' }}>{money(anivPack.price)}</Typography>
           </Box>
           <Stack spacing={0.5} sx={{ mb: 1.5 }}>
-            {aniversarioInCart.lines.map((line) => (
-              <Typography key={`${line.role}-${line.id}`} sx={{ fontSize: 14 }}>
+            {anivPack.lines.map((line) => (
+              <Typography key={`${anivPack.offerId}-${line.role}-${line.id}`} sx={{ fontSize: 14 }}>
                 {line.quantity} × {line.name}
               </Typography>
             ))}
-            {aniversarioInCart.fixed.map((line) => (
-              <Typography key={`fijo-${line.id}`} sx={{ fontSize: 14 }}>
+            {anivPack.fixed.map((line) => (
+              <Typography key={`${anivPack.offerId}-fijo-${line.id}`} sx={{ fontSize: 14 }}>
                 {line.quantity} × {line.name}
               </Typography>
             ))}
-            {aniversarioInCart.surprises.map((gift) => (
-              <Typography key={gift.label} sx={{ fontSize: 14 }}>
+            {anivPack.surprises.map((gift) => (
+              <Typography key={`${anivPack.offerId}-${gift.label}`} sx={{ fontSize: 14 }}>
                 {gift.label}
               </Typography>
             ))}
@@ -184,13 +195,16 @@ export default function CartContent({ onClose }: CartContentProps) {
               variant="outlined"
               color="danger"
               startDecorator={<RemoveShoppingCart />}
-              onClick={() => setAniversarioInCart(null)}
+              onClick={() => {
+                if (aniversarioPacks.length <= 1) clearAniversarioPacks()
+                else removeAniversarioPack(anivPack.offerId)
+              }}
             >
               Quitar pack
             </Button>
           </Grid>
         </Box>
-      )}
+      ))}
       {packInCart && (
         <Box
           sx={{

@@ -287,15 +287,52 @@ export function aniversarioItems(cart: AniversarioInCart) {
   ])
 }
 
-export function aniversarioCheckoutUrl(cart: AniversarioInCart, extraItems: { id: number; quantity: number }[] = []) {
-  const items = [...aniversarioItems(cart), ...extraItems]
+/** Un solo pack de pañales, uno de filtros y uno Lubella a la vez. Pañales + filtros se conservan juntos. */
+export function aniversarioSlot(offerId: string) {
+  if (offerId === FILTROS_4X3.offerId) return 'filtros'
+  if (offerId === 'pack1' || offerId === 'pack2' || offerId === 'pack3' || offerId === 'mystery') return 'panal'
+  return 'lubella'
+}
+
+export function mergeAniversarioPacks(prev: AniversarioInCart[], next: AniversarioInCart) {
+  const slot = aniversarioSlot(next.offerId)
+  return [...prev.filter((pack) => aniversarioSlot(pack.offerId) !== slot), next]
+}
+
+export function parseAniversarioStorage(raw: string | null): AniversarioInCart[] {
+  if (!raw) return []
+  try {
+    const data = JSON.parse(raw)
+    if (Array.isArray(data)) {
+      return data.filter((item) => item && typeof item === 'object' && item.offerId)
+    }
+    if (data && typeof data === 'object' && data.offerId) {
+      return [data as AniversarioInCart]
+    }
+  } catch {
+    /* ignore */
+  }
+  return []
+}
+
+export function aniversarioCheckoutUrl(
+  packs: AniversarioInCart | AniversarioInCart[],
+  extraItems: { id: number; quantity: number }[] = []
+) {
+  const list = Array.isArray(packs) ? packs : [packs]
+  const items = groupQty([
+    ...list.flatMap((cart) => aniversarioItems(cart)),
+    ...extraItems,
+  ])
   const payload = {
     campaign: 'aniversario-2026',
-    offer: cart.offerId,
-    name: cart.name,
-    price: cart.price,
-    lines: items,
-    surprises: cart.surprises,
+    packs: list.map((cart) => ({
+      offer: cart.offerId,
+      name: cart.name,
+      price: cart.price,
+      lines: aniversarioItems(cart),
+      surprises: cart.surprises,
+    })),
   }
   const data = encodeURIComponent(JSON.stringify(items))
   const aniversario = encodeURIComponent(JSON.stringify(payload))
