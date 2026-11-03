@@ -20,17 +20,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const aniversarioOg = {
-  url: "/aniversario/og.jpg",
-  width: 1200,
-  height: 630,
-  alt: "17 Aniversario Ecopipo y Lubella",
-};
-
 export const metadata: Metadata = {
-  title: "Aniversario 17 | Ecopipo y Lubella",
+  title: "Ecopipo – Paquetes ecológicos para tu bebé",
   description:
-    "Arma tu pack de aniversario: Esencial, Inteligente, Libertad y Mystery Box. En Lubella, toallas, Pack 17 y calzones.",
+    "Arma tu paquete desde 6 piezas. Entre más sumes, más descuento: hasta 12% en paquetes de 20. Cuidado ecológico 100% mexicano.",
   icons: {
     icon: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
     shortcut: `${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`,
@@ -41,21 +34,20 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Aniversario 17 | Ecopipo y Lubella",
+    title: "Ecopipo – Paquetes ecológicos para tu bebé",
     description:
-      "Arma tu pack de aniversario: Esencial, Inteligente, Libertad y Mystery Box. En Lubella, toallas, Pack 17 y calzones.",
-    images: [aniversarioOg],
-    url: "/aniversario",
+      "Arma tu paquete desde 6 piezas. Entre más sumes, más descuento: hasta 12% en paquetes de 20. Cuidado ecológico 100% mexicano.",
+    images: [`${domain}/wp-content/uploads/2022/07/ecopipo_fav.png`],
+    url: "/",
     siteName: "Ecopipo",
     locale: "es_MX",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aniversario 17 | Ecopipo y Lubella",
+    title: "Ecopipo – Paquetes ecológicos para tu bebé",
     description:
-      "Arma tu pack de aniversario: Esencial, Inteligente, Libertad y Mystery Box. En Lubella, toallas, Pack 17 y calzones.",
-    images: ["/aniversario/og.jpg"],
+      "Arma tu paquete desde 6 piezas. Entre más sumes, más descuento: hasta 12% en paquetes de 20. Cuidado ecológico 100% mexicano.",
   },
 };
 

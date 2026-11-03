@@ -6,11 +6,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/aniversario',
-        permanent: false,
-      },
+      // Temporal: reactivar para mandar el inicio a la landing de aniversario
+      // { source: '/', destination: '/aniversario', permanent: false },
       {
         source: '/banderazo-patrio-ecopipo',
         destination: 'https://ecopipo.promo',
